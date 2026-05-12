@@ -87,14 +87,78 @@ body{font-family:var(--font);background:var(--page-bg);color:var(--text);min-hei
 .footer{background:var(--navy);border-top:1px solid var(--border2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text3)}
 .footer-logo{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text2)}
 .hidden{display:none!important}
+/* TABLET */
 @media(max-width:960px){
-  .header{padding:0 14px} .hero{padding:16px;flex-direction:column;align-items:flex-start}
-  .main{padding:14px} .kpi-strip{grid-template-columns:repeat(2,1fr)}
-  .row-bot{grid-template-columns:1fr} .hon-section{padding:24px 14px}
+  .header{padding:0 14px}
+  .hero{padding:16px;flex-direction:column;align-items:flex-start}
+  .main{padding:14px}
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .row-bot{grid-template-columns:1fr}
+  .hon-section{padding:24px 14px}
   .hon-section-inner{grid-template-columns:1fr;gap:16px}
   .hon-section-total{align-items:flex-start}
   .footer{padding:14px;flex-direction:column;gap:8px;text-align:center}
   .hero-right{flex-wrap:wrap;gap:16px}
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  /* Header: logo | nav | badge (unit selector vai para baixo) */
+  .header{
+    padding:0 12px;
+    height:auto;
+    flex-wrap:wrap;
+    gap:8px;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .logo-wrap{order:1}
+  .header-center{order:2;flex:1;justify-content:center}
+  .header-right{order:3;width:100%;justify-content:space-between;padding-bottom:2px}
+  .unit-selector{flex:1}
+  .unit-btn{flex:1;text-align:center;padding:5px 8px}
+  .months-badge{font-size:10px;padding:4px 10px}
+
+  /* Hero: compacto, stats em linha */
+  .hero{padding:14px 12px 12px;gap:12px}
+  .hero-title{font-size:26px}
+  .hero-eyebrow{font-size:10px;margin-bottom:4px}
+  .hero-sub{font-size:12px}
+  .hero-right{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+  .hero-stat-label{font-size:9px}
+  .hero-stat-val{font-size:12px}
+
+  /* KPIs: 2x2 com texto menor */
+  .kpi-strip{grid-template-columns:repeat(2,1fr);gap:1px}
+  .kpi{padding:14px 12px}
+  .kpi-val{font-size:18px}
+  .kpi-label{font-size:9px}
+  .kpi-delta{font-size:11px}
+  .kpi-sub{font-size:10px}
+
+  /* Cards */
+  .main{padding:10px}
+  .card{padding:16px}
+  .card-title{font-size:10px}
+  .analise-text{font-size:12px}
+  .rec-title{font-size:12px}
+  .rec-desc{font-size:11px}
+  .rec-item{padding:9px 11px}
+
+  /* Honorario */
+  .hon-section{padding:20px 12px}
+  .hon-section-rows{flex-direction:column;gap:12px}
+  .hon-section-rv{font-size:14px}
+  .hon-section-total-val{font-size:22px}
+
+  /* Footer */
+  .footer{padding:12px;font-size:10px}
+  .footer-logo{font-size:11px}
 }
 </style>
 </head>
