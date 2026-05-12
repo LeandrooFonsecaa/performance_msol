@@ -335,15 +335,19 @@ function render(){
   document.getElementById('recBadge').textContent='Para '+d.prox;
   document.getElementById('recList').innerHTML=d.recs.map((r,i)=>`<li class="rec-item"><div class="rec-n">0${i+1}</div><div><div class="rec-title">${r.t}</div><div class="rec-desc">${r.d}</div></div></li>`).join('');
   document.getElementById('honRule').textContent=d.honRule;
-  document.getElementById('honRec').textContent=brl(d.rec);
-  document.getElementById('honPerc').textContent=d.honPerc;
   if(d.honExtra){
+    const custosOp=d.fat*0.015;
+    const comissaoPS=d.fat*0.165;
+    document.getElementById('honRec').textContent=brl(d.fat);
+    document.getElementById('honPerc').textContent='18,00% combinado';
     document.getElementById('honExtraRow').style.display='flex';
-    document.getElementById('honExtraLabel').textContent=d.honExtra.label;
-    document.getElementById('honExtraVal').textContent=d.honExtra.val;
-    document.getElementById('honVal').textContent=brl(d.rec*0.015);
-    document.getElementById('honTotalLabel').textContent='Comissão (1,5%)';
+    document.getElementById('honExtraLabel').textContent='Custos da operação (1,5%)';
+    document.getElementById('honExtraVal').textContent=brl(custosOp);
+    document.getElementById('honVal').textContent=brl(comissaoPS);
+    document.getElementById('honTotalLabel').textContent='Comissão P&S (16,5%)';
   } else {
+    document.getElementById('honRec').textContent=brl(d.rec);
+    document.getElementById('honPerc').textContent=d.honPerc;
     document.getElementById('honExtraRow').style.display='none';
     document.getElementById('honVal').textContent=brl(d.rec*0.012);
     document.getElementById('honTotalLabel').textContent='Honorário (1,2%)';
