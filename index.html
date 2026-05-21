@@ -160,6 +160,54 @@ body{font-family:var(--font);background:var(--page-bg);color:var(--text);min-hei
   .footer{padding:12px;font-size:10px}
   .footer-logo{font-size:11px}
 }
+
+/* ── ABAS ─────────────────────────────── */
+.tab-bar{background:var(--navy);border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:4px;padding:0 40px}
+.tab-btn{padding:14px 20px;font-size:13px;font-weight:600;color:var(--text3);border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.tab-btn:hover{color:var(--text2)}
+.tab-btn.active{color:var(--coral);border-bottom-color:var(--coral)}
+
+/* ── CRONOGRAMA ───────────────────────── */
+.crono-wrap{max-width:1240px;margin:0 auto;padding:32px 40px 60px}
+.crono-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px}
+.crono-title-block{}
+.crono-title{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.4px;margin-bottom:4px}
+.crono-sub{font-size:13px;color:var(--text2)}
+.crono-stats{display:flex;gap:20px;flex-shrink:0}
+.crono-stat{background:var(--card-bg);border:1px solid var(--border2);border-radius:10px;padding:10px 16px;text-align:center}
+.crono-stat-n{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.5px}
+.crono-stat-l{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.kanban-col{}
+.kanban-col-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.kanban-col-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-plan{background:#8b90c8}
+.dot-doing{background:#f4a030}
+.dot-done{background:var(--green)}
+.kanban-col-title{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
+.kanban-col-count{margin-left:auto;font-size:11px;font-weight:600;background:var(--navy3);color:var(--text3);border-radius:10px;padding:2px 8px}
+
+.task-card{background:var(--card-bg);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:border-color .15s}
+.task-card:hover{border-color:var(--border2)}
+.task-card:last-child{margin-bottom:0}
+.task-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.task-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.3}
+.task-cat{font-size:10px;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap;flex-shrink:0}
+.cat-comercial{background:rgba(232,80,26,.15);color:var(--coral2)}
+.cat-financeiro{background:rgba(45,212,160,.12);color:var(--green)}
+.cat-operacional{background:rgba(139,144,200,.15);color:#a8aede}
+.cat-estrategico{background:rgba(244,160,48,.15);color:#f4a030}
+.cat-relacionamento{background:rgba(180,100,220,.15);color:#c07be0}
+.task-desc{font-size:12px;color:var(--text2);line-height:1.55;margin-bottom:8px}
+.task-footer{display:flex;align-items:center;gap:8px}
+.task-date{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px}
+.task-date svg{opacity:.5}
+.crono-empty{text-align:center;padding:32px 16px;color:var(--text3);font-size:13px}
+
+/* Kanban mobile */
+@media(max-width:960px){.tab-bar{padding:0 14px}.crono-wrap{padding:20px 14px}.kanban{grid-template-columns:1fr;gap:12px}.crono-header{flex-direction:column}.crono-stats{width:100%;justify-content:space-between}}
+@media(max-width:600px){.tab-btn{padding:12px 14px;font-size:12px}.crono-stat{padding:8px 12px}.crono-stat-n{font-size:18px}}
 </style>
 </head>
 <body>
@@ -192,6 +240,12 @@ body{font-family:var(--font);background:var(--page-bg);color:var(--text);min-hei
     </div>
   </div>
 </header>
+
+<!-- ABAS -->
+<div class="tab-bar">
+  <button class="tab-btn active" id="tabDash" onclick="switchTab('dash')">📊 Dashboard</button>
+  <button class="tab-btn" id="tabCrono" onclick="switchTab('crono')">📋 Cronograma</button>
+</div>
 
 <section class="hero">
   <div>
@@ -443,5 +497,49 @@ function navigate(dir){const n=idx+dir;if(n<0||n>=currentData.length)return;idx=
   render();
 })();
 </script>
+
+<!-- MÓDULO CRONOGRAMA -->
+<div id="cronoView" style="display:none">
+  <section class="crono-wrap">
+    <div class="crono-header">
+      <div class="crono-title-block">
+        <div class="crono-title" id="cronoTitle">Cronograma — —</div>
+        <div class="crono-sub">Tarefas da consultoria · Leandro Fonseca</div>
+      </div>
+      <div class="crono-stats">
+        <div class="crono-stat"><div class="crono-stat-n" id="cntPlan">0</div><div class="crono-stat-l">Planejado</div></div>
+        <div class="crono-stat"><div class="crono-stat-n" id="cntDoing">0</div><div class="crono-stat-l">Em andamento</div></div>
+        <div class="crono-stat"><div class="crono-stat-n" id="cntDone">0</div><div class="crono-stat-l">Concluído</div></div>
+      </div>
+    </div>
+    <div class="kanban">
+      <div class="kanban-col">
+        <div class="kanban-col-head">
+          <div class="kanban-col-dot dot-plan"></div>
+          <span class="kanban-col-title">Planejado</span>
+          <span class="kanban-col-count" id="badgePlan">0</span>
+        </div>
+        <div id="colPlan"></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-head">
+          <div class="kanban-col-dot dot-doing"></div>
+          <span class="kanban-col-title">Em andamento</span>
+          <span class="kanban-col-count" id="badgeDoing">0</span>
+        </div>
+        <div id="colDoing"></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-head">
+          <div class="kanban-col-dot dot-done"></div>
+          <span class="kanban-col-title">Concluído</span>
+          <span class="kanban-col-count" id="badgeDone">0</span>
+        </div>
+        <div id="colDone"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
 </body>
 </html>
