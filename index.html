@@ -7,189 +7,142 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --navy:#1e2150; --navy2:#252860; --navy3:#2d3170;
-  --coral:#E8501A; --coral2:#ff7347; --coral-bg:rgba(232,80,26,0.1);
-  --page-bg:#12132a; --card-bg:#1a1c3a; --card2:#1f2140;
-  --border:rgba(255,255,255,0.06); --border2:rgba(255,255,255,0.12);
-  --text:#eef0ff; --text2:#8b90c8; --text3:#4a4f80;
-  --green:#2dd4a0; --green-bg:rgba(45,212,160,0.1);
-  --red:#ff6b6b;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1e2150;--navy2:#252860;--navy3:#2d3170;
+  --coral:#E8501A;--coral2:#ff7347;--coral-bg:rgba(232,80,26,0.1);
+  --page-bg:#12132a;--card-bg:#1a1c3a;--card2:#1f2140;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#eef0ff;--text2:#8b90c8;--text3:#4a4f80;
+  --green:#2dd4a0;--green-bg:rgba(45,212,160,0.1);--red:#ff6b6b;
+  --sidebar-w:220px;
   --font:'Plus Jakarta Sans',sans-serif;
 }
-body{font-family:var(--font);background:var(--page-bg);color:var(--text);min-height:100vh}
-.header{background:var(--navy);border-bottom:1px solid var(--border2);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
-.logo-wrap{display:flex;align-items:center;gap:10px}
-.logo-flower{width:34px;height:34px}
-.logo-msol{font-size:21px;font-weight:700;color:var(--text);letter-spacing:-.5px}
-.logo-net{font-size:13px;font-weight:600;color:var(--coral);margin-left:1px}
+html,body{height:100%}
+body{font-family:var(--font);background:var(--page-bg);color:var(--text);display:flex;flex-direction:column}
+
+/* HEADER */
+.header{background:var(--navy);border-bottom:1px solid var(--border2);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;flex-shrink:0}
+.logo-wrap{display:flex;align-items:center;gap:9px}
+.logo-flower{width:32px;height:32px}
+.logo-msol{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.5px}
+.logo-net{font-size:12px;font-weight:600;color:var(--coral);margin-left:1px}
 .header-center{display:flex;align-items:center;gap:6px}
-.nav-btn{background:var(--card-bg);border:1px solid var(--border2);color:var(--text2);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.nav-btn{background:var(--card-bg);border:1px solid var(--border2);color:var(--text2);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .nav-btn:hover{background:var(--navy3);border-color:var(--coral);color:var(--coral)}
 .nav-btn:disabled{opacity:.25;cursor:not-allowed}
-.month-chip{background:var(--card-bg);border:1px solid var(--border2);border-radius:20px;padding:5px 16px;font-size:13px;font-weight:600;color:var(--text);min-width:130px;text-align:center}
+.month-chip{background:var(--card-bg);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-size:13px;font-weight:600;color:var(--text);min-width:126px;text-align:center}
 .header-right{display:flex;align-items:center;gap:10px}
 .unit-selector{display:flex;background:var(--card-bg);border:1px solid var(--border2);border-radius:20px;overflow:hidden;padding:3px}
-.unit-btn{padding:4px 14px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text2);transition:all .15s;white-space:nowrap}
+.unit-btn{padding:3px 13px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text2);transition:all .15s;white-space:nowrap}
 .unit-btn.active{background:var(--coral);color:#fff}
 .unit-btn:hover:not(.active){color:var(--text);background:var(--navy3)}
-.months-badge{display:flex;align-items:center;gap:6px;background:var(--green-bg);border:1px solid rgba(45,212,160,.2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--green);letter-spacing:.3px;text-transform:uppercase}
+.months-badge{display:flex;align-items:center;gap:6px;background:var(--green-bg);border:1px solid rgba(45,212,160,.2);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase}
 .live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero{background:var(--navy);border-bottom:1px solid var(--border);padding:24px 40px 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
-.hero-eyebrow{font-size:11px;font-weight:600;color:var(--coral);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
-.hero-title{font-size:34px;font-weight:700;color:var(--text);letter-spacing:-1px;line-height:1;margin-bottom:6px}
-.hero-sub{font-size:13px;color:var(--text2)}
-.hero-right{display:flex;gap:28px}
-.hero-stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.menu-toggle{display:none;background:var(--card-bg);border:1px solid var(--border2);color:var(--text2);width:30px;height:30px;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+/* LAYOUT */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--navy);border-right:1px solid var(--border2);display:flex;flex-direction:column;transition:width .25s ease;flex-shrink:0;overflow:hidden;position:relative;z-index:200}
+.sidebar.collapsed{width:52px}
+.sidebar-toggle{position:absolute;top:14px;right:-13px;width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1px solid var(--border2);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .2s;z-index:10}
+.sidebar-toggle:hover{background:var(--coral);border-color:var(--coral);color:#fff}
+.sidebar-inner{padding:20px 0;display:flex;flex-direction:column;gap:2px;min-width:var(--sidebar-w)}
+.sidebar-section{padding:6px 16px 4px;font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;overflow:hidden;transition:opacity .2s}
+.sidebar.collapsed .sidebar-section{opacity:0}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;border-left:3px solid transparent;transition:all .15s;white-space:nowrap;color:var(--text2);font-size:13px;font-weight:500}
+.sidebar-item:hover{background:var(--navy2);color:var(--text)}
+.sidebar-item.active{background:var(--coral-bg);border-left-color:var(--coral);color:var(--coral2)}
+.sidebar-item.disabled{opacity:.35;cursor:default;pointer-events:none}
+.sidebar-icon{font-size:15px;flex-shrink:0;width:20px;text-align:center}
+.sidebar-label{overflow:hidden;transition:opacity .2s;white-space:nowrap}
+.sidebar.collapsed .sidebar-label{opacity:0;pointer-events:none}
+.sidebar-overlay{display:none;position:fixed;inset:0;top:60px;background:rgba(0,0,0,.55);z-index:240}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
+
+/* VIEWS */
+.view{display:none;flex-direction:column;flex:1}
+.view.active{display:flex}
+
+/* HERO */
+.hero{background:var(--navy);border-bottom:1px solid var(--border);padding:20px 32px 16px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.hero-eyebrow{font-size:10px;font-weight:600;color:var(--coral);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
+.hero-title{font-size:30px;font-weight:700;color:var(--text);letter-spacing:-1px;line-height:1;margin-bottom:5px}
+.hero-sub{font-size:12px;color:var(--text2)}
+.hero-right{display:flex;gap:24px}
+.hero-stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
 .hero-stat-val{font-size:13px;font-weight:600;color:var(--text2)}
-.main{max-width:1240px;margin:0 auto;padding:32px 40px 60px}
-.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);border:1px solid var(--border2);border-radius:16px;overflow:hidden;margin-bottom:24px}
-.kpi{background:var(--card-bg);padding:20px 18px;position:relative;transition:background .15s}
+
+/* MAIN DASH */
+.main{max-width:1200px;width:100%;margin:0 auto;padding:24px 32px 60px}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);border:1px solid var(--border2);border-radius:14px;overflow:hidden;margin-bottom:20px}
+.kpi{background:var(--card-bg);padding:18px 16px;position:relative;transition:background .15s}
 .kpi:hover{background:var(--card2)}
 .kpi-accent{position:absolute;top:0;left:0;right:0;height:3px;background:transparent;transition:background .2s}
 .kpi:hover .kpi-accent,.kpi.highlight .kpi-accent{background:var(--coral)}
-.kpi-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.kpi-val{font-size:23px;font-weight:700;color:var(--text);letter-spacing:-.5px;margin-bottom:6px;line-height:1}
+.kpi-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+.kpi-val{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.5px;margin-bottom:5px;line-height:1}
 .kpi.highlight .kpi-val{color:var(--coral2)}
 .kpi-delta{font-size:12px;font-weight:600}
 .pos{color:var(--green)} .neg{color:var(--red)}
 .kpi-sub{font-size:11px;color:var(--text3);margin-top:3px}
-.row-chart{margin-bottom:20px}
-.row-bot{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card-bg);border:1px solid var(--border2);border-radius:16px;padding:22px}
-.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.card-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.row-chart{margin-bottom:18px}
+.row-bot{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--card-bg);border:1px solid var(--border2);border-radius:14px;padding:20px}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
 .card-badge{font-size:11px;background:var(--navy3);border:1px solid var(--border2);color:var(--text2);padding:3px 10px;border-radius:20px}
-.chart-wrap{position:relative;width:100%;height:210px}
-.analise-block{display:flex;flex-direction:column;gap:14px}
-.analise-sec-label{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--coral2);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.chart-wrap{position:relative;width:100%;height:200px}
+.analise-block{display:flex;flex-direction:column;gap:13px}
+.analise-sec-label{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--coral2);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
 .analise-sec-label::before{content:'';display:block;width:3px;height:10px;background:var(--coral);border-radius:2px}
 .analise-text{font-size:13px;color:var(--text2);line-height:1.7}
-.rec-list{list-style:none;display:flex;flex-direction:column;gap:9px}
-.rec-item{display:flex;gap:11px;align-items:flex-start;padding:10px 13px;background:var(--navy);border-radius:10px;border:1px solid var(--border);transition:border-color .15s}
+.rec-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.rec-item{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);transition:border-color .15s}
 .rec-item:hover{border-color:var(--border2)}
-.rec-n{width:20px;height:20px;min-width:20px;border-radius:6px;background:var(--coral-bg);color:var(--coral2);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.rec-n{width:19px;height:19px;min-width:19px;border-radius:5px;background:var(--coral-bg);color:var(--coral2);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
 .rec-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
 .rec-desc{font-size:12px;color:var(--text2);line-height:1.5}
-.hon-section{background:var(--navy);border-top:1px solid var(--border2);padding:32px 40px}
-.hon-section-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:240px 1fr auto;align-items:center;gap:36px}
-.hon-section-eyebrow{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px}
+
+/* HONORARIO */
+.hon-section{background:var(--navy);border-top:1px solid var(--border2);padding:28px 32px;margin-top:auto}
+.hon-section-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:220px 1fr auto;align-items:center;gap:32px}
+.hon-section-eyebrow{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
 .hon-section-rule{font-size:13px;color:var(--text2);font-weight:500}
-.hon-section-rows{display:flex;gap:36px}
+.hon-section-rows{display:flex;gap:32px}
 .hon-section-row{display:flex;flex-direction:column;gap:4px}
 .hon-section-rl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px}
-.hon-section-rv{font-size:16px;font-weight:600;color:var(--text)}
-.hon-section-total{display:flex;flex-direction:column;align-items:flex-end;gap:4px;background:var(--coral-bg);border:1px solid rgba(232,80,26,.25);border-radius:14px;padding:14px 22px}
+.hon-section-rv{font-size:15px;font-weight:600;color:var(--text)}
+.hon-section-total{display:flex;flex-direction:column;align-items:flex-end;gap:4px;background:var(--coral-bg);border:1px solid rgba(232,80,26,.25);border-radius:13px;padding:13px 20px}
 .hon-section-total-label{font-size:10px;font-weight:700;color:var(--coral2);text-transform:uppercase;letter-spacing:1px}
-.hon-section-total-val{font-size:26px;font-weight:700;color:var(--coral2);letter-spacing:-.8px;line-height:1}
-.footer{background:var(--navy);border-top:1px solid var(--border2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text3)}
-.footer-logo{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text2)}
-.hidden{display:none!important}
-/* TABLET */
-@media(max-width:960px){
-  .header{padding:0 14px}
-  .hero{padding:16px;flex-direction:column;align-items:flex-start}
-  .main{padding:14px}
-  .kpi-strip{grid-template-columns:repeat(2,1fr)}
-  .row-bot{grid-template-columns:1fr}
-  .hon-section{padding:24px 14px}
-  .hon-section-inner{grid-template-columns:1fr;gap:16px}
-  .hon-section-total{align-items:flex-start}
-  .footer{padding:14px;flex-direction:column;gap:8px;text-align:center}
-  .hero-right{flex-wrap:wrap;gap:16px}
-}
+.hon-section-total-val{font-size:24px;font-weight:700;color:var(--coral2);letter-spacing:-.8px;line-height:1}
 
-/* MOBILE */
-@media(max-width:600px){
-  /* Header: logo | nav | badge (unit selector vai para baixo) */
-  .header{
-    padding:0 12px;
-    height:auto;
-    flex-wrap:wrap;
-    gap:8px;
-    padding-top:10px;
-    padding-bottom:10px;
-  }
-  .logo-wrap{order:1}
-  .header-center{order:2;flex:1;justify-content:center}
-  .header-right{order:3;width:100%;justify-content:space-between;padding-bottom:2px}
-  .unit-selector{flex:1}
-  .unit-btn{flex:1;text-align:center;padding:5px 8px}
-  .months-badge{font-size:10px;padding:4px 10px}
+/* FOOTER */
+.footer{background:var(--navy);border-top:1px solid var(--border2);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text3);flex-shrink:0}
+.footer-logo{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--text2)}
 
-  /* Hero: compacto, stats em linha */
-  .hero{padding:14px 12px 12px;gap:12px}
-  .hero-title{font-size:26px}
-  .hero-eyebrow{font-size:10px;margin-bottom:4px}
-  .hero-sub{font-size:12px}
-  .hero-right{
-    width:100%;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-  }
-  .hero-stat-label{font-size:9px}
-  .hero-stat-val{font-size:12px}
-
-  /* KPIs: 2x2 com texto menor */
-  .kpi-strip{grid-template-columns:repeat(2,1fr);gap:1px}
-  .kpi{padding:14px 12px}
-  .kpi-val{font-size:18px}
-  .kpi-label{font-size:9px}
-  .kpi-delta{font-size:11px}
-  .kpi-sub{font-size:10px}
-
-  /* Cards */
-  .main{padding:10px}
-  .card{padding:16px}
-  .card-title{font-size:10px}
-  .analise-text{font-size:12px}
-  .rec-title{font-size:12px}
-  .rec-desc{font-size:11px}
-  .rec-item{padding:9px 11px}
-
-  /* Honorario */
-  .hon-section{padding:20px 12px}
-  .hon-section-rows{flex-direction:column;gap:12px}
-  .hon-section-rv{font-size:14px}
-  .hon-section-total-val{font-size:22px}
-
-  /* Footer */
-  .footer{padding:12px;font-size:10px}
-  .footer-logo{font-size:11px}
-}
-
-/* ── ABAS ─────────────────────────────── */
-.tab-bar{background:var(--navy);border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:4px;padding:0 40px}
-.tab-btn{padding:14px 20px;font-size:13px;font-weight:600;color:var(--text3);border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
-.tab-btn:hover{color:var(--text2)}
-.tab-btn.active{color:var(--coral);border-bottom-color:var(--coral)}
-
-/* ── CRONOGRAMA ───────────────────────── */
-.crono-wrap{max-width:1240px;margin:0 auto;padding:32px 40px 60px}
-.crono-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px}
-.crono-title-block{}
+/* CRONOGRAMA */
+.crono-wrap{max-width:1200px;width:100%;margin:0 auto;padding:24px 32px 60px}
+.crono-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
 .crono-title{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.4px;margin-bottom:4px}
 .crono-sub{font-size:13px;color:var(--text2)}
-.crono-stats{display:flex;gap:20px;flex-shrink:0}
-.crono-stat{background:var(--card-bg);border:1px solid var(--border2);border-radius:10px;padding:10px 16px;text-align:center}
+.crono-stats{display:flex;gap:12px;flex-shrink:0}
+.crono-stat{background:var(--card-bg);border:1px solid var(--border2);border-radius:10px;padding:10px 16px;text-align:center;min-width:72px}
 .crono-stat-n{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.5px}
-.crono-stat-l{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
-
+.crono-stat-l{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-top:2px}
 .kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.kanban-col{}
-.kanban-col-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.kanban-col-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .kanban-col-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.dot-plan{background:#8b90c8}
-.dot-doing{background:#f4a030}
-.dot-done{background:var(--green)}
+.dot-plan{background:#8b90c8}.dot-doing{background:#f4a030}.dot-done{background:var(--green)}
 .kanban-col-title{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
 .kanban-col-count{margin-left:auto;font-size:11px;font-weight:600;background:var(--navy3);color:var(--text3);border-radius:10px;padding:2px 8px}
-
-.task-card{background:var(--card-bg);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:border-color .15s}
-.task-card:hover{border-color:var(--border2)}
+.task-card{background:var(--card-bg);border:1px solid var(--border2);border-radius:12px;padding:14px 15px;margin-bottom:10px;transition:border-color .15s}
+.task-card:hover{border-color:rgba(255,255,255,.18)}
 .task-card:last-child{margin-bottom:0}
 .task-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
 .task-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.3}
@@ -200,200 +153,495 @@ body{font-family:var(--font);background:var(--page-bg);color:var(--text);min-hei
 .cat-estrategico{background:rgba(244,160,48,.15);color:#f4a030}
 .cat-relacionamento{background:rgba(180,100,220,.15);color:#c07be0}
 .task-desc{font-size:12px;color:var(--text2);line-height:1.55;margin-bottom:8px}
-.task-footer{display:flex;align-items:center;gap:8px}
 .task-date{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px}
-.task-date svg{opacity:.5}
 .crono-empty{text-align:center;padding:32px 16px;color:var(--text3);font-size:13px}
 
-/* Kanban mobile */
-@media(max-width:960px){.tab-bar{padding:0 14px}.crono-wrap{padding:20px 14px}.kanban{grid-template-columns:1fr;gap:12px}.crono-header{flex-direction:column}.crono-stats{width:100%;justify-content:space-between}}
-@media(max-width:600px){.tab-btn{padding:12px 14px;font-size:12px}.crono-stat{padding:8px 12px}.crono-stat-n{font-size:18px}}
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{position:fixed;left:0;top:60px;height:calc(100vh - 60px);transform:translateX(-100%);z-index:250;width:var(--sidebar-w)!important}
+  .sidebar.mobile-open{transform:translateX(0)}
+  .sidebar-toggle{display:none}
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .row-bot{grid-template-columns:1fr}
+  .kanban{grid-template-columns:1fr;gap:12px}
+  .hon-section-inner{grid-template-columns:1fr;gap:16px}
+  .hon-section-total{align-items:flex-start}
+  .hero{flex-direction:column;align-items:flex-start;padding:16px}
+  .hero-right{flex-wrap:wrap;gap:12px}
+  .main,.crono-wrap{padding:14px}
+  .hon-section{padding:20px 14px}
+  .footer{flex-direction:column;gap:6px;text-align:center;padding:12px}
+  .menu-toggle{display:flex!important}
+}
+@media(max-width:600px){
+  .header{padding:0 12px;height:auto;flex-wrap:wrap;gap:6px;padding-top:9px;padding-bottom:9px}
+  .logo-wrap{order:1}
+  .header-center{order:2;flex:1;justify-content:center}
+  .header-right{order:3;width:100%;justify-content:space-between;padding-bottom:2px}
+  .unit-selector{flex:1}.unit-btn{flex:1;text-align:center}
+  .kpi-val{font-size:18px}.kpi-label{font-size:9px}
+  .hero-title{font-size:24px}
+  .hon-section-rows{flex-direction:column;gap:12px}
+  .hon-section-total-val{font-size:20px}
+  .crono-stats{width:100%;justify-content:space-between}
+}
+
+/* ══════════════════════════════════════
+   CRONOGRAMA — CSS
+══════════════════════════════════════ */
+.crono-hero{background:var(--navy);border-bottom:1px solid var(--border2);padding:22px 28px 18px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-shrink:0;flex-wrap:wrap}
+.crono-hero-eyebrow{font-size:10px;font-weight:700;color:var(--coral);letter-spacing:1.4px;text-transform:uppercase;margin-bottom:5px}
+.crono-hero-title{font-size:28px;font-weight:700;color:var(--text);letter-spacing:-.5px;margin-bottom:4px}
+.crono-hero-sub{font-size:12px;color:var(--text2)}
+.crono-hero-kpis{display:flex;gap:12px;flex-wrap:wrap}
+.crono-kpi{background:var(--card-bg);border:1px solid var(--border2);border-radius:10px;padding:10px 16px;text-align:center;min-width:76px}
+.crono-kpi-n{font-size:22px;font-weight:700;letter-spacing:-.5px}
+.crono-kpi-n.s-plan{color:#a8aede}
+.crono-kpi-n.s-doing{color:#f4a030}
+.crono-kpi-n.s-done{color:var(--green)}
+.crono-kpi-n.s-late{color:var(--red)}
+.crono-kpi-pct .crono-kpi-pct-n{font-size:22px;font-weight:700;color:var(--coral2)}
+.crono-kpi-l{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-top:3px}
+
+.crono-filters{background:var(--card-bg);border-bottom:1px solid var(--border2);padding:12px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;flex-shrink:0}
+.crono-filter-group{display:flex;align-items:center;gap:8px}
+.crono-filter-label{font-size:11px;font-weight:600;color:var(--text3);white-space:nowrap}
+.crono-filter-btns{display:flex;gap:4px;flex-wrap:wrap}
+.cfbtn{background:var(--navy);border:1px solid var(--border2);color:var(--text2);font-size:11px;font-weight:600;padding:4px 10px;border-radius:14px;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.cfbtn:hover{border-color:var(--border2);color:var(--text)}
+.cfbtn.active{background:var(--coral);border-color:var(--coral);color:#fff}
+.crono-filter-right{margin-left:auto}
+.crono-api-status{font-size:11px;color:var(--text3)}
+.crono-api-status.ok{color:var(--green)}
+.crono-api-status.err{color:var(--red)}
+.crono-api-status.loading{color:var(--coral2)}
+
+.crono-main{flex:1;overflow-y:auto;padding:20px 28px;display:flex;flex-direction:column;gap:20px;position:relative}
+
+/* KANBAN BOARD */
+.kanban-board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.kanban-col{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px;padding:14px;min-height:200px;transition:background .15s}
+.kanban-col.drag-over{background:rgba(232,80,26,0.06);border-color:rgba(232,80,26,0.3)}
+.kanban-head{display:flex;align-items:center;gap:7px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.kdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.kdot.plan{background:#8b90c8}.kdot.doing{background:#f4a030}.kdot.done{background:var(--green)}
+.kcol-title{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
+.kcol-count{margin-left:auto;font-size:11px;font-weight:600;background:var(--navy3);color:var(--text3);border-radius:10px;padding:2px 8px}
+.kanban-cards{display:flex;flex-direction:column;gap:10px}
+
+/* TASK CARD */
+.task-card{background:var(--card-bg);border:1px solid var(--border2);border-radius:12px;padding:14px;cursor:grab;transition:all .15s;position:relative}
+.task-card:hover{border-color:rgba(232,80,26,.35);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.task-card.dragging{opacity:.4;cursor:grabbing}
+.task-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.task-card-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.35;flex:1}
+.task-badges{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0}
+.badge{font-size:9px;font-weight:700;border-radius:5px;padding:2px 7px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+.badge-cat-Comercial,.badge-cat-comercial{background:rgba(232,80,26,.15);color:var(--coral2)}
+.badge-cat-Financeiro,.badge-cat-financeiro{background:rgba(45,212,160,.12);color:var(--green)}
+.badge-cat-Operacional,.badge-cat-operacional{background:rgba(139,144,200,.15);color:#a8aede}
+.badge-cat-Estratégico,.badge-cat-estrategico{background:rgba(244,160,48,.15);color:#f4a030}
+.badge-cat-Relacionamento,.badge-cat-relacionamento{background:rgba(180,100,220,.15);color:#c07be0}
+.badge-cat-Experiência-do-Cliente{background:rgba(96,165,250,.15);color:#93c5fd}
+.badge-pri-alta{background:rgba(255,107,107,.15);color:var(--red)}
+.badge-pri-media{background:rgba(244,160,48,.15);color:#f4a030}
+.badge-pri-baixa{background:rgba(45,212,160,.12);color:var(--green)}
+.badge-atrasado{background:rgba(255,107,107,.2);color:var(--red);border:1px solid rgba(255,107,107,.3);animation:pulse-red 2s infinite}
+@keyframes pulse-red{0%,100%{opacity:1}50%{opacity:.6}}
+.task-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:8px}
+.task-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.task-meta-item{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px}
+.task-meta-item b{color:var(--text2);font-weight:500}
+.progress-wrap{margin-bottom:6px}
+.progress-bar-bg{background:var(--navy3);border-radius:4px;height:5px;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:4px;background:var(--coral);transition:width .4s ease}
+.progress-label{font-size:10px;color:var(--text3);margin-top:3px;text-align:right}
+.task-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.task-date{font-size:11px;color:var(--text3)}
+.task-update{font-size:10px;color:var(--text3);font-style:italic}
+.task-actions{display:flex;gap:6px;opacity:0;transition:opacity .15s}
+.task-card:hover .task-actions{opacity:1}
+.task-action-btn{background:var(--navy3);border:1px solid var(--border2);color:var(--text2);font-size:11px;padding:3px 8px;border-radius:6px;cursor:pointer;font-family:var(--font);transition:all .15s}
+.task-action-btn:hover{border-color:var(--coral);color:var(--coral)}
+.task-action-btn.del:hover{border-color:var(--red);color:var(--red)}
+
+/* EDIT INLINE MODAL */
+.edit-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.edit-modal{background:var(--card-bg);border:1px solid var(--border2);border-radius:16px;padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+.edit-modal h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.edit-field{margin-bottom:14px}
+.edit-field label{display:block;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
+.edit-field input,.edit-field select,.edit-field textarea{width:100%;background:var(--navy);border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:13px;padding:8px 10px;border-radius:8px;outline:none;transition:border-color .15s}
+.edit-field input:focus,.edit-field select:focus,.edit-field textarea:focus{border-color:var(--coral)}
+.edit-field textarea{resize:vertical;min-height:70px}
+.edit-field input[type=range]{padding:4px 0}
+.progress-preview{font-size:12px;color:var(--coral2);font-weight:600;margin-top:4px}
+.edit-modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.btn-save{background:var(--coral);color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
+.btn-save:hover{background:var(--coral2)}
+.btn-cancel{background:var(--navy3);color:var(--text2);border:1px solid var(--border2);padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:var(--font)}
+
+/* TIMELINE */
+.timeline-section{background:var(--card-bg);border:1px solid var(--border2);border-radius:14px;padding:18px 20px}
+.timeline-header{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.timeline-title{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
+.timeline-sub{font-size:11px;color:var(--text3)}
+.timeline-list{display:flex;flex-direction:column;gap:0}
+.timeline-item{display:flex;align-items:flex-start;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);position:relative}
+.timeline-item:last-child{border-bottom:none}
+.timeline-item.late .tl-date{color:var(--red)}
+.tl-date{font-size:12px;font-weight:700;color:var(--text3);min-width:90px;font-variant-numeric:tabular-nums}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.tl-dot.plan{background:#8b90c8}.tl-dot.doing{background:#f4a030}.tl-dot.done{background:var(--green)}
+.tl-content{}
+.tl-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.tl-meta{font-size:11px;color:var(--text3)}
+.tl-badge-late{font-size:9px;font-weight:700;background:rgba(255,107,107,.2);color:var(--red);border:1px solid rgba(255,107,107,.3);border-radius:4px;padding:1px 6px;margin-left:6px}
+
+/* LOADING */
+.crono-loading{position:absolute;inset:0;background:rgba(18,19,42,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--text2);font-size:13px;border-radius:0;z-index:50;backdrop-filter:blur(2px)}
+.crono-loading.hidden{display:none}
+.crono-spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--coral);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .crono-hero{padding:16px 18px;gap:14px}
+  .crono-filters{padding:10px 16px;gap:12px}
+  .crono-main{padding:14px 16px}
+  .kanban-board{grid-template-columns:1fr;gap:10px}
+  .kanban-col{min-height:80px}
+}
+@media(max-width:600px){
+  .crono-hero-title{font-size:22px}
+  .crono-hero-kpis{gap:8px}
+  .crono-kpi{padding:8px 10px;min-width:60px}
+  .crono-kpi-n{font-size:18px}
+  .cfbtn{font-size:10px;padding:3px 8px}
+}
+
 </style>
 </head>
 <body>
+
 <header class="header">
-  <div class="logo-wrap">
-    <svg class="logo-flower" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(0 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(60 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(120 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(180 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(240 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(300 50 50)"/>
-      <circle cx="50" cy="50" r="12" fill="#9b8e7a"/>
-    </svg>
-    <span class="logo-msol">msol</span><span class="logo-net">net</span>
+  <div style="display:flex;align-items:center;gap:8px">
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">&#9776;</button>
+    <div class="logo-wrap">
+      <svg class="logo-flower" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(0 50 50)"/>
+        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(60 50 50)"/>
+        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(120 50 50)"/>
+        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(180 50 50)"/>
+        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(240 50 50)"/>
+        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(300 50 50)"/>
+        <circle cx="50" cy="50" r="12" fill="#9b8e7a"/>
+      </svg>
+      <span class="logo-msol">msol</span><span class="logo-net">net</span>
+    </div>
   </div>
   <div class="header-center">
-    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592;</button>
-    <div class="month-chip" id="monthChip">—</div>
-    <button class="nav-btn" id="nextBtn" onclick="navigate(1)">&#8594;</button>
+    <button class="nav-btn" id="prevBtn" onclick="navigateGlobal(-1)">&#8592;</button>
+    <div class="month-chip" id="monthChip">&#8212;</div>
+    <button class="nav-btn" id="nextBtn" onclick="navigateGlobal(1)">&#8594;</button>
   </div>
   <div class="header-right">
-    <div class="unit-selector">
+    <div class="unit-selector" id="unitSelectorWrap">
       <button class="unit-btn active" id="btnMsol" onclick="switchUnit('msol')">Msol Geral</button>
       <button class="unit-btn" id="btnCarb" onclick="switchUnit('carbonita')">Carbonita</button>
     </div>
     <div class="months-badge">
       <div class="live-dot"></div>
-      <span id="liveText">—</span>
+      <span id="liveText">&#8212;</span>
     </div>
   </div>
 </header>
 
-<!-- ABAS -->
-<div class="tab-bar">
-  <button class="tab-btn active" id="tabDash" onclick="switchTab('dash')">📊 Dashboard</button>
-  <button class="tab-btn" id="tabCrono" onclick="switchTab('crono')">📋 Cronograma</button>
-</div>
+<div class="app-body">
 
-<section class="hero">
-  <div>
-    <div class="hero-eyebrow" id="heroEyebrow">Relatório de Performance</div>
-    <div class="hero-title" id="heroTitle">—</div>
-    <div class="hero-sub">Leandro Fonseca · <span id="heroUnit">Msol</span></div>
-  </div>
-  <div class="hero-right" id="heroRight"></div>
-</section>
-
-<main class="main">
-  <div id="dashContent">
-    <div class="kpi-strip">
-      <div class="kpi"><div class="kpi-accent"></div>
-        <div class="kpi-label" id="kpi1Label">—</div>
-        <div class="kpi-val" id="kpi1Val">—</div>
-        <div class="kpi-delta" id="kpi1Delta">—</div>
-        <div class="kpi-sub" id="kpi1Sub"></div>
+  <!-- SIDEBAR LATERAL RETRATIL -->
+  <div class="sidebar" id="sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Recolher menu">&#8249;</button>
+    <div class="sidebar-inner">
+      <div class="sidebar-section">Relatorios</div>
+      <div class="sidebar-item active" id="navDash" onclick="switchView('dash')">
+        <span class="sidebar-icon">&#128202;</span>
+        <span class="sidebar-label">Dashboard</span>
       </div>
-      <div class="kpi"><div class="kpi-accent"></div>
-        <div class="kpi-label">Faturamento Bruto</div>
-        <div class="kpi-val" id="kpiFat">—</div>
-        <div class="kpi-delta" id="dFat">—</div>
-        <div class="kpi-sub" id="sFat"></div>
+      <div class="sidebar-item" id="navCrono" onclick="switchView('crono')">
+        <span class="sidebar-icon">&#128203;</span>
+        <span class="sidebar-label">Cronograma</span>
       </div>
-      <div class="kpi"><div class="kpi-accent"></div>
-        <div class="kpi-label">Descontos Totais</div>
-        <div class="kpi-val" id="kpiDesc">—</div>
-        <div class="kpi-delta" id="dDesc">—</div>
-        <div class="kpi-sub" id="sDesc"></div>
+      <div class="sidebar-section" style="margin-top:14px">Em breve</div>
+      <div class="sidebar-item disabled">
+        <span class="sidebar-icon">&#127919;</span>
+        <span class="sidebar-label">Resultados</span>
       </div>
-      <div class="kpi highlight"><div class="kpi-accent"></div>
-        <div class="kpi-label">Recebido</div>
-        <div class="kpi-val" id="kpiRec">—</div>
-        <div class="kpi-delta" id="dRec">—</div>
-        <div class="kpi-sub" id="sRec"></div>
+      <div class="sidebar-item disabled">
+        <span class="sidebar-icon">&#9989;</span>
+        <span class="sidebar-label">Tarefas</span>
+      </div>
+      <div class="sidebar-item disabled">
+        <span class="sidebar-icon">&#128196;</span>
+        <span class="sidebar-label">Plano de Trabalho</span>
       </div>
     </div>
-    <div class="row-chart">
-      <div class="card">
-        <div class="card-head">
-          <span class="card-title">Evolução do faturamento</span>
-          <span class="card-badge" id="chartBadge">—</span>
+  </div>
+
+  <!-- OVERLAY MOBILE -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
+
+  <!-- CONTEUDO PRINCIPAL -->
+  <div class="content" id="appContent">
+
+    <!-- VIEW DASHBOARD -->
+    <div class="view active" id="viewDash">
+      <section class="hero">
+        <div>
+          <div class="hero-eyebrow" id="heroEyebrow">Relatorio de Performance</div>
+          <div class="hero-title" id="heroTitle">&#8212;</div>
+          <div class="hero-sub">Leandro Fonseca &middot; <span id="heroUnit">Msol</span></div>
         </div>
-        <div class="chart-wrap"><canvas id="evolChart"></canvas></div>
-      </div>
-    </div>
-    <div class="row-bot">
-      <div class="card">
-        <div class="card-head"><span class="card-title">Análise executiva</span></div>
-        <div class="analise-block" id="analiseBlock"></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <span class="card-title">Recomendações</span>
-          <span class="card-badge" id="recBadge">—</span>
+        <div class="hero-right" id="heroRight"></div>
+      </section>
+      <main class="main">
+        <div class="kpi-strip">
+          <div class="kpi"><div class="kpi-accent"></div>
+            <div class="kpi-label" id="kpi1Label">&#8212;</div>
+            <div class="kpi-val" id="kpi1Val">&#8212;</div>
+            <div class="kpi-delta" id="kpi1Delta">&#8212;</div>
+            <div class="kpi-sub" id="kpi1Sub"></div>
+          </div>
+          <div class="kpi"><div class="kpi-accent"></div>
+            <div class="kpi-label">Faturamento Bruto</div>
+            <div class="kpi-val" id="kpiFat">&#8212;</div>
+            <div class="kpi-delta" id="dFat">&#8212;</div>
+            <div class="kpi-sub" id="sFat"></div>
+          </div>
+          <div class="kpi"><div class="kpi-accent"></div>
+            <div class="kpi-label">Descontos Totais</div>
+            <div class="kpi-val" id="kpiDesc">&#8212;</div>
+            <div class="kpi-delta" id="dDesc">&#8212;</div>
+            <div class="kpi-sub" id="sDesc"></div>
+          </div>
+          <div class="kpi highlight"><div class="kpi-accent"></div>
+            <div class="kpi-label">Recebido</div>
+            <div class="kpi-val" id="kpiRec">&#8212;</div>
+            <div class="kpi-delta" id="dRec">&#8212;</div>
+            <div class="kpi-sub" id="sRec"></div>
+          </div>
         </div>
-        <ul class="rec-list" id="recList"></ul>
-      </div>
-    </div>
-  </div>
-</main>
+        <div class="row-chart">
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Evolucao do faturamento</span>
+              <span class="card-badge" id="chartBadge">&#8212;</span>
+            </div>
+            <div class="chart-wrap"><canvas id="evolChart"></canvas></div>
+          </div>
+        </div>
+        <div class="row-bot">
+          <div class="card">
+            <div class="card-head"><span class="card-title">Analise executiva</span></div>
+            <div class="analise-block" id="analiseBlock"></div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Recomendacoes</span>
+              <span class="card-badge" id="recBadge">&#8212;</span>
+            </div>
+            <ul class="rec-list" id="recList"></ul>
+          </div>
+        </div>
+      </main>
+      <section class="hon-section">
+        <div class="hon-section-inner">
+          <div>
+            <div class="hon-section-eyebrow">Remuneracao do ciclo</div>
+            <div class="hon-section-rule" id="honRule">&#8212;</div>
+          </div>
+          <div class="hon-section-rows">
+            <div class="hon-section-row">
+              <span class="hon-section-rl">Recebido no ciclo</span>
+              <span class="hon-section-rv" id="honRec">&#8212;</span>
+            </div>
+            <div class="hon-section-row">
+              <span class="hon-section-rl">Percentual</span>
+              <span class="hon-section-rv" id="honPerc">&#8212;</span>
+            </div>
+            <div class="hon-section-row" id="honExtraRow" style="display:none">
+              <span class="hon-section-rl" id="honExtraLabel">&#8212;</span>
+              <span class="hon-section-rv" id="honExtraVal">&#8212;</span>
+            </div>
+          </div>
+          <div class="hon-section-total">
+            <span class="hon-section-total-label" id="honTotalLabel">Honorario</span>
+            <span class="hon-section-total-val" id="honVal">&#8212;</span>
+          </div>
+        </div>
+      </section>
+    </div><!-- /viewDash -->
 
-<section class="hon-section">
-  <div class="hon-section-inner">
-    <div>
-      <div class="hon-section-eyebrow">Remuneração do ciclo</div>
-      <div class="hon-section-rule" id="honRule">—</div>
-    </div>
-    <div class="hon-section-rows">
-      <div class="hon-section-row">
-        <span class="hon-section-rl">Recebido no ciclo</span>
-        <span class="hon-section-rv" id="honRec">—</span>
-      </div>
-      <div class="hon-section-row">
-        <span class="hon-section-rl">Percentual</span>
-        <span class="hon-section-rv" id="honPerc">—</span>
-      </div>
-      <div class="hon-section-row" id="honExtraRow" style="display:none">
-        <span class="hon-section-rl" id="honExtraLabel">—</span>
-        <span class="hon-section-rv" id="honExtraVal">—</span>
-      </div>
-    </div>
-    <div class="hon-section-total">
-      <span class="hon-section-total-label" id="honTotalLabel">Honorário</span>
-      <span class="hon-section-total-val" id="honVal">—</span>
-    </div>
-  </div>
-</section>
+    <!-- VIEW CRONOGRAMA -->
+    <div class="view" id="viewCrono">
 
-<footer class="footer">
-  <div class="footer-logo">
-    <svg width="14" height="14" viewBox="0 0 100 100">
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(0 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(60 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(120 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(180 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(240 50 50)"/>
-      <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(300 50 50)"/>
-      <circle cx="50" cy="50" r="12" fill="#9b8e7a"/>
-    </svg>
-    Msolnet · Relatório de Performance Mensal
-  </div>
-  <span id="footerDate">—</span>
-</footer>
+      <!-- HEADER EXECUTIVO CRONOGRAMA -->
+      <div class="crono-hero">
+        <div class="crono-hero-left">
+          <div class="crono-hero-eyebrow">Painel Executivo · Consultoria Msol</div>
+          <div class="crono-hero-title" id="cronoTitle">Cronograma</div>
+          <div class="crono-hero-sub">Leandro Fonseca · Msol</div>
+        </div>
+        <div class="crono-hero-kpis">
+          <div class="crono-kpi"><div class="crono-kpi-n s-plan" id="kPlan">0</div><div class="crono-kpi-l">Planejado</div></div>
+          <div class="crono-kpi"><div class="crono-kpi-n s-doing" id="kDoing">0</div><div class="crono-kpi-l">Em Andamento</div></div>
+          <div class="crono-kpi"><div class="crono-kpi-n s-done" id="kDone">0</div><div class="crono-kpi-l">Concluído</div></div>
+          <div class="crono-kpi"><div class="crono-kpi-n s-late" id="kLate">0</div><div class="crono-kpi-l">Atrasadas</div></div>
+          <div class="crono-kpi crono-kpi-pct"><div class="crono-kpi-pct-n" id="kExec">0%</div><div class="crono-kpi-l">Execução</div></div>
+        </div>
+      </div>
 
+      <!-- FILTROS -->
+      <div class="crono-filters">
+        <div class="crono-filter-group">
+          <span class="crono-filter-label">Categoria:</span>
+          <div class="crono-filter-btns" id="filterCat">
+            <button class="cfbtn active" data-val="">Todos</button>
+            <button class="cfbtn" data-val="Comercial">Comercial</button>
+            <button class="cfbtn" data-val="Operacional">Operacional</button>
+            <button class="cfbtn" data-val="Financeiro">Financeiro</button>
+            <button class="cfbtn" data-val="Estratégico">Estratégico</button>
+            <button class="cfbtn" data-val="Relacionamento">Relacionamento</button>
+            <button class="cfbtn" data-val="Experiência do Cliente">Exp. Cliente</button>
+          </div>
+        </div>
+        <div class="crono-filter-group">
+          <span class="crono-filter-label">Prioridade:</span>
+          <div class="crono-filter-btns" id="filterPri">
+            <button class="cfbtn active" data-val="">Todas</button>
+            <button class="cfbtn" data-val="alta">Alta</button>
+            <button class="cfbtn" data-val="media">Média</button>
+            <button class="cfbtn" data-val="baixa">Baixa</button>
+          </div>
+        </div>
+        <div class="crono-filter-right">
+          <div id="cronoStatus" class="crono-api-status"></div>
+        </div>
+      </div>
+
+      <!-- KANBAN -->
+      <div class="crono-main">
+        <div class="kanban-board">
+          <div class="kanban-col" id="colPlan" data-status="plan"
+               ondragover="event.preventDefault()" ondrop="onDrop(event,'plan')">
+            <div class="kanban-head">
+              <div class="kdot plan"></div>
+              <span class="kcol-title">Planejado</span>
+              <span class="kcol-count" id="badgePlan">0</span>
+            </div>
+            <div class="kanban-cards" id="cardsPlan"></div>
+          </div>
+          <div class="kanban-col" id="colDoing" data-status="doing"
+               ondragover="event.preventDefault()" ondrop="onDrop(event,'doing')">
+            <div class="kanban-head">
+              <div class="kdot doing"></div>
+              <span class="kcol-title">Em Andamento</span>
+              <span class="kcol-count" id="badgeDoing">0</span>
+            </div>
+            <div class="kanban-cards" id="cardsDoing"></div>
+          </div>
+          <div class="kanban-col" id="colDone" data-status="done"
+               ondragover="event.preventDefault()" ondrop="onDrop(event,'done')">
+            <div class="kanban-head">
+              <div class="kdot done"></div>
+              <span class="kcol-title">Concluído</span>
+              <span class="kcol-count" id="badgeDone">0</span>
+            </div>
+            <div class="kanban-cards" id="cardsDone"></div>
+          </div>
+        </div>
+
+        <!-- TIMELINE EXECUTIVA -->
+        <div class="timeline-section">
+          <div class="timeline-header">
+            <span class="timeline-title">&#9201; Timeline Executiva</span>
+            <span class="timeline-sub">Ordenado por prazo</span>
+          </div>
+          <div class="timeline-list" id="timelineList"></div>
+        </div>
+      </div>
+
+      <!-- LOADING OVERLAY -->
+      <div class="crono-loading" id="cronoLoading">
+        <div class="crono-spinner"></div>
+        <span>Carregando tarefas...</span>
+      </div>
+
+    </div><!-- /viewCrono -->
+
+    <footer class="footer">
+      <div class="footer-logo">
+        <svg width="14" height="14" viewBox="0 0 100 100">
+          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(0 50 50)"/>
+          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(60 50 50)"/>
+          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(120 50 50)"/>
+          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(180 50 50)"/>
+          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(240 50 50)"/>
+          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(300 50 50)"/>
+          <circle cx="50" cy="50" r="12" fill="#9b8e7a"/>
+        </svg>
+        Msolnet &middot; Relatorio de Performance Mensal
+      </div>
+      <span id="footerDate">&#8212;</span>
+    </footer>
+
+  </div><!-- /content -->
+</div><!-- /app-body -->
 <script>
+/* ═══ MSOL GERAL — 18 meses ═══ */
 const MSOL=[
-  {mes:'Novembro 2024',prox:'Dezembro/2024',k1l:'Total de Clientes',k1v:'4.968',cDelta:'+30 contratos (+0,61%)',cRef:'vs outubro',cPos:true,fat:401437.93,fDelta:null,fPerc:null,fRef:'outubro',desc:9088.50,dDelta:null,dPerc:null,dRef:'outubro',rec:393236.09,rDelta:null,rPerc:null,rRef:'outubro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base estimada em 4.968 clientes, com crescimento de +30 contratos no período. Ritmo positivo de expansão mantido ao longo do ano, com destaque para a estabilidade da carteira.',aFat:'Faturamento bruto de R$ 401,4 mil com recebido de R$ 393,2 mil, demonstrando eficiência na conversão de faturamento em caixa.',aDesc:'Descontos de R$ 9.088,50 dentro dos parâmetros históricos da operação.',recs:[{t:'Preparar encerramento de ano',d:'Estruturar ações para fechar o ciclo 2024 com crescimento sustentável.'},{t:'Controlar descontos',d:'Manter disciplina comercial nas concessões do período festivo.'},{t:'Fidelização',d:'Reforçar relacionamento com base ativa para reduzir churn no início de 2025.'},{t:'Planejar 2025',d:'Alinhar metas e indicadores para o próximo ciclo.'},{t:'Reconhecimento interno',d:'Valorizar as equipes pelo desempenho consistente do ano.'}]},
-  {mes:'Dezembro 2024',prox:'Janeiro/2025',k1l:'Total de Clientes',k1v:'4.998',cDelta:'+30 contratos (+0,77%)',cRef:'vs novembro',cPos:true,fat:441914.78,fDelta:40476.85,fPerc:9.87,fRef:'novembro',desc:9565.85,dDelta:477.35,dPerc:5.25,dRef:'novembro',rec:433279.94,rDelta:40043.85,rPerc:10.16,rRef:'novembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base cresceu de 4.968 para 4.998 (+30 contratos, +0,77%). Mantém trajetória positiva e reforça capacidade comercial ativa da unidade.',aFat:'Faturamento saltou para R$ 441,9 mil (+9,87%). Recebido avançou para R$ 433,3 mil (+10,16%) — excelente conversão em caixa.',aDesc:'Descontos de R$ 9.565,85 (+5,25% vs novembro). Crescimento abaixo do faturamento indica equilíbrio na política comercial.',recs:[{t:'Consolidar eficiência de cobrança',d:'Manter práticas que elevaram o percentual de recebimento.'},{t:'Preservar política de descontos',d:'Seguir com critérios rigorosos nas concessões.'},{t:'Crescimento orgânico',d:'Trabalhar upgrades e ticket médio na base ativa.'},{t:'Retomada comercial',d:'Estruturar ações para acelerar ativações no início do ciclo.'},{t:'Alinhar metas 2025',d:'Garantir comunicação clara de objetivos para as equipes.'}]},
-  {mes:'Janeiro 2025',prox:'Fevereiro/2025',k1l:'Total de Clientes',k1v:'5.036',cDelta:'+38 contratos (+0,76%)',cRef:'vs dezembro',cPos:true,fat:433182.39,fDelta:-8732.39,fPerc:-1.98,fRef:'dezembro',desc:8267.77,dDelta:-1298.08,dPerc:-13.57,dRef:'dezembro',rec:424914.62,rDelta:-8365.32,rPerc:-1.93,rRef:'dezembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base cresceu de 4.998 para 5.036 (+38 contratos, +0,76%). Expansão consistente reforça capacidade comercial, com atenção à qualidade da receita.',aFat:'Pequena retração de 1,98% no faturamento — pode estar relacionada à sazonalidade de início de ano.',aDesc:'Destaque positivo: redução de 13,57% nos descontos (−R$ 1.298,08) — controle bem-sucedido de margem.',recs:[{t:'Reforçar análise de cancelamentos',d:'Ajustar campanhas com foco em retenção e ticket médio.'},{t:'Monitorar descontos',d:'Acompanhar os níveis por equipe, região e tipo de cliente.'},{t:'Ação de reengajamento',d:'Campanha com clientes ativos de baixo consumo.'},{t:'Foco em ativação',d:'Transformar crescimento da base em resultado financeiro real.'},{t:'Eficiência financeira',d:'Crescer com margem sustentável e conversão em caixa.'}]},
-  {mes:'Fevereiro 2025',prox:'Março/2025',k1l:'Total de Clientes',k1v:'5.038',cDelta:'+2 contratos (+0,04%)',cRef:'vs janeiro',cPos:true,fat:420015.58,fDelta:-13166.81,fPerc:-1.15,fRef:'janeiro',desc:9631.16,dDelta:1363.39,dPerc:16.49,dRef:'janeiro',rec:410543.80,rDelta:-14370.82,rPerc:-3.38,rRef:'janeiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Crescimento praticamente nulo (+2 contratos). Sinaliza necessidade de ação mais agressiva em prospecção ou retenção mais eficaz.',aFat:'Queda de 1,15% no faturamento e 3,38% no recebido. A operação perdeu tração financeira — exige ajustes na estratégia.',aDesc:'Crescimento expressivo de +16,49% nos descontos — ponto mais crítico do mês, afetando diretamente a margem.',recs:[{t:'Controlar descontos',d:'Reforçar critérios de aprovação para preservar margem.'},{t:'Elevar ticket médio',d:'Intensificar upgrades e venda de serviços agregados.'},{t:'Acompanhar semanalmente',d:'Monitorar faturamento, descontos e conversão em caixa.'},{t:'Recuperar receita',d:'Atuar sobre inadimplência e clientes com alto desconto.'},{t:'Foco em rentabilidade',d:'Crescer base com margem sustentável.'}]},
-  {mes:'Março 2025',prox:'Abril/2025',k1l:'Total de Clientes',k1v:'5.074',cDelta:'+36 contratos (+0,71%)',cRef:'vs fevereiro',cPos:true,fat:437537.72,fDelta:17522.14,fPerc:4.17,fRef:'fevereiro',desc:9596.30,dDelta:-34.86,dPerc:-0.36,dRef:'fevereiro',rec:427865.67,rDelta:17321.87,rPerc:4.22,rRef:'fevereiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base cresceu +36 contratos (+0,71%) — aceleração acima dos meses anteriores, demonstrando retomada comercial.',aFat:'Recuperação significativa: +4,17% no faturamento e +4,22% no recebido. Maior volume de vendas e melhor conversão.',aDesc:'Leve redução de 0,36% nos descontos. Positivo — ajuda a preservar margem na retomada.',recs:[{t:'Fortalecer cross-sell e up-sell',d:'Aproveitar novos clientes para ampliar serviços contratados.'},{t:'Controlar descontos',d:'Consolidar o ganho de margem observado neste ciclo.'},{t:'Performance regional',d:'Identificar cidades com maior potencial de expansão.'},{t:'Manter ritmo',d:'Sustentar +0,7% ao mês como meta mínima de expansão.'},{t:'Valorizar resultado',d:'Usar março como referência positiva para motivar equipes.'}]},
-  {mes:'Abril 2025',prox:'Maio/2025',k1l:'Total de Clientes',k1v:'5.054',cDelta:'0 contratos (0,00%)',cRef:'vs março',cPos:false,fat:425439.78,fDelta:-12097.94,fPerc:-2.77,fRef:'março',desc:9702.90,dDelta:106.60,dPerc:1.11,dRef:'março',rec:415002.76,rDelta:-12862.91,rPerc:-3.01,rRef:'março',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Saldo líquido zero: 86 novas adesões e 86 cancelamentos. Ponto crítico — fortalecer retenção é urgente para transformar captação em resultado real.',aFat:'Queda de 2,77% no faturamento. Recebido também retraiu 3,01% — importância de fortalecer a gestão de contas a receber.',aDesc:'Descontos cresceram 1,11% (+R$ 106,60). Combinação com menor faturamento pressiona rentabilidade.',recs:[{t:'Ações imediatas de retenção',d:'Pesquisas de satisfação e programas de fidelização.'},{t:'Reavaliar descontos',d:'Proteger margens priorizando qualidade da receita.'},{t:'Acompanhamento proativo',d:'Campanhas de reativação para clientes com risco de cancelamento.'},{t:'Análise de churn',d:'Identificar perfil dos cancelamentos e causas raiz.'},{t:'Rentabilidade',d:'Crescer com margem sustentável e blindar a carteira.'}]},
-  {mes:'Maio 2025',prox:'Junho/2025',k1l:'Total de Clientes',k1v:'5.074',cDelta:'+20 contratos (+0,40%)',cRef:'vs abril',cPos:true,fat:441599.24,fDelta:16159.46,fPerc:3.80,fRef:'abril',desc:10851.06,dDelta:1148.16,dPerc:11.83,dRef:'abril',rec:430548.89,rDelta:15546.13,rPerc:3.75,rRef:'abril',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avançou +20 contratos (+0,40%). Virada de chave após estagnação de abril — reforça impacto positivo de estratégias de prospecção e redução de churn.',aFat:'Alta de 3,80% no faturamento, recuperando integralmente a queda do ciclo anterior. Recebido +3,75% (R$ 15,5 mil a mais no caixa).',aDesc:'Alerta: descontos cresceram 11,83% (+R$ 1.148,16). Necessário revisar políticas para não comprometer margem na retomada.',recs:[{t:'Reforçar fidelização',d:'Garantir crescimento líquido positivo nos próximos meses.'},{t:'Reavaliar desconto',d:'Buscar valor agregado em vez de redução de preço.'},{t:'Monitorar qualidade da receita',d:'Proteger rentabilidade enquanto cresce.'},{t:'Capitalizar bom desempenho',d:'Engajar times e manter foco em metas mensais.'},{t:'Controlar churn',d:'Consolidar retenção para não repetir o cenário de abril.'}]},
-  {mes:'Junho 2025',prox:'Julho/2025',k1l:'Total de Clientes',k1v:'5.084',cDelta:'+10 contratos (+0,20%)',cRef:'vs maio',cPos:true,fat:437391.31,fDelta:-4207.93,fPerc:-0.95,fRef:'maio',desc:10561.68,dDelta:-289.38,dPerc:-2.66,dRef:'maio',rec:426356.73,rDelta:-4192.16,rPerc:-0.97,rRef:'maio',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avançou +10 contratos (+0,20%). Crescimento modesto mas consistente — tendência de estabilidade na aquisição.',aFat:'Leve retração de 0,95% no faturamento e 0,97% no recebido. Oscilação dentro da normalidade operacional.',aDesc:'Ponto positivo: redução de 2,66% nos descontos (R$ 289 a menos). Maior rigor comercial preservando margem.',recs:[{t:'Reforçar retenção',d:'Converter base atual em contratos de maior longevidade.'},{t:'Manter disciplina em descontos',d:'Focar em valor agregado na negociação.'},{t:'Retomar crescimento',d:'Aproveitar estabilidade operacional para acelerar conversões.'},{t:'Explorar aprendizados',d:'Usar consistência para crescimento com margem.'},{t:'Gestão proativa',d:'Monitorar indicadores semanalmente para antecipar desvios.'}]},
-  {mes:'Julho 2025',prox:'Agosto/2025',k1l:'Total de Clientes',k1v:'5.113',cDelta:'+29 contratos (+0,57%)',cRef:'vs junho',cPos:true,fat:446386.27,fDelta:8994.96,fPerc:2.06,fRef:'junho',desc:9648.76,dDelta:-912.92,dPerc:-8.64,dRef:'junho',rec:435583.27,rDelta:9226.54,rPerc:2.16,rRef:'junho',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avançou +29 contratos (+0,57%) — maior crescimento do trimestre. Reforça efetividade das ações de prospecção e fidelização.',aFat:'Alta de 2,06% no faturamento e 2,16% no recebido (R$ 9,2 mil a mais). Avanço simultâneo confirma bom volume e eficiência.',aDesc:'Destaque: redução de 8,64% nos descontos (R$ 912 a menos). Fortalece margem e demonstra consistência comercial.',recs:[{t:'Consolidar crescimento da base',d:'Valorizar perfil dos novos clientes e ampliar retenção.'},{t:'Eficiência em descontos',d:'Manter negociações que priorizem valor e margem.'},{t:'Potencializar upgrades',d:'Converter oportunidades internas em novos fluxos de receita.'},{t:'Engajar equipes',d:'Usar resultados de julho como estímulo para metas ousadas.'},{t:'Consistência operacional',d:'Sustentar ritmo positivo no próximo ciclo.'}]},
-  {mes:'Agosto 2025',prox:'Setembro/2025',k1l:'Total de Clientes',k1v:'5.136',cDelta:'+23 contratos (+0,45%)',cRef:'vs julho',cPos:true,fat:458817.50,fDelta:12431.23,fPerc:2.78,fRef:'julho',desc:11281.02,dDelta:1632.26,dPerc:16.90,dRef:'julho',rec:443548.98,rDelta:7965.71,rPerc:1.83,rRef:'julho',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avançou +23 contratos (+0,45%). Ritmo positivo com consistência, porém com leve desaceleração frente a julho.',aFat:'Faturamento cresceu +2,78% (R$ 12,4 mil). Recebido +1,83% (R$ 7,9 mil) confirmando solidez no fluxo.',aDesc:'Ponto de atenção: descontos subiram +16,9% (+R$ 1,63 mil). Pressiona margens — necessário ajuste na política comercial.',recs:[{t:'Controlar descontos',d:'Reforçar critérios de concessão para evitar impacto na margem.'},{t:'Expandir base',d:'Intensificar prospecção para manter crescimento acima de +0,5%.'},{t:'Upsell e upgrades',d:'Estimular ofertas personalizadas que ampliem receita.'},{t:'Rentabilidade',d:'Alinhar equipe à importância de preservar valor percebido.'},{t:'Engajamento interno',d:'Usar bons resultados como motivação para metas ousadas.'}]},
-  {mes:'Setembro 2025',prox:'Outubro/2025',k1l:'Total de Clientes',k1v:'5.163',cDelta:'+27 contratos (+0,53%)',cRef:'vs agosto',cPos:true,fat:451168.92,fDelta:-7648.58,fPerc:-1.67,fRef:'agosto',desc:9502.33,dDelta:-1778.69,dPerc:-15.80,dRef:'agosto',rec:439723.87,rDelta:-3825.11,rPerc:-0.86,rRef:'agosto',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avançou +27 contratos (+0,53%). Consistência na expansão orgânica com retenção plena e inadimplência zero.',aFat:'Leve retração de 1,67% no faturamento. Índice de recebimento subiu para 97,47% — maior eficiência na conversão.',aDesc:'Após pico em agosto, descontos recuaram 15,8% (R$ 1,78 mil a menos). Maior rigor comercial e equilíbrio de rentabilidade.',recs:[{t:'Manter controle de descontos',d:'Seguir padrão de setembro com política responsável.'},{t:'Acelerar ativações',d:'Campanhas de indicação para crescimento acima de +0,5%.'},{t:'Upgrades estratégicos',d:'Priorizar clientes intermediários com potencial de migração.'},{t:'Eficiência financeira',d:'Manter índice de recebimento acima de 97%.'},{t:'Reconhecimento interno',d:'Valorizar equipes pelo desempenho do ciclo.'}]},
-  {mes:'Outubro 2025',prox:'Novembro/2025',k1l:'Total de Clientes',k1v:'5.199',cDelta:'+36 contratos (+0,70%)',cRef:'vs setembro',cPos:true,fat:472973.25,fDelta:21804.33,fPerc:4.80,fRef:'setembro',desc:12079.60,dDelta:2577.27,dPerc:27.10,dRef:'setembro',rec:459167.76,rDelta:19443.89,rPerc:4.40,rRef:'setembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avançou +36 contratos (+0,70%). Expansão consistente com retenção elevada e inadimplência controlada.',aFat:'Faturamento cresceu +4,8% (R$ 21,8 mil). Recebido +4,4% (R$ 19,4 mil) reforçando eficiência da cobrança.',aDesc:'Descontos subiram 27,1% (+R$ 2,57 mil). Dentro do esperado para o período com ajustes pontuais de retenção.',recs:[{t:'Ajustar descontos',d:'Monitorar e reforçar concessões apenas quando necessárias.'},{t:'Impulsionar ativações',d:'Manter ritmo com indicações e retomada de contatos quentes.'},{t:'Promover upgrades',d:'Priorizar clientes com uso elevado para elevar ticket médio.'},{t:'Eficiência financeira',d:'Sustentar alto índice de recebimento com cobrança preventiva.'},{t:'Valorizar equipes',d:'Reforçar reconhecimento pelo desempenho do ciclo.'}]},
-  {mes:'Novembro 2025',prox:'Dezembro/2025',k1l:'Total de Clientes',k1v:'5.253',cDelta:'+54 contratos (+1,04%)',cRef:'vs outubro',cPos:true,fat:468191.27,fDelta:-4781.98,fPerc:-1.01,fRef:'outubro',desc:10123.66,dDelta:-1955.94,dPerc:-16.18,dRef:'outubro',rec:448798.05,rDelta:-10369.71,rPerc:-2.26,rRef:'outubro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +54 contratos (+1,04%) — melhor crescimento líquido do semestre. Expansão orgânica com estabilidade do churn.',aFat:'Leve retração de 1,01% no faturamento. Recebido recuou 2,26% mas permanece em patamar elevado.',aDesc:'Queda de 16,18% nos descontos (R$ 1,96 mil a menos). Maior disciplina comercial preservando margem.',recs:[{t:'Preservar margens',d:'Manter controle rigoroso de descontos.'},{t:'Fomentar ativações',d:'Aproveitar aquecimento do período para indicações.'},{t:'Fortalecer relacionamento',d:'Priorizar clientes com potencial de upgrade ou ticket maior.'},{t:'Eficiência de cobrança',d:'Sustentar índice elevado com lembretes preventivos.'},{t:'Reconhecimento',d:'Valorizar equipes e comunicar metas do próximo ciclo.'}]},
-  {mes:'Dezembro 2025',prox:'Janeiro/2026',k1l:'Total de Clientes',k1v:'5.312',cDelta:'+59 contratos (+1,12%)',cRef:'vs novembro',cPos:true,fat:472553.72,fDelta:4362.45,fPerc:0.93,fRef:'novembro',desc:8666.56,dDelta:-1457.10,dPerc:-14.39,dRef:'novembro',rec:462919.21,rDelta:14121.16,rPerc:3.15,rRef:'novembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +59 contratos (+1,12%) — melhor crescimento do trimestre, consistente mesmo em período sazonalmente desafiador.',aFat:'Leve crescimento de +0,93% no faturamento. Recebido avançou +3,15% (R$ 14,1 mil a mais) evidenciando melhora na eficiência de cobrança.',aDesc:'Descontos recuaram 14,39% (R$ 1,46 mil a menos). Maior disciplina contribuindo diretamente para o aumento do recebido.',recs:[{t:'Consolidar eficiência de cobrança',d:'Manter práticas que elevaram o percentual de recebimento.'},{t:'Preservar política de descontos',d:'Critérios rigorosos priorizando negociações estratégicas.'},{t:'Crescimento orgânico',d:'Upgrades e aumento de ticket médio na base ativa.'},{t:'Planejar retomada comercial',d:'Estruturar ações para acelerar ativações no novo ciclo.'},{t:'Alinhar metas 2026',d:'Garantir comunicação clara de objetivos para as equipes.'}]},
-  {mes:'Janeiro 2026',prox:'Fevereiro/2026',k1l:'Total de Clientes',k1v:'5.358',cDelta:'+46 contratos (+0,87%)',cRef:'vs dezembro',cPos:true,fat:454238.89,fDelta:-18314.83,fPerc:-3.88,fRef:'dezembro',desc:9659.40,dDelta:992.84,dPerc:11.46,dRef:'dezembro',rec:443732.34,rDelta:-19186.87,rPerc:-4.14,rRef:'dezembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +46 contratos (+0,87%). Trajetória positiva em ritmo moderado. Exige atenção à qualidade da receita dos novos contratos.',aFat:'Faturamento recuou 3,88% (R$ 18,3 mil a menos). Recebido caiu 4,14% — impacto combinado de menor geração bruta e aumento nos descontos.',aDesc:'Descontos totalizaram R$ 9.659,40 (+11,46% vs dezembro). Dentro da média histórica, porém exige monitoramento.',recs:[{t:'Controlar descontos',d:'Reforçar critérios e aprovações para preservar margem.'},{t:'Elevar ticket médio',d:'Intensificar upgrades e venda de serviços agregados.'},{t:'Acompanhar semanalmente',d:'Monitorar faturamento, descontos e conversão em caixa.'},{t:'Recuperar receita',d:'Atuar sobre inadimplência e clientes com alto desconto.'},{t:'Rentabilidade',d:'Crescer base com margem sustentável.'}]},
-  {mes:'Fevereiro 2026',prox:'Março/2026',k1l:'Total de Clientes',k1v:'5.402',cDelta:'+44 contratos (+0,82%)',cRef:'vs janeiro',cPos:true,fat:459986.28,fDelta:5747.39,fPerc:1.27,fRef:'janeiro',desc:11027.92,dDelta:1368.52,dPerc:14.17,dRef:'janeiro',rec:448014.67,rDelta:4282.33,rPerc:0.96,rRef:'janeiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +44 contratos (+0,82%). Trajetória positiva mantida, reforçando potencial de receita recorrente.',aFat:'Faturamento cresceu +1,27% (R$ 5,7 mil). Recebido +0,96% (R$ 4,3 mil) — estabilidade e consistência na conversão.',aDesc:'Descontos +14,17% vs janeiro. Crescimento acima do faturamento exige atenção para não impactar rentabilidade.',recs:[{t:'Mês de expansão',d:'Direcionar time comercial para crescimento acelerado da base.'},{t:'Aumentar ticket médio',d:'Priorizar upgrades e estratégias de aumento de receita.'},{t:'Gestão por indicadores',d:'Monitorar semanalmente vendas, faturamento e conversão.'},{t:'Eficiência comercial',d:'Reduzir descontos e fortalecer vendas com melhor margem.'},{t:'Mentalidade de recorde',d:'Posicionar março como mês foco para bater metas históricas.'}]},
-  {mes:'Março 2026',prox:'Abril/2026',k1l:'Total de Clientes',k1v:'5.422',cDelta:'+20 contratos (+0,37%)',cRef:'vs fevereiro',cPos:true,fat:509946.86,fDelta:49960.58,fPerc:10.86,fRef:'fevereiro',desc:11972.26,dDelta:944.34,dPerc:8.56,dRef:'fevereiro',rec:495557.25,rDelta:47542.58,rPerc:10.61,rRef:'fevereiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +20 contratos (+0,37%). Estabilidade com leve expansão. Crescimento da receita impulsionado por ticket médio e dias úteis.',aFat:'Melhor resultado do período: +10,86% no faturamento (R$ 49,9 mil). Recebido +10,61% (R$ 47,5 mil) — excelente conversão.',aDesc:'Descontos +8,56%, mas abaixo do faturamento — equilíbrio na política comercial.',recs:[{t:'Expansão da base',d:'Intensificar aquisição de novos clientes para retomar crescimento.'},{t:'Ticket médio',d:'Manter foco em upgrades e aumento de receita por cliente.'},{t:'KPIs semanais',d:'Acompanhar faturamento, recebimentos e desempenho comercial.'},{t:'Eficiência comercial',d:'Controlar descontos garantindo crescimento abaixo do faturamento.'},{t:'Consistência operacional',d:'Sustentar recebimentos mesmo com variações nos dias úteis.'}]},
-  {mes:'Abril 2026',prox:'Maio/2026',k1l:'Total de Clientes',k1v:'5.448',cDelta:'+26 contratos (+0,48%)',cRef:'vs março',cPos:true,fat:485673.60,fDelta:-24273.26,fPerc:-4.76,fRef:'março',desc:11209.87,dDelta:-762.39,dPerc:-6.37,dRef:'março',rec:472332.30,rDelta:-23224.95,rPerc:-4.69,rRef:'março',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +26 contratos (+0,48%). Retoma o ritmo de expansão após crescimento mais contido de março, demonstrando continuidade comercial.',aFat:'Faturamento recuou 4,76% — reflexo natural após pico de março favorecido por dias úteis extras. Base em crescimento sustenta potencial de recuperação.',aDesc:'Descontos recuaram 6,37% (R$ 762 a menos). Positivo — melhora na eficiência comercial e maior controle das concessões.',recs:[{t:'Recuperar faturamento',d:'Retomar crescimento da receita após acomodação pós-março.'},{t:'Aproveitar base maior',d:'Com 5.448 clientes, focar em upgrades e ticket médio.'},{t:'Manter disciplina de descontos',d:'Consolidar redução conquistada neste ciclo.'},{t:'Acompanhamento semanal',d:'Monitorar faturamento, recebimentos e conversão em caixa.'},{t:'Expansão consistente',d:'Manter ritmo de +20 a +30 contratos líquidos por mês.'}]}
+  {mes:'Novembro 2024',prox:'Dezembro/2024',k1l:'Total de Clientes',k1v:'4.968',cDelta:'+30 contratos (+0,61%)',cRef:'vs outubro',cPos:true,fat:401437.93,fDelta:null,fPerc:null,fRef:'outubro',desc:9088.50,dDelta:null,dPerc:null,dRef:'outubro',rec:393236.09,rDelta:null,rPerc:null,rRef:'outubro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base estimada em 4.968 clientes, crescimento de +30 contratos. Ritmo positivo de expansao mantido ao longo do ano com destaque para a estabilidade da carteira.',aFat:'Faturamento de R$ 401,4 mil com recebido de R$ 393,2 mil, demonstrando eficiencia na conversao em caixa.',aDesc:'Descontos de R$ 9.088,50 dentro dos parametros historicos da operacao.',recs:[{t:'Preparar encerramento de ano',d:'Estruturar acoes para fechar 2024 com crescimento sustentavel.'},{t:'Controlar descontos',d:'Manter disciplina comercial nas concessoes do periodo festivo.'},{t:'Fidelizacao',d:'Reforcar relacionamento com base ativa para reduzir churn em 2025.'},{t:'Planejar 2025',d:'Alinhar metas e indicadores para o proximo ciclo.'},{t:'Reconhecimento interno',d:'Valorizar as equipes pelo desempenho consistente do ano.'}]},
+  {mes:'Dezembro 2024',prox:'Janeiro/2025',k1l:'Total de Clientes',k1v:'4.998',cDelta:'+30 contratos (+0,77%)',cRef:'vs novembro',cPos:true,fat:441914.78,fDelta:40476.85,fPerc:9.87,fRef:'novembro',desc:9565.85,dDelta:477.35,dPerc:5.25,dRef:'novembro',rec:433279.94,rDelta:40043.85,rPerc:10.16,rRef:'novembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base cresceu de 4.968 para 4.998 (+30, +0,77%). Melhor resultado do trimestre, referencando capacidade comercial ativa da unidade.',aFat:'Faturamento saltou para R$ 441,9 mil (+9,87%). Recebido avancou para R$ 433,3 mil (+10,16%) — excelente conversao em caixa.',aDesc:'Descontos de R$ 9.565,85 (+5,25%). Crescimento abaixo do faturamento — equilibrio na politica comercial.',recs:[{t:'Consolidar eficiencia de cobranca',d:'Manter praticas que elevaram o percentual de recebimento.'},{t:'Preservar politica de descontos',d:'Seguir com criterios rigorosos nas concessoes.'},{t:'Crescimento organico',d:'Trabalhar upgrades e ticket medio na base ativa.'},{t:'Retomada comercial',d:'Estruturar acoes para acelerar ativacoes no novo ciclo.'},{t:'Alinhar metas 2025',d:'Garantir comunicacao clara de objetivos para as equipes.'}]},
+  {mes:'Janeiro 2025',prox:'Fevereiro/2025',k1l:'Total de Clientes',k1v:'5.036',cDelta:'+38 contratos (+0,76%)',cRef:'vs dezembro',cPos:true,fat:433182.39,fDelta:-8732.39,fPerc:-1.98,fRef:'dezembro',desc:8267.77,dDelta:-1298.08,dPerc:-13.57,dRef:'dezembro',rec:424914.62,rDelta:-8365.32,rPerc:-1.93,rRef:'dezembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base cresceu de 4.998 para 5.036 (+38, +0,76%). Expansao consistente com atencao a qualidade da receita gerada.',aFat:'Pequena retracao de 1,98%. Pode estar relacionada a sazonalidade de inicio de ano.',aDesc:'Destaque positivo: reducao de 13,57% nos descontos (R$ 1.298 a menos) — controle bem-sucedido de margem.',recs:[{t:'Reforcar analise de cancelamentos',d:'Ajustar campanhas com foco em retencao e ticket medio.'},{t:'Monitorar descontos',d:'Acompanhar os niveis por equipe, regiao e tipo de cliente.'},{t:'Acao de reengajamento',d:'Campanha com clientes ativos de baixo consumo.'},{t:'Foco em ativacao',d:'Transformar crescimento da base em resultado financeiro real.'},{t:'Eficiencia financeira',d:'Crescer com margem sustentavel e conversao em caixa.'}]},
+  {mes:'Fevereiro 2025',prox:'Marco/2025',k1l:'Total de Clientes',k1v:'5.038',cDelta:'+2 contratos (+0,04%)',cRef:'vs janeiro',cPos:true,fat:420015.58,fDelta:-13166.81,fPerc:-1.15,fRef:'janeiro',desc:9631.16,dDelta:1363.39,dPerc:16.49,dRef:'janeiro',rec:410543.80,rDelta:-14370.82,rPerc:-3.38,rRef:'janeiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Crescimento praticamente nulo (+2). Necessidade de acao mais agressiva em prospeccao ou retencao mais eficaz.',aFat:'Queda de 1,15% no faturamento e 3,38% no recebido. Operacao perdeu tracao financeira — exige ajustes.',aDesc:'Crescimento expressivo de +16,49% nos descontos — ponto mais critico do mes, afetando diretamente a margem.',recs:[{t:'Controlar descontos',d:'Reforcar criterios de aprovacao para preservar margem.'},{t:'Elevar ticket medio',d:'Intensificar upgrades e venda de servicos agregados.'},{t:'Acompanhar semanalmente',d:'Monitorar faturamento, descontos e conversao em caixa.'},{t:'Recuperar receita',d:'Atuar sobre inadimplencia e clientes com alto desconto.'},{t:'Rentabilidade',d:'Crescer base com margem sustentavel.'}]},
+  {mes:'Marco 2025',prox:'Abril/2025',k1l:'Total de Clientes',k1v:'5.074',cDelta:'+36 contratos (+0,71%)',cRef:'vs fevereiro',cPos:true,fat:437537.72,fDelta:17522.14,fPerc:4.17,fRef:'fevereiro',desc:9596.30,dDelta:-34.86,dPerc:-0.36,dRef:'fevereiro',rec:427865.67,rDelta:17321.87,rPerc:4.22,rRef:'fevereiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base cresceu +36 contratos (+0,71%) — aceleracao acima dos meses anteriores, demonstrando retomada comercial.',aFat:'Recuperacao significativa: +4,17% no faturamento e +4,22% no recebido. Maior volume e melhor conversao.',aDesc:'Leve reducao de 0,36% nos descontos. Positivo — ajuda a preservar margem na retomada.',recs:[{t:'Fortalecer cross-sell',d:'Aproveitar novos clientes para ampliar servicos contratados.'},{t:'Controlar descontos',d:'Consolidar o ganho de margem observado neste ciclo.'},{t:'Performance regional',d:'Identificar cidades com maior potencial de expansao.'},{t:'Manter ritmo',d:'Sustentar +0,7% ao mes como meta minima de expansao.'},{t:'Valorizar resultado',d:'Usar marco como referencia positiva para motivar equipes.'}]},
+  {mes:'Abril 2025',prox:'Maio/2025',k1l:'Total de Clientes',k1v:'5.054',cDelta:'0 contratos (0,00%)',cRef:'vs marco',cPos:false,fat:425439.78,fDelta:-12097.94,fPerc:-2.77,fRef:'marco',desc:9702.90,dDelta:106.60,dPerc:1.11,dRef:'marco',rec:415002.76,rDelta:-12862.91,rPerc:-3.01,rRef:'marco',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Saldo liquido zero: 86 novas adesoes e 86 cancelamentos. Fortalecer retencao e urgente para transformar captacao em resultado.',aFat:'Queda de 2,77% no faturamento. Recebido retraiu 3,01% — necessidade de fortalecer gestao de contas a receber.',aDesc:'Descontos cresceram 1,11% (+R$ 106,60). Combinacao com menor faturamento pressiona rentabilidade.',recs:[{t:'Acoes de retencao',d:'Pesquisas de satisfacao e programas de fidelizacao.'},{t:'Reavaliar descontos',d:'Proteger margens priorizando qualidade da receita.'},{t:'Acompanhamento proativo',d:'Campanhas de reativacao para clientes com risco de cancelamento.'},{t:'Analise de churn',d:'Identificar perfil dos cancelamentos e causas raiz.'},{t:'Rentabilidade',d:'Crescer com margem sustentavel e blindar a carteira.'}]},
+  {mes:'Maio 2025',prox:'Junho/2025',k1l:'Total de Clientes',k1v:'5.074',cDelta:'+20 contratos (+0,40%)',cRef:'vs abril',cPos:true,fat:441599.24,fDelta:16159.46,fPerc:3.80,fRef:'abril',desc:10851.06,dDelta:1148.16,dPerc:11.83,dRef:'abril',rec:430548.89,rDelta:15546.13,rPerc:3.75,rRef:'abril',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avancou +20 contratos (+0,40%). Virada de chave apos estagnacao de abril — reforco das estrategias de prospeccao.',aFat:'Alta de 3,80% no faturamento, recuperando integralmente a queda anterior. Recebido +3,75% (R$ 15,5 mil a mais).',aDesc:'Alerta: descontos cresceram 11,83% (+R$ 1.148). Necessario revisar politicas para nao comprometer margem.',recs:[{t:'Reforcar fidelizacao',d:'Garantir crescimento liquido positivo nos proximos meses.'},{t:'Reavaliar desconto',d:'Buscar valor agregado em vez de reducao de preco.'},{t:'Monitorar receita',d:'Proteger rentabilidade enquanto cresce.'},{t:'Capitalizar desempenho',d:'Engajar times e manter foco em metas mensais.'},{t:'Controlar churn',d:'Consolidar retencao para nao repetir o cenario de abril.'}]},
+  {mes:'Junho 2025',prox:'Julho/2025',k1l:'Total de Clientes',k1v:'5.084',cDelta:'+10 contratos (+0,20%)',cRef:'vs maio',cPos:true,fat:437391.31,fDelta:-4207.93,fPerc:-0.95,fRef:'maio',desc:10561.68,dDelta:-289.38,dPerc:-2.66,dRef:'maio',rec:426356.73,rDelta:-4192.16,rPerc:-0.97,rRef:'maio',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avancou +10 contratos (+0,20%). Crescimento modesto mas consistente — estabilidade na aquisicao.',aFat:'Leve retracao de 0,95% no faturamento e 0,97% no recebido. Oscilacao dentro da normalidade operacional.',aDesc:'Ponto positivo: reducao de 2,66% nos descontos (R$ 289 a menos). Maior rigor comercial preservando margem.',recs:[{t:'Reforcar retencao',d:'Converter base atual em contratos de maior longevidade.'},{t:'Manter disciplina',d:'Focar em valor agregado na negociacao.'},{t:'Retomar crescimento',d:'Aproveitar estabilidade para acelerar conversoes.'},{t:'Explorar aprendizados',d:'Usar consistencia para crescimento com margem.'},{t:'Gestao proativa',d:'Monitorar indicadores semanalmente para antecipar desvios.'}]},
+  {mes:'Julho 2025',prox:'Agosto/2025',k1l:'Total de Clientes',k1v:'5.113',cDelta:'+29 contratos (+0,57%)',cRef:'vs junho',cPos:true,fat:446386.27,fDelta:8994.96,fPerc:2.06,fRef:'junho',desc:9648.76,dDelta:-912.92,dPerc:-8.64,dRef:'junho',rec:435583.27,rDelta:9226.54,rPerc:2.16,rRef:'junho',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avancou +29 contratos (+0,57%) — maior crescimento do trimestre. Reforco da efetividade comercial.',aFat:'Alta de 2,06% no faturamento e 2,16% no recebido (R$ 9,2 mil a mais). Avancos simultaneos confirmam boa performance.',aDesc:'Destaque: reducao de 8,64% nos descontos (R$ 912 a menos). Fortalece margem e demonstra consistencia comercial.',recs:[{t:'Consolidar crescimento',d:'Valorizar perfil dos novos clientes e ampliar retencao.'},{t:'Eficiencia em descontos',d:'Manter negociacoes que priorizem valor e margem.'},{t:'Upgrades',d:'Converter oportunidades internas em novos fluxos de receita.'},{t:'Engajar equipes',d:'Usar resultados de julho como estimulo para metas ousadas.'},{t:'Consistencia operacional',d:'Sustentar ritmo positivo no proximo ciclo.'}]},
+  {mes:'Agosto 2025',prox:'Setembro/2025',k1l:'Total de Clientes',k1v:'5.136',cDelta:'+23 contratos (+0,45%)',cRef:'vs julho',cPos:true,fat:458817.50,fDelta:12431.23,fPerc:2.78,fRef:'julho',desc:11281.02,dDelta:1632.26,dPerc:16.90,dRef:'julho',rec:443548.98,rDelta:7965.71,rPerc:1.83,rRef:'julho',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avancou +23 contratos (+0,45%). Ritmo positivo com leve desaceleracao frente a julho.',aFat:'Faturamento +2,78% (R$ 12,4 mil). Recebido +1,83% (R$ 7,9 mil) — solidez no fluxo de recebimentos.',aDesc:'Ponto de atencao: descontos subiram +16,9% (+R$ 1,63 mil). Pressiona margens — necessario ajuste na politica.',recs:[{t:'Controlar descontos',d:'Reforcar criterios de concessao para evitar impacto na margem.'},{t:'Expandir base',d:'Intensificar prospeccao para manter crescimento acima de +0,5%.'},{t:'Upsell e upgrades',d:'Estimular ofertas personalizadas que ampliem receita.'},{t:'Rentabilidade',d:'Alinhar equipe a importancia de preservar valor percebido.'},{t:'Engajamento interno',d:'Usar bons resultados como motivacao para metas ousadas.'}]},
+  {mes:'Setembro 2025',prox:'Outubro/2025',k1l:'Total de Clientes',k1v:'5.163',cDelta:'+27 contratos (+0,53%)',cRef:'vs agosto',cPos:true,fat:451168.92,fDelta:-7648.58,fPerc:-1.67,fRef:'agosto',desc:9502.33,dDelta:-1778.69,dPerc:-15.80,dRef:'agosto',rec:439723.87,rDelta:-3825.11,rPerc:-0.86,rRef:'agosto',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avancou +27 contratos (+0,53%). Consistencia na expansao organica com retencao plena e inadimplencia zero.',aFat:'Leve retracao de 1,67% no faturamento. Indice de recebimento subiu para 97,47% — maior eficiencia na conversao.',aDesc:'Apos pico em agosto, descontos recuaram 15,8% (R$ 1,78 mil a menos). Maior rigor comercial e equilibrio.',recs:[{t:'Manter controle',d:'Seguir padrao de setembro com politica responsavel.'},{t:'Acelerar ativacoes',d:'Campanhas de indicacao para crescimento acima de +0,5%.'},{t:'Upgrades estrategicos',d:'Priorizar clientes intermediarios com potencial de migracao.'},{t:'Eficiencia financeira',d:'Manter indice de recebimento acima de 97%.'},{t:'Reconhecimento interno',d:'Valorizar equipes pelo desempenho do ciclo.'}]},
+  {mes:'Outubro 2025',prox:'Novembro/2025',k1l:'Total de Clientes',k1v:'5.199',cDelta:'+36 contratos (+0,70%)',cRef:'vs setembro',cPos:true,fat:472973.25,fDelta:21804.33,fPerc:4.80,fRef:'setembro',desc:12079.60,dDelta:2577.27,dPerc:27.10,dRef:'setembro',rec:459167.76,rDelta:19443.89,rPerc:4.40,rRef:'setembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base avancou +36 contratos (+0,70%). Expansao consistente com retencao elevada e inadimplencia controlada.',aFat:'Faturamento cresceu +4,8% (R$ 21,8 mil). Recebido +4,4% (R$ 19,4 mil) reforcando eficiencia da cobranca.',aDesc:'Descontos subiram 27,1% (+R$ 2,57 mil). Dentro do esperado para o periodo com ajustes pontuais de retencao.',recs:[{t:'Ajustar descontos',d:'Monitorar e reforcar concessoes apenas quando necessarias.'},{t:'Impulsionar ativacoes',d:'Manter ritmo com indicacoes e retomada de contatos quentes.'},{t:'Promover upgrades',d:'Priorizar clientes com uso elevado para elevar ticket medio.'},{t:'Eficiencia financeira',d:'Sustentar alto indice de recebimento com cobranca preventiva.'},{t:'Valorizar equipes',d:'Reforcar reconhecimento pelo desempenho do ciclo.'}]},
+  {mes:'Novembro 2025',prox:'Dezembro/2025',k1l:'Total de Clientes',k1v:'5.253',cDelta:'+54 contratos (+1,04%)',cRef:'vs outubro',cPos:true,fat:468191.27,fDelta:-4781.98,fPerc:-1.01,fRef:'outubro',desc:10123.66,dDelta:-1955.94,dPerc:-16.18,dRef:'outubro',rec:448798.05,rDelta:-10369.71,rPerc:-2.26,rRef:'outubro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +54 contratos (+1,04%) — melhor crescimento liquido do semestre. Expansao organica com estabilidade.',aFat:'Leve retracao de 1,01% no faturamento. Recebido recuou 2,26% mas permanece em patamar elevado.',aDesc:'Queda de 16,18% nos descontos (R$ 1,96 mil a menos). Maior disciplina comercial preservando margem.',recs:[{t:'Preservar margens',d:'Manter controle rigoroso de descontos.'},{t:'Fomentar ativacoes',d:'Aproveitar aquecimento do periodo para indicacoes.'},{t:'Fortalecer relacionamento',d:'Priorizar clientes com potencial de upgrade.'},{t:'Eficiencia de cobranca',d:'Sustentar indice elevado com lembretes preventivos.'},{t:'Reconhecimento',d:'Valorizar equipes e comunicar metas do proximo ciclo.'}]},
+  {mes:'Dezembro 2025',prox:'Janeiro/2026',k1l:'Total de Clientes',k1v:'5.312',cDelta:'+59 contratos (+1,12%)',cRef:'vs novembro',cPos:true,fat:472553.72,fDelta:4362.45,fPerc:0.93,fRef:'novembro',desc:8666.56,dDelta:-1457.10,dPerc:-14.39,dRef:'novembro',rec:462919.21,rDelta:14121.16,rPerc:3.15,rRef:'novembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +59 contratos (+1,12%) — melhor crescimento do trimestre, consistente mesmo no periodo festivo.',aFat:'Leve crescimento de +0,93% no faturamento. Recebido avancou +3,15% (R$ 14,1 mil) evidenciando melhora na cobranca.',aDesc:'Descontos recuaram 14,39% (R$ 1,46 mil a menos). Maior disciplina contribuindo diretamente para o recebido.',recs:[{t:'Consolidar eficiencia de cobranca',d:'Manter praticas que elevaram o percentual de recebimento.'},{t:'Preservar descontos',d:'Criterios rigorosos priorizando negociacoes estrategicas.'},{t:'Crescimento organico',d:'Upgrades e aumento de ticket medio na base ativa.'},{t:'Planejar retomada',d:'Estruturar acoes para acelerar ativacoes no novo ciclo.'},{t:'Alinhar metas 2026',d:'Garantir comunicacao clara de objetivos para as equipes.'}]},
+  {mes:'Janeiro 2026',prox:'Fevereiro/2026',k1l:'Total de Clientes',k1v:'5.358',cDelta:'+46 contratos (+0,87%)',cRef:'vs dezembro',cPos:true,fat:454238.89,fDelta:-18314.83,fPerc:-3.88,fRef:'dezembro',desc:9659.40,dDelta:992.84,dPerc:11.46,dRef:'dezembro',rec:443732.34,rDelta:-19186.87,rPerc:-4.14,rRef:'dezembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +46 contratos (+0,87%). Trajetoria positiva em ritmo moderado. Atencao a qualidade da receita.',aFat:'Faturamento recuou 3,88% (R$ 18,3 mil a menos). Recebido caiu 4,14% — impacto de menor geracao bruta e aumento nos descontos.',aDesc:'Descontos totalizaram R$ 9.659,40 (+11,46% vs dezembro). Dentro da media historica, porem exige monitoramento.',recs:[{t:'Controlar descontos',d:'Reforcar criterios e aprovacoes para preservar margem.'},{t:'Elevar ticket medio',d:'Intensificar upgrades e venda de servicos agregados.'},{t:'Acompanhar semanalmente',d:'Monitorar faturamento, descontos e conversao em caixa.'},{t:'Recuperar receita',d:'Atuar sobre inadimplencia e clientes com alto desconto.'},{t:'Rentabilidade',d:'Crescer base com margem sustentavel.'}]},
+  {mes:'Fevereiro 2026',prox:'Marco/2026',k1l:'Total de Clientes',k1v:'5.402',cDelta:'+44 contratos (+0,82%)',cRef:'vs janeiro',cPos:true,fat:459986.28,fDelta:5747.39,fPerc:1.27,fRef:'janeiro',desc:11027.92,dDelta:1368.52,dPerc:14.17,dRef:'janeiro',rec:448014.67,rDelta:4282.33,rPerc:0.96,rRef:'janeiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +44 contratos (+0,82%). Trajetoria positiva mantida, reforcando potencial de receita recorrente.',aFat:'Faturamento cresceu +1,27% (R$ 5,7 mil). Recebido +0,96% (R$ 4,3 mil) — estabilidade e consistencia na conversao.',aDesc:'Descontos +14,17% vs janeiro. Crescimento acima do faturamento exige atencao para nao impactar rentabilidade.',recs:[{t:'Mes de expansao',d:'Direcionar time comercial para crescimento acelerado da base.'},{t:'Aumentar ticket medio',d:'Priorizar upgrades e estrategias de aumento de receita.'},{t:'Gestao por indicadores',d:'Monitorar semanalmente vendas, faturamento e conversao.'},{t:'Eficiencia comercial',d:'Reduzir descontos e fortalecer vendas com melhor margem.'},{t:'Mentalidade de recorde',d:'Posicionar marco como mes foco para bater metas historicas.'}]},
+  {mes:'Marco 2026',prox:'Abril/2026',k1l:'Total de Clientes',k1v:'5.422',cDelta:'+20 contratos (+0,37%)',cRef:'vs fevereiro',cPos:true,fat:509946.86,fDelta:49960.58,fPerc:10.86,fRef:'fevereiro',desc:11972.26,dDelta:944.34,dPerc:8.56,dRef:'fevereiro',rec:495557.25,rDelta:47542.58,rPerc:10.61,rRef:'fevereiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +20 contratos (+0,37%). Estabilidade com leve expansao. Crescimento da receita impulsionado por ticket medio e dias uteis.',aFat:'Melhor resultado do periodo: +10,86% no faturamento (R$ 49,9 mil). Recebido +10,61% (R$ 47,5 mil) — excelente conversao.',aDesc:'Descontos +8,56%, mas abaixo do faturamento — equilibrio na politica comercial.',recs:[{t:'Expansao da base',d:'Intensificar aquisicao de novos clientes para retomar crescimento.'},{t:'Ticket medio',d:'Manter foco em upgrades e aumento de receita por cliente.'},{t:'KPIs semanais',d:'Acompanhar faturamento, recebimentos e desempenho comercial.'},{t:'Eficiencia comercial',d:'Controlar descontos garantindo crescimento abaixo do faturamento.'},{t:'Consistencia operacional',d:'Sustentar recebimentos mesmo com variacoes nos dias uteis.'}]},
+  {mes:'Abril 2026',prox:'Maio/2026',k1l:'Total de Clientes',k1v:'5.448',cDelta:'+26 contratos (+0,48%)',cRef:'vs marco',cPos:true,fat:485673.60,fDelta:-24273.26,fPerc:-4.76,fRef:'marco',desc:11209.87,dDelta:-762.39,dPerc:-6.37,dRef:'marco',rec:472332.30,rDelta:-23224.95,rPerc:-4.69,rRef:'marco',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +26 contratos (+0,48%). Retoma o ritmo de expansao apos crescimento mais contido de marco.',aFat:'Faturamento recuou 4,76% — reflexo natural apos pico de marco favorecido por dias uteis extras. Base em crescimento sustenta potencial de recuperacao.',aDesc:'Descontos recuaram 6,37% (R$ 762 a menos). Positivo — melhora na eficiencia comercial e maior controle das concessoes.',recs:[{t:'Recuperar faturamento',d:'Retomar crescimento da receita apos acomodacao pos-marco.'},{t:'Aproveitar base maior',d:'Com 5.448 clientes, focar em upgrades e ticket medio.'},{t:'Manter disciplina de descontos',d:'Consolidar reducao conquistada neste ciclo.'},{t:'Acompanhamento semanal',d:'Monitorar faturamento, recebimentos e conversao em caixa.'},{t:'Expansao consistente',d:'Manter ritmo de +20 a +30 contratos liquidos por mes.'}]}
 ];
 
+/* ═══ CARBONITA — 17 meses ═══ */
 const CARBONITA=[
-  {mes:'Novembro 2024',prox:'Dezembro/2024',k1l:'Cobranças no Período',k1v:'597',cDelta:'0,00% vs outubro',cRef:'',cPos:true,fat:47406.42,fDelta:null,fPerc:null,fRef:'outubro',desc:3296.00,dDelta:null,dPerc:null,dRef:'outubro',rec:44110.42,rDelta:null,rPerc:null,rRef:'outubro',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 3.521,00'},aClientes:'647 cobranças com ticket médio de R$ 79,40. Estabilidade operacional com variação de ciclo nula, indicando maturidade da carteira.',aFat:'Receita operacional de R$ 47.406,42. Faturamento líquido de R$ 44.110,42 após descontos de custos.',aDesc:'Custos com liquidações de R$ 3.296,00 (6,95% do faturamento). Dentro do padrão histórico da unidade.',recs:[{t:'Encerramento de ano',d:'Estruturar ações para fechar 2024 com crescimento sustentável.'},{t:'Controle de custos',d:'Manter disciplina nos custos de liquidação para preservar comissão.'},{t:'Fidelização',d:'Reforçar relacionamento com clientes ativos da unidade.'},{t:'Planejar 2025',d:'Definir metas e indicadores para o próximo ciclo.'},{t:'Reconhecimento',d:'Valorizar equipes pelo desempenho consistente do ano.'}]},
-  {mes:'Janeiro 2025',prox:'Fevereiro/2025',k1l:'Cobranças no Período',k1v:'687',cDelta:'—',cRef:'',cPos:true,fat:48895.70,fDelta:null,fPerc:null,fRef:'dezembro',desc:666.65,dDelta:null,dPerc:null,dRef:'dezembro',rec:48231.73,rDelta:null,rPerc:null,rRef:'dezembro',honRule:'18% do Faturamento · Custos com liquidações',honPerc:'18,00%',honExtra:null,aClientes:'687 cobranças no período. Início de ano com volume sólido e excelente taxa de conversão para Carbonita.',aFat:'Receita de R$ 48.895,70 com recebido de R$ 48.231,73 — excelente conversão em caixa.',aDesc:'Descontos de R$ 666,65 — valor reduzido indica boa qualidade da carteira de cobrança.',recs:[{t:'Manter ritmo',d:'Consolidar 687+ cobranças como meta mensal.'},{t:'Controlar custos',d:'Manter baixo índice de custos de liquidação.'},{t:'Crescer carteira',d:'Identificar oportunidades de expansão da base.'},{t:'Eficiência operacional',d:'Consolidar processos que geraram boa conversão.'},{t:'Acompanhar indicadores',d:'Monitorar ticket médio e volume de cobranças.'}]},
-  {mes:'Fevereiro 2025',prox:'Março/2025',k1l:'Cobranças no Período',k1v:'1.172',cDelta:'—',cRef:'',cPos:true,fat:47753.34,fDelta:-1142.36,fPerc:-2.35,fRef:'janeiro',desc:740.65,dDelta:73.99,dPerc:11.10,dRef:'janeiro',rec:46841.13,rDelta:-1390.60,rPerc:-2.88,rRef:'janeiro',honRule:'18% do Faturamento · Custos com liquidações',honPerc:'18,00%',honExtra:null,aClientes:'1.172 cobranças no período. Volume elevado demonstrando atividade robusta da operação de Carbonita.',aFat:'Leve retração de 2,35% no faturamento. Receita ainda sólida em R$ 47,7 mil.',aDesc:'Descontos cresceram 11,10% (+R$ 74). Ponto de atenção para monitoramento dos custos.',recs:[{t:'Monitorar custos',d:'Acompanhar crescimento dos descontos para preservar comissão.'},{t:'Retomar crescimento',d:'Estruturar ações para recuperar faturamento no próximo ciclo.'},{t:'Qualidade da carteira',d:'Avaliar perfil das cobranças para otimizar conversão.'},{t:'Controle operacional',d:'Reforçar processos de cobrança para manter alta taxa.'},{t:'Benchmarking',d:'Comparar performance para identificar padrões.'}]},
-  {mes:'Março 2025',prox:'Abril/2025',k1l:'Cobranças no Período',k1v:'1.115',cDelta:'—',cRef:'',cPos:true,fat:48218.77,fDelta:465.43,fPerc:0.98,fRef:'fevereiro',desc:661.75,dDelta:-78.90,dPerc:-10.65,dRef:'fevereiro',rec:47557.02,rDelta:715.89,rPerc:1.53,rRef:'fevereiro',honRule:'18% do Faturamento · Custos com liquidações',honPerc:'18,00%',honExtra:null,aClientes:'1.115 cobranças no período. Volume sólido com leve redução frente a fevereiro.',aFat:'Faturamento cresceu +0,98% (R$ 465 a mais). Recebido +1,53% — recuperação e boa conversão.',aDesc:'Descontos caíram 10,65% (R$ 78,90 a menos) — contribui diretamente para aumento da comissão.',recs:[{t:'Consolidar redução de custos',d:'Manter disciplina nos custos de liquidação.'},{t:'Crescer volume',d:'Retomar patamar de 1.100+ cobranças.'},{t:'Otimizar conversão',d:'Identificar perfis com maior taxa de recebimento.'},{t:'Qualidade da carteira',d:'Priorizar cobranças com menor risco de inadimplência.'},{t:'Acompanhamento mensal',d:'Monitorar ticket médio e taxa de conversão.'}]},
-  {mes:'Abril 2025',prox:'Maio/2025',k1l:'Cobranças no Período',k1v:'1.092',cDelta:'—',cRef:'',cPos:true,fat:50089.67,fDelta:1870.90,fPerc:3.88,fRef:'março',desc:690.69,dDelta:28.94,dPerc:4.37,dRef:'março',rec:49447.17,rDelta:1890.15,rPerc:3.98,rRef:'março',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (2,01%)',val:'R$ 7.938,00'},aClientes:'1.092 cobranças. Carbonita supera R$ 50 mil de faturamento — melhor resultado do trimestre.',aFat:'Crescimento de +3,88% no faturamento (R$ 50,1 mil) e +3,98% no recebido.',aDesc:'Descontos cresceram 4,37% (+R$ 28,94). Moderado e dentro do aceitável dado o bom desempenho.',recs:[{t:'Sustentar acima R$50k',d:'Estruturar ações para manter faturamento no patamar.'},{t:'Controlar custos',d:'Monitorar evolução para preservar comissão.'},{t:'Expandir carteira',d:'Aproveitar momentum positivo para crescer base.'},{t:'Eficiência de cobrança',d:'Manter alta taxa de conversão em caixa.'},{t:'Benchmarking',d:'Usar abril como referência positiva.'}]},
-  {mes:'Maio 2025',prox:'Junho/2025',k1l:'Cobranças no Período',k1v:'1.037',cDelta:'—',cRef:'',cPos:true,fat:50178.10,fDelta:88.43,fPerc:0.18,fRef:'abril',desc:794.12,dDelta:103.43,dPerc:14.97,dRef:'abril',rec:49368.48,rDelta:-78.69,rPerc:-0.16,rRef:'abril',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 7.906,00'},aClientes:'1.037 cobranças. Segundo mês consecutivo acima de R$ 50 mil de faturamento.',aFat:'Faturamento praticamente estável (+0,18%). Recebido com variação mínima (−0,16%) — estabilidade operacional.',aDesc:'Descontos cresceram 14,97% (+R$ 103,43). Crescimento acima do faturamento pressiona comissão.',recs:[{t:'Controlar descontos',d:'Reversão do crescimento de custos observado neste mês.'},{t:'Manter acima R$50k',d:'Consolidar patamar dos últimos dois meses.'},{t:'Qualidade da carteira',d:'Otimizar perfil das cobranças para melhor recebimento.'},{t:'Eficiência operacional',d:'Consolidar processos que mantiveram estabilidade.'},{t:'Monitoramento semanal',d:'Acompanhar indicadores de cobrança e recebimento.'}]},
-  {mes:'Junho 2025',prox:'Julho/2025',k1l:'Cobranças no Período',k1v:'956',cDelta:'—',cRef:'',cPos:true,fat:49835.21,fDelta:-342.89,fPerc:-0.68,fRef:'maio',desc:1195.19,dDelta:401.07,dPerc:50.50,dRef:'maio',rec:48399.40,rDelta:-969.08,rPerc:-1.96,rRef:'maio',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 8.004,00'},aClientes:'956 cobranças. Redução de volume frente a maio, com faturamento próximo a R$ 50 mil.',aFat:'Leve retração de 0,68% no faturamento. Operação mantém patamar sólido próximo a R$ 50 mil.',aDesc:'Alerta: descontos subiram 50,5% (+R$ 401,07). Crescimento expressivo exige revisão urgente da política.',recs:[{t:'Reduzir descontos urgentemente',d:'Revisão imediata — crescimento de 50% é crítico.'},{t:'Investigar causas',d:'Identificar quais cobranças geraram mais descontos.'},{t:'Preservar comissão',d:'Controlar custos para manter comissão saudável.'},{t:'Recuperar volume',d:'Retomar patamar de 1.000+ cobranças mensais.'},{t:'Monitoramento intensivo',d:'Acompanhar descontos e recebimentos semanalmente.'}]},
-  {mes:'Julho 2025',prox:'Agosto/2025',k1l:'Cobranças no Período',k1v:'919',cDelta:'—',cRef:'',cPos:true,fat:51346.08,fDelta:1510.87,fPerc:3.03,fRef:'junho',desc:792.55,dDelta:-402.64,dPerc:-33.69,dRef:'junho',rec:50433.70,rDelta:2034.30,rPerc:4.21,rRef:'junho',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 8.020,40'},aClientes:'919 cobranças. Faturamento supera R$ 51 mil — melhor resultado do semestre para Carbonita.',aFat:'Crescimento de +3,03% (R$ 51,3 mil). Recebido +4,21% (R$ 50,4 mil) superando a marca de R$ 50 mil.',aDesc:'Descontos recuaram 33,69% (R$ 402,64 a menos) — excelente recuperação após o pico de junho.',recs:[{t:'Consolidar redução de descontos',d:'Manter disciplina conquistada após revisão da política.'},{t:'Sustentar acima R$50k',d:'Julho confirma patamar alcançável e sustentável.'},{t:'Crescer cobranças',d:'Retomar patamar de 1.000+ para maximizar receita.'},{t:'Monitorar custos',d:'Manter controle para sustentar comissão no nível atual.'},{t:'Benchmarking positivo',d:'Usar julho como referência de equilíbrio volume/custos.'}]},
-  {mes:'Agosto 2025',prox:'Setembro/2025',k1l:'Cobranças no Período',k1v:'853',cDelta:'—',cRef:'',cPos:true,fat:51126.41,fDelta:-219.67,fPerc:-0.43,fRef:'julho',desc:579.71,dDelta:-212.84,dPerc:-26.85,dRef:'julho',rec:50476.53,rDelta:42.83,rPerc:0.08,rRef:'julho',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 7.934,00'},aClientes:'853 cobranças. Faturamento estável acima de R$ 51 mil pelo segundo mês consecutivo.',aFat:'Faturamento praticamente estável (−0,43%). Recebido variação mínima (+0,08%) — solidez operacional.',aDesc:'Descontos continuaram caindo: −26,85% (R$ 212,84 a menos). Tendência muito positiva — custos mínimos maximizam comissão.',recs:[{t:'Manter baixo nível de descontos',d:'Consolidar tendência de queda nos custos.'},{t:'Sustentar acima R$51k',d:'Dois meses confirmam o patamar é sustentável.'},{t:'Crescer cobranças',d:'Volume de 853 ainda abaixo do potencial.'},{t:'Qualidade da carteira',d:'Priorizar cobranças com menor risco.'},{t:'Reconhecimento',d:'Valorizar equipe pelo controle de custos conquistado.'}]},
-  {mes:'Setembro 2025',prox:'Outubro/2025',k1l:'Cobranças no Período',k1v:'831',cDelta:'—',cRef:'',cPos:true,fat:51681.13,fDelta:554.72,fPerc:1.09,fRef:'agosto',desc:807.55,dDelta:227.84,dPerc:39.30,dRef:'agosto',rec:50873.58,rDelta:396.05,rPerc:0.78,rRef:'agosto',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 7.906,00'},aClientes:'831 cobranças. Faturamento supera R$ 51,6 mil — novo recorde da unidade.',aFat:'Crescimento de +1,09% no faturamento e +0,78% no recebido. Recorde de R$ 50,8 mil efetivamente recebidos.',aDesc:'Descontos cresceram +39,30% (+R$ 227,84). Reversão da tendência de queda — requer atenção imediata.',recs:[{t:'Conter crescimento dos descontos',d:'Reversão preocupante após dois meses de queda.'},{t:'Manter faturamento recorde',d:'R$ 51,6 mil é o novo patamar a sustentar.'},{t:'Qualidade da cobrança',d:'Focar em cobranças com menor propensão a descontos.'},{t:'Monitoramento intensivo',d:'Acompanhar descontos semanalmente.'},{t:'Eficiência operacional',d:'Consolidar processos que geraram recorde de recebimento.'}]},
-  {mes:'Outubro 2025',prox:'Novembro/2025',k1l:'Cobranças no Período',k1v:'—',cDelta:'—',cRef:'',cPos:true,fat:51500.00,fDelta:null,fPerc:null,fRef:'setembro',desc:800.00,dDelta:null,dPerc:null,dRef:'setembro',rec:49584.97,rDelta:null,rPerc:null,rRef:'setembro',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 8.030,00'},aClientes:'Operação de Carbonita em outubro manteve o ritmo positivo com recebido de R$ 49,5 mil.',aFat:'Faturamento estável no patamar de R$ 51+ mil, sustentando o crescimento consistente da unidade.',aDesc:'Descontos mantidos dentro da política comercial vigente para o período.',recs:[{t:'Manter patamar',d:'Consolidar R$ 51+ mil como base para o próximo ciclo.'},{t:'Controlar descontos',d:'Manter política rigorosa de concessões.'},{t:'Crescer carteira',d:'Ampliar volume de cobranças para maximizar receita.'},{t:'Eficiência de recebimento',d:'Sustentar alta taxa de conversão em caixa.'},{t:'Planejar novembro',d:'Estruturar ações para superar resultado de outubro.'}]},
-  {mes:'Novembro 2025',prox:'Dezembro/2025',k1l:'Cobranças no Período',k1v:'714',cDelta:'—',cRef:'',cPos:true,fat:50208.60,fDelta:-1291.40,fPerc:-2.51,fRef:'outubro',desc:682.08,dDelta:null,dPerc:null,dRef:'outubro',rec:49584.97,rDelta:null,rPerc:null,rRef:'outubro',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 8.030,00'},aClientes:'714 cobranças. Faturamento acima de R$ 50 mil mantendo patamar sólido.',aFat:'Leve retração de 2,51% no faturamento. Operação sustenta patamar acima de R$ 50 mil pelo sétimo mês consecutivo.',aDesc:'Descontos de R$ 682,08 — valor reduzido indicando boa disciplina comercial.',recs:[{t:'Encerramento forte',d:'Estruturar ações para fechar 2025 com crescimento sustentável.'},{t:'Manter acima R$50k',d:'Consolidar patamar como base para 2026.'},{t:'Controlar custos',d:'Manter disciplina para preservar comissão.'},{t:'Fidelização',d:'Reforçar relacionamento com base ativa.'},{t:'Planejar 2026',d:'Definir metas e indicadores para o próximo ciclo.'}]},
-  {mes:'Dezembro 2025',prox:'Janeiro/2026',k1l:'Cobranças no Período',k1v:'756',cDelta:'—',cRef:'',cPos:true,fat:54342.20,fDelta:4133.60,fPerc:8.23,fRef:'novembro',desc:820.40,dDelta:138.32,dPerc:20.28,dRef:'novembro',rec:53517.76,rDelta:3932.79,rPerc:7.93,rRef:'novembro',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 8.100,00'},aClientes:'756 cobranças. Faturamento supera R$ 54 mil — melhor resultado anual de Carbonita.',aFat:'Crescimento de +8,23% no faturamento e +7,93% no recebido. Melhor dezembro da história da unidade.',aDesc:'Descontos +20,28% (+R$ 138,32). Crescimento abaixo do faturamento mantém equilíbrio.',recs:[{t:'Consolidar patamar R$54k',d:'Usar dezembro como referência para 2026.'},{t:'Controlar crescimento de descontos',d:'Manter abaixo do crescimento do faturamento.'},{t:'Planejar janeiro',d:'Evitar queda sazonal com ações estruturadas.'},{t:'Fidelização',d:'Reforçar relacionamento antes de virar o ano.'},{t:'Metas 2026',d:'Indicadores claros para superar performance de 2025.'}]},
-  {mes:'Janeiro 2026',prox:'Fevereiro/2026',k1l:'Cobranças no Período',k1v:'746',cDelta:'—',cRef:'',cPos:true,fat:54984.82,fDelta:642.62,fPerc:1.18,fRef:'dezembro',desc:1055.01,dDelta:234.61,dPerc:28.60,dRef:'dezembro',rec:53830.56,rDelta:312.80,rPerc:0.58,rRef:'dezembro',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 8.178,00'},aClientes:'746 cobranças. Faturamento supera R$ 54,9 mil — novo recorde de Carbonita.',aFat:'Crescimento de +1,18% no faturamento e +0,58% no recebido. Manutenção do recorde em período sazonalmente desafiador.',aDesc:'Descontos cresceram +28,60% (+R$ 234,61). Crescimento expressivo requer monitoramento.',recs:[{t:'Conter crescimento de descontos',d:'Revisão da política de concessões após crescimento de 28,6%.'},{t:'Manter faturamento recorde',d:'R$ 54,9 mil é o novo patamar a sustentar.'},{t:'Monitoramento intensivo',d:'Acompanhar descontos semanalmente.'},{t:'Eficiência operacional',d:'Consolidar processos que geraram recorde consecutivo.'},{t:'Planejamento de fevereiro',d:'Estruturar ações para sustentar crescimento.'}]},
-  {mes:'Fevereiro 2026',prox:'Março/2026',k1l:'Cobranças no Período',k1v:'703',cDelta:'—',cRef:'',cPos:true,fat:51568.60,fDelta:-3416.22,fPerc:-6.21,fRef:'janeiro',desc:768.67,dDelta:-286.34,dPerc:-27.15,dRef:'janeiro',rec:50764.37,rDelta:-3066.19,rPerc:-5.70,rRef:'janeiro',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 8.178,00'},aClientes:'703 cobranças. Ajuste natural após dois meses de recorde. Faturamento ainda sólido acima de R$ 51 mil.',aFat:'Retração de 6,21% após dois meses de recorde. Recebido recuou 5,70% — acomodação esperada.',aDesc:'Descontos caíram 27,15% (R$ 286 a menos) — reversão imediata do pico de janeiro beneficia a comissão.',recs:[{t:'Retomar crescimento',d:'Estruturar ações para recuperar patamar de R$ 54+ mil.'},{t:'Consolidar redução de descontos',d:'Manter disciplina conquistada neste ciclo.'},{t:'Crescer volume de cobranças',d:'Retomar patamar de 750+ cobranças mensais.'},{t:'Qualidade da carteira',d:'Focar em cobranças com maior taxa de recebimento.'},{t:'Monitoramento mensal',d:'Acompanhar faturamento e descontos continuamente.'}]},
-  {mes:'Março 2026',prox:'Abril/2026',k1l:'Cobranças no Período',k1v:'744',cDelta:'—',cRef:'',cPos:true,fat:54201.81,fDelta:2633.21,fPerc:5.11,fRef:'fevereiro',desc:637.70,dDelta:-130.97,dPerc:-17.04,dRef:'fevereiro',rec:53499.50,rDelta:2735.13,rPerc:5.39,rRef:'fevereiro',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 8.376,06'},aClientes:'744 cobranças. Faturamento retoma R$ 54+ mil — recuperação plena após acomodação de fevereiro.',aFat:'Crescimento de +5,11% no faturamento e +5,39% no recebido. Retomada plena ao patamar de recorde.',aDesc:'Descontos caíram 17,04% (R$ 130,97 a menos) — terceiro mês consecutivo de redução. Impacto direto positivo na comissão.',recs:[{t:'Sustentar R$54k',d:'Confirmação de que o recorde é alcançável de forma consistente.'},{t:'Manter baixo nível de descontos',d:'Consolidar tendência positiva de três meses consecutivos.'},{t:'Crescer cobranças',d:'Com 744 cobranças, há espaço para retomar 800+.'},{t:'Planejar abril',d:'Estruturar ações para superar resultado de março.'},{t:'Reconhecimento',d:'Valorizar equipe pela recuperação e queda nos custos.'}]},
-  {mes:'Abril 2026',prox:'Maio/2026',k1l:'Cobranças no Período',k1v:'741',cDelta:'—',cRef:'',cPos:true,fat:54082.20,fDelta:-119.61,fPerc:-0.22,fRef:'março',desc:728.08,dDelta:90.38,dPerc:14.17,dRef:'março',rec:53222.06,rDelta:-277.44,rPerc:-0.52,rRef:'março',honRule:'18% do Faturamento · Custos Gerais',honPerc:'18,00% combinado',honExtra:{label:'Custos (1,50%)',val:'R$ 8.500,00'},aClientes:'741 cobranças. Estabilidade notável — faturamento praticamente idêntico a março, confirmando consolidação do patamar R$ 54 mil.',aFat:'Faturamento estável (−0,22%). Recebido com mínima variação (−0,52%). Operação em patamar sólido e previsível.',aDesc:'Descontos cresceram +14,17% (+R$ 90,38). Crescimento moderado após três meses de queda — monitorar tendência.',recs:[{t:'Monitorar descontos',d:'Após três meses de queda, a retomada merece atenção preventiva.'},{t:'Consolidar patamar R$54k',d:'Dois meses consecutivos confirmam solidez do resultado.'},{t:'Crescer cobranças',d:'Ampliar volume para maximizar potencial de receita.'},{t:'Eficiência de recebimento',d:'Manter alta taxa de conversão do faturamento em caixa.'},{t:'Planejar maio',d:'Estruturar ações para superar R$ 54 mil no próximo ciclo.'}]}
+  {mes:'Novembro 2024',prox:'Dezembro/2024',k1l:'Cobrancas no Periodo',k1v:'597',cDelta:'0,00% vs outubro',cRef:'',cPos:true,fat:47406.42,fDelta:null,fPerc:null,fRef:'outubro',desc:3296.00,dDelta:null,dPerc:null,dRef:'outubro',rec:44110.42,rDelta:null,rPerc:null,rRef:'outubro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'647 cobrancas com ticket medio de R$ 79,40. Estabilidade operacional indicando maturidade da carteira de Carbonita.',aFat:'Receita operacional de R$ 47.406,42. Faturamento liquido de R$ 44.110,42 apos custos com liquidacoes.',aDesc:'Custos com liquidacoes de R$ 3.296,00 (6,95% do faturamento). Dentro do padrao historico da unidade.',recs:[{t:'Encerramento de ano',d:'Estruturar acoes para fechar 2024 com crescimento sustentavel.'},{t:'Controle de custos',d:'Manter disciplina nos custos de liquidacao para preservar comissao.'},{t:'Fidelizacao',d:'Reforcar relacionamento com clientes ativos da unidade.'},{t:'Planejar 2025',d:'Definir metas e indicadores para o proximo ciclo.'},{t:'Reconhecimento',d:'Valorizar equipes pelo desempenho consistente do ano.'}]},
+  {mes:'Janeiro 2025',prox:'Fevereiro/2025',k1l:'Cobrancas no Periodo',k1v:'687',cDelta:'---',cRef:'',cPos:true,fat:48895.70,fDelta:null,fPerc:null,fRef:'dezembro',desc:666.65,dDelta:null,dPerc:null,dRef:'dezembro',rec:48231.73,rDelta:null,rPerc:null,rRef:'dezembro',honRule:'18% do Faturamento - Custos com liquidacoes',honPerc:'18,00%',honExtra:false,aClientes:'687 cobrancas. Inicio de ano com volume solido e excelente taxa de conversao para Carbonita.',aFat:'Receita de R$ 48.895,70 com recebido de R$ 48.231,73 — excelente conversao em caixa.',aDesc:'Descontos de R$ 666,65 — valor reduzido indica boa qualidade da carteira de cobranca.',recs:[{t:'Manter ritmo',d:'Consolidar 687+ cobrancas como meta mensal.'},{t:'Controlar custos',d:'Manter baixo indice de custos de liquidacao.'},{t:'Crescer carteira',d:'Identificar oportunidades de expansao da base.'},{t:'Eficiencia operacional',d:'Consolidar processos que geraram boa conversao.'},{t:'Acompanhar indicadores',d:'Monitorar ticket medio e volume de cobrancas.'}]},
+  {mes:'Fevereiro 2025',prox:'Marco/2025',k1l:'Cobrancas no Periodo',k1v:'1.172',cDelta:'---',cRef:'',cPos:true,fat:47753.34,fDelta:-1142.36,fPerc:-2.35,fRef:'janeiro',desc:740.65,dDelta:73.99,dPerc:11.10,dRef:'janeiro',rec:46841.13,rDelta:-1390.60,rPerc:-2.88,rRef:'janeiro',honRule:'18% do Faturamento - Custos com liquidacoes',honPerc:'18,00%',honExtra:false,aClientes:'1.172 cobrancas. Volume elevado demonstrando atividade robusta da operacao de Carbonita.',aFat:'Leve retracao de 2,35% no faturamento. Receita ainda solida em R$ 47,7 mil.',aDesc:'Descontos cresceram 11,10% (+R$ 74). Ponto de atencao para monitoramento dos custos.',recs:[{t:'Monitorar custos',d:'Acompanhar crescimento dos descontos para preservar comissao.'},{t:'Retomar crescimento',d:'Estruturar acoes para recuperar faturamento no proximo ciclo.'},{t:'Qualidade da carteira',d:'Avaliar perfil das cobrancas para otimizar conversao.'},{t:'Controle operacional',d:'Reforcar processos de cobranca para manter alta taxa.'},{t:'Benchmarking',d:'Comparar performance para identificar padroes.'}]},
+  {mes:'Marco 2025',prox:'Abril/2025',k1l:'Cobrancas no Periodo',k1v:'1.115',cDelta:'---',cRef:'',cPos:true,fat:48218.77,fDelta:465.43,fPerc:0.98,fRef:'fevereiro',desc:661.75,dDelta:-78.90,dPerc:-10.65,dRef:'fevereiro',rec:47557.02,rDelta:715.89,rPerc:1.53,rRef:'fevereiro',honRule:'18% do Faturamento - Custos com liquidacoes',honPerc:'18,00%',honExtra:false,aClientes:'1.115 cobrancas. Volume solido com leve reducao frente a fevereiro.',aFat:'Faturamento cresceu +0,98% (R$ 465 a mais). Recebido +1,53% — recuperacao e boa conversao.',aDesc:'Descontos cairam 10,65% (R$ 78,90 a menos) — contribui diretamente para aumento da comissao.',recs:[{t:'Consolidar reducao de custos',d:'Manter disciplina nos custos de liquidacao.'},{t:'Crescer volume',d:'Retomar patamar de 1.100+ cobrancas.'},{t:'Otimizar conversao',d:'Identificar perfis com maior taxa de recebimento.'},{t:'Qualidade da carteira',d:'Priorizar cobrancas com menor risco de inadimplencia.'},{t:'Acompanhamento mensal',d:'Monitorar ticket medio e taxa de conversao.'}]},
+  {mes:'Abril 2025',prox:'Maio/2025',k1l:'Cobrancas no Periodo',k1v:'1.092',cDelta:'---',cRef:'',cPos:true,fat:50089.67,fDelta:1870.90,fPerc:3.88,fRef:'marco',desc:690.69,dDelta:28.94,dPerc:4.37,dRef:'marco',rec:49447.17,rDelta:1890.15,rPerc:3.98,rRef:'marco',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'1.092 cobrancas. Carbonita supera R$ 50 mil de faturamento — melhor resultado do trimestre.',aFat:'Crescimento de +3,88% no faturamento (R$ 50,1 mil) e +3,98% no recebido.',aDesc:'Descontos cresceram 4,37% (+R$ 28,94). Moderado dentro do aceitavel dado o bom desempenho.',recs:[{t:'Sustentar acima R$50k',d:'Estruturar acoes para manter faturamento no patamar.'},{t:'Controlar custos',d:'Monitorar evolucao para preservar comissao.'},{t:'Expandir carteira',d:'Aproveitar momentum positivo para crescer base.'},{t:'Eficiencia de cobranca',d:'Manter alta taxa de conversao em caixa.'},{t:'Benchmarking',d:'Usar abril como referencia positiva.'}]},
+  {mes:'Maio 2025',prox:'Junho/2025',k1l:'Cobrancas no Periodo',k1v:'1.037',cDelta:'---',cRef:'',cPos:true,fat:50178.10,fDelta:88.43,fPerc:0.18,fRef:'abril',desc:794.12,dDelta:103.43,dPerc:14.97,dRef:'abril',rec:49368.48,rDelta:-78.69,rPerc:-0.16,rRef:'abril',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'1.037 cobrancas. Segundo mes consecutivo acima de R$ 50 mil de faturamento.',aFat:'Faturamento praticamente estavel (+0,18%). Recebido com variacao minima (-0,16%) — estabilidade operacional.',aDesc:'Descontos cresceram 14,97% (+R$ 103,43). Crescimento acima do faturamento pressiona comissao.',recs:[{t:'Controlar descontos',d:'Reversao do crescimento de custos observado neste mes.'},{t:'Manter acima R$50k',d:'Consolidar patamar dos ultimos dois meses.'},{t:'Qualidade da carteira',d:'Otimizar perfil das cobrancas para melhor recebimento.'},{t:'Eficiencia operacional',d:'Consolidar processos que mantiveram estabilidade.'},{t:'Monitoramento semanal',d:'Acompanhar indicadores de cobranca e recebimento.'}]},
+  {mes:'Junho 2025',prox:'Julho/2025',k1l:'Cobrancas no Periodo',k1v:'956',cDelta:'---',cRef:'',cPos:true,fat:49835.21,fDelta:-342.89,fPerc:-0.68,fRef:'maio',desc:1195.19,dDelta:401.07,dPerc:50.50,dRef:'maio',rec:48399.40,rDelta:-969.08,rPerc:-1.96,rRef:'maio',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'956 cobrancas. Reducao de volume frente a maio, com faturamento proximo a R$ 50 mil.',aFat:'Leve retracao de 0,68% no faturamento. Operacao mantem patamar solido proximo a R$ 50 mil.',aDesc:'Alerta: descontos subiram 50,5% (+R$ 401,07). Crescimento expressivo exige revisao urgente da politica.',recs:[{t:'Reduzir descontos urgentemente',d:'Revisao imediata — crescimento de 50% e critico.'},{t:'Investigar causas',d:'Identificar quais cobrancas geraram mais descontos.'},{t:'Preservar comissao',d:'Controlar custos para manter comissao saudavel.'},{t:'Recuperar volume',d:'Retomar patamar de 1.000+ cobrancas mensais.'},{t:'Monitoramento intensivo',d:'Acompanhar descontos e recebimentos semanalmente.'}]},
+  {mes:'Julho 2025',prox:'Agosto/2025',k1l:'Cobrancas no Periodo',k1v:'919',cDelta:'---',cRef:'',cPos:true,fat:51346.08,fDelta:1510.87,fPerc:3.03,fRef:'junho',desc:792.55,dDelta:-402.64,dPerc:-33.69,dRef:'junho',rec:50433.70,rDelta:2034.30,rPerc:4.21,rRef:'junho',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'919 cobrancas. Faturamento supera R$ 51 mil — melhor resultado do semestre para Carbonita.',aFat:'Crescimento de +3,03% (R$ 51,3 mil). Recebido +4,21% (R$ 50,4 mil) superando a marca de R$ 50 mil.',aDesc:'Descontos recuaram 33,69% (R$ 402,64 a menos) — excelente recuperacao apos o pico de junho.',recs:[{t:'Consolidar reducao de descontos',d:'Manter disciplina conquistada apos revisao da politica.'},{t:'Sustentar acima R$50k',d:'Julho confirma patamar alcancavel e sustentavel.'},{t:'Crescer cobrancas',d:'Retomar patamar de 1.000+ para maximizar receita.'},{t:'Monitorar custos',d:'Manter controle para sustentar comissao no nivel atual.'},{t:'Benchmarking positivo',d:'Usar julho como referencia de equilibrio volume/custos.'}]},
+  {mes:'Agosto 2025',prox:'Setembro/2025',k1l:'Cobrancas no Periodo',k1v:'853',cDelta:'---',cRef:'',cPos:true,fat:51126.41,fDelta:-219.67,fPerc:-0.43,fRef:'julho',desc:579.71,dDelta:-212.84,dPerc:-26.85,dRef:'julho',rec:50476.53,rDelta:42.83,rPerc:0.08,rRef:'julho',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'853 cobrancas. Faturamento estavel acima de R$ 51 mil pelo segundo mes consecutivo.',aFat:'Faturamento praticamente estavel (-0,43%). Recebido variacao minima (+0,08%) — solidez operacional.',aDesc:'Descontos continuaram caindo: -26,85% (R$ 212,84 a menos). Tendencia muito positiva — custos minimos maximizam comissao.',recs:[{t:'Manter baixo nivel de descontos',d:'Consolidar tendencia de queda nos custos.'},{t:'Sustentar acima R$51k',d:'Dois meses confirmam o patamar e sustentavel.'},{t:'Crescer cobrancas',d:'Volume de 853 ainda abaixo do potencial.'},{t:'Qualidade da carteira',d:'Priorizar cobrancas com menor risco.'},{t:'Reconhecimento',d:'Valorizar equipe pelo controle de custos conquistado.'}]},
+  {mes:'Setembro 2025',prox:'Outubro/2025',k1l:'Cobrancas no Periodo',k1v:'831',cDelta:'---',cRef:'',cPos:true,fat:51681.13,fDelta:554.72,fPerc:1.09,fRef:'agosto',desc:807.55,dDelta:227.84,dPerc:39.30,dRef:'agosto',rec:50873.58,rDelta:396.05,rPerc:0.78,rRef:'agosto',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'831 cobrancas. Faturamento supera R$ 51,6 mil — novo recorde da unidade.',aFat:'Crescimento de +1,09% no faturamento e +0,78% no recebido. Recorde de R$ 50,8 mil efetivamente recebidos.',aDesc:'Descontos cresceram +39,30% (+R$ 227,84). Reversao da tendencia de queda — requer atencao imediata.',recs:[{t:'Conter crescimento dos descontos',d:'Reversao preocupante apos dois meses de queda.'},{t:'Manter faturamento recorde',d:'R$ 51,6 mil e o novo patamar a sustentar.'},{t:'Qualidade da cobranca',d:'Focar em cobrancas com menor propensao a descontos.'},{t:'Monitoramento intensivo',d:'Acompanhar descontos semanalmente.'},{t:'Eficiencia operacional',d:'Consolidar processos que geraram recorde de recebimento.'}]},
+  {mes:'Outubro 2025',prox:'Novembro/2025',k1l:'Cobrancas no Periodo',k1v:'---',cDelta:'---',cRef:'',cPos:true,fat:51500.00,fDelta:null,fPerc:null,fRef:'setembro',desc:800.00,dDelta:null,dPerc:null,dRef:'setembro',rec:49584.97,rDelta:null,rPerc:null,rRef:'setembro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'Operacao de Carbonita em outubro manteve o ritmo positivo com recebido de R$ 49,5 mil.',aFat:'Faturamento estavel no patamar de R$ 51+ mil, sustentando crescimento consistente da unidade.',aDesc:'Descontos mantidos dentro da politica comercial vigente para o periodo.',recs:[{t:'Manter patamar',d:'Consolidar R$ 51+ mil como base para o proximo ciclo.'},{t:'Controlar descontos',d:'Manter politica rigorosa de concessoes.'},{t:'Crescer carteira',d:'Ampliar volume de cobrancas para maximizar receita.'},{t:'Eficiencia de recebimento',d:'Sustentar alta taxa de conversao em caixa.'},{t:'Planejar novembro',d:'Estruturar acoes para superar resultado de outubro.'}]},
+  {mes:'Novembro 2025',prox:'Dezembro/2025',k1l:'Cobrancas no Periodo',k1v:'714',cDelta:'---',cRef:'',cPos:true,fat:50208.60,fDelta:-1291.40,fPerc:-2.51,fRef:'outubro',desc:682.08,dDelta:null,dPerc:null,dRef:'outubro',rec:49584.97,rDelta:null,rPerc:null,rRef:'outubro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'714 cobrancas. Faturamento acima de R$ 50 mil mantendo patamar solido.',aFat:'Leve retracao de 2,51%. Operacao sustenta patamar acima de R$ 50 mil pelo setimo mes consecutivo.',aDesc:'Descontos de R$ 682,08 — valor reduzido indicando boa disciplina comercial.',recs:[{t:'Encerramento forte',d:'Estruturar acoes para fechar 2025 com crescimento sustentavel.'},{t:'Manter acima R$50k',d:'Consolidar patamar como base para 2026.'},{t:'Controlar custos',d:'Manter disciplina para preservar comissao.'},{t:'Fidelizacao',d:'Reforcar relacionamento com base ativa.'},{t:'Planejar 2026',d:'Definir metas e indicadores para o proximo ciclo.'}]},
+  {mes:'Dezembro 2025',prox:'Janeiro/2026',k1l:'Cobrancas no Periodo',k1v:'756',cDelta:'---',cRef:'',cPos:true,fat:54342.20,fDelta:4133.60,fPerc:8.23,fRef:'novembro',desc:820.40,dDelta:138.32,dPerc:20.28,dRef:'novembro',rec:53517.76,rDelta:3932.79,rPerc:7.93,rRef:'novembro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'756 cobrancas. Faturamento supera R$ 54 mil — melhor resultado anual de Carbonita.',aFat:'Crescimento de +8,23% no faturamento e +7,93% no recebido. Melhor dezembro da historia da unidade.',aDesc:'Descontos cresceram +20,28% (+R$ 138,32). Crescimento abaixo do faturamento mantem equilibrio.',recs:[{t:'Consolidar patamar R$54k',d:'Usar dezembro como referencia para 2026.'},{t:'Controlar crescimento de descontos',d:'Manter abaixo do crescimento do faturamento.'},{t:'Planejar janeiro',d:'Evitar queda sazonal com acoes estruturadas.'},{t:'Fidelizacao',d:'Reforcar relacionamento antes de virar o ano.'},{t:'Metas 2026',d:'Indicadores claros para superar performance de 2025.'}]},
+  {mes:'Janeiro 2026',prox:'Fevereiro/2026',k1l:'Cobrancas no Periodo',k1v:'746',cDelta:'---',cRef:'',cPos:true,fat:54984.82,fDelta:642.62,fPerc:1.18,fRef:'dezembro',desc:1055.01,dDelta:234.61,dPerc:28.60,dRef:'dezembro',rec:53830.56,rDelta:312.80,rPerc:0.58,rRef:'dezembro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'746 cobrancas. Faturamento supera R$ 54,9 mil — novo recorde de Carbonita.',aFat:'Crescimento de +1,18% no faturamento e +0,58% no recebido. Manutencao do recorde em periodo sazonalmente desafiador.',aDesc:'Descontos cresceram +28,60% (+R$ 234,61). Crescimento expressivo requer monitoramento.',recs:[{t:'Conter crescimento de descontos',d:'Revisao da politica de concessoes apos crescimento de 28,6%.'},{t:'Manter faturamento recorde',d:'R$ 54,9 mil e o novo patamar a sustentar.'},{t:'Monitoramento intensivo',d:'Acompanhar descontos semanalmente.'},{t:'Eficiencia operacional',d:'Consolidar processos que geraram recorde consecutivo.'},{t:'Planejamento de fevereiro',d:'Estruturar acoes para sustentar crescimento.'}]},
+  {mes:'Fevereiro 2026',prox:'Marco/2026',k1l:'Cobrancas no Periodo',k1v:'703',cDelta:'---',cRef:'',cPos:true,fat:51568.60,fDelta:-3416.22,fPerc:-6.21,fRef:'janeiro',desc:768.67,dDelta:-286.34,dPerc:-27.15,dRef:'janeiro',rec:50764.37,rDelta:-3066.19,rPerc:-5.70,rRef:'janeiro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'703 cobrancas. Ajuste natural apos dois meses de recorde. Faturamento ainda solido acima de R$ 51 mil.',aFat:'Retracao de 6,21% apos dois meses de recorde. Recebido recuou 5,70% — acomodacao esperada.',aDesc:'Descontos cairam 27,15% (R$ 286 a menos) — reversao imediata do pico de janeiro beneficia a comissao.',recs:[{t:'Retomar crescimento',d:'Estruturar acoes para recuperar patamar de R$ 54+ mil.'},{t:'Consolidar reducao de descontos',d:'Manter disciplina conquistada neste ciclo.'},{t:'Crescer volume de cobrancas',d:'Retomar patamar de 750+ cobrancas mensais.'},{t:'Qualidade da carteira',d:'Focar em cobrancas com maior taxa de recebimento.'},{t:'Monitoramento mensal',d:'Acompanhar faturamento e descontos continuamente.'}]},
+  {mes:'Marco 2026',prox:'Abril/2026',k1l:'Cobrancas no Periodo',k1v:'744',cDelta:'---',cRef:'',cPos:true,fat:54201.81,fDelta:2633.21,fPerc:5.11,fRef:'fevereiro',desc:637.70,dDelta:-130.97,dPerc:-17.04,dRef:'fevereiro',rec:53499.50,rDelta:2735.13,rPerc:5.39,rRef:'fevereiro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'744 cobrancas. Faturamento retoma R$ 54+ mil — recuperacao plena apos acomodacao de fevereiro.',aFat:'Crescimento de +5,11% no faturamento e +5,39% no recebido. Retomada plena ao patamar de recorde.',aDesc:'Descontos cairam 17,04% (R$ 130,97 a menos) — terceiro mes consecutivo de reducao. Impacto positivo na comissao.',recs:[{t:'Sustentar R$54k',d:'Confirmacao de que o recorde e alcancavel de forma consistente.'},{t:'Manter baixo nivel de descontos',d:'Consolidar tendencia positiva de tres meses consecutivos.'},{t:'Crescer cobrancas',d:'Com 744 cobrancas, ha espaco para retomar 800+.'},{t:'Planejar abril',d:'Estruturar acoes para superar resultado de marco.'},{t:'Reconhecimento',d:'Valorizar equipe pela recuperacao e queda nos custos.'}]},
+  {mes:'Abril 2026',prox:'Maio/2026',k1l:'Cobrancas no Periodo',k1v:'741',cDelta:'---',cRef:'',cPos:true,fat:54082.20,fDelta:-119.61,fPerc:-0.22,fRef:'marco',desc:728.08,dDelta:90.38,dPerc:14.17,dRef:'marco',rec:53222.06,rDelta:-277.44,rPerc:-0.52,rRef:'marco',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'741 cobrancas. Estabilidade notavel — faturamento praticamente identico a marco, confirmando consolidacao do patamar R$ 54 mil.',aFat:'Faturamento estavel (-0,22%). Recebido com minima variacao (-0,52%). Operacao em patamar solido e previsivel.',aDesc:'Descontos cresceram +14,17% (+R$ 90,38). Crescimento moderado apos tres meses de queda — monitorar tendencia.',recs:[{t:'Monitorar descontos',d:'Apos tres meses de queda, a retomada merece atencao preventiva.'},{t:'Consolidar patamar R$54k',d:'Dois meses consecutivos confirmam solidez do resultado.'},{t:'Crescer cobrancas',d:'Ampliar volume para maximizar potencial de receita.'},{t:'Eficiencia de recebimento',d:'Manter alta taxa de conversao do faturamento em caixa.'},{t:'Planejar maio',d:'Estruturar acoes para superar R$ 54 mil no proximo ciclo.'}]}
 ];
 
+/* ═══ HISTORICO ═══ */
 const HIST={
   msol:{
     labels:['Nov 24','Dez 24','Jan 25','Fev 25','Mar 25','Abr 25','Mai 25','Jun 25','Jul 25','Ago 25','Set 25','Out 25','Nov 25','Dez 25','Jan 26','Fev 26','Mar 26','Abr 26'],
@@ -405,73 +653,142 @@ const HIST={
   }
 };
 
-let currentUnit='msol', currentData=MSOL, idx=0, chart=null;
-const brl=v=>'R$\u00a0'+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-const brlS=v=>'R$\u00a0'+Math.round(v).toLocaleString('pt-BR');
-const sign=v=>v>=0?'+':'';
-const pct=v=>sign(v)+v.toFixed(2)+'%';
+/* Cronograma agora é dinâmico via Google Sheets */
 
+/* ═══ STATE ═══ */
+let currentUnit='msol',currentData=MSOL,idx=0;
+let cronoIdx=0,currentView='dash';
+let chart=null,sidebarCollapsed=false;
+
+/* ═══ UTILS ═══ */
+const brl  = v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const brlS = v=>'R$ '+Math.round(v).toLocaleString('pt-BR');
+const sign = v=>v>=0?'+':'';
+const pct  = v=>sign(v)+v.toFixed(2)+'%';
+
+/* ═══ SIDEBAR ═══ */
+function toggleSidebar(){
+  sidebarCollapsed=!sidebarCollapsed;
+  const sb=document.getElementById('sidebar');
+  const btn=document.getElementById('sidebarToggle');
+  sb.classList.toggle('collapsed',sidebarCollapsed);
+  btn.innerHTML=sidebarCollapsed?'&#8250;':'&#8249;';
+  btn.title=sidebarCollapsed?'Expandir menu':'Recolher menu';
+}
+function toggleMobileMenu(){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('sidebarOverlay');
+  sb.classList.toggle('mobile-open');
+  ov.style.display=sb.classList.contains('mobile-open')?'block':'none';
+}
+
+/* ═══ SWITCH VIEW ═══ */
+function switchView(view){
+  currentView=view;
+  document.getElementById('navDash').className='sidebar-item'+(view==='dash'?' active':'');
+  document.getElementById('navCrono').className='sidebar-item'+(view==='crono'?' active':'');
+  document.getElementById('viewDash').className='view'+(view==='dash'?' active':'');
+  document.getElementById('viewCrono').className='view'+(view==='crono'?' active':'');
+  if(view==='crono'){
+    document.getElementById('unitSelectorWrap').style.opacity='0.35';
+    document.getElementById('unitSelectorWrap').style.pointerEvents='none';
+    cronoIdx=CRONOGRAMA.length-1;
+    syncNavCrono();
+    renderCrono();
+  } else {
+    document.getElementById('unitSelectorWrap').style.opacity='';
+    document.getElementById('unitSelectorWrap').style.pointerEvents='';
+    syncNavDash();
+  }
+  if(window.innerWidth<=900){
+    document.getElementById('sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebarOverlay').style.display='none';
+  }
+}
+
+/* ═══ NAVEGACAO ═══ */
+function syncNavDash(){
+  document.getElementById('monthChip').textContent=currentData[idx].mes;
+  document.getElementById('prevBtn').disabled=idx===0;
+  document.getElementById('nextBtn').disabled=idx===currentData.length-1;
+}
+function syncNavCrono(){
+  if(!CRONOGRAMA.length){document.getElementById('monthChip').textContent='---';return;}
+  document.getElementById('monthChip').textContent=CRONOGRAMA[cronoIdx].mes;
+  document.getElementById('prevBtn').disabled=cronoIdx===0;
+  document.getElementById('nextBtn').disabled=cronoIdx===CRONOGRAMA.length-1;
+}
+function navigateGlobal(dir){
+  if(currentView==='crono'){
+    const n=cronoIdx+dir;
+    if(n<0||n>=CRONOGRAMA.length)return;
+    cronoIdx=n;syncNavCrono();renderCrono();
+  } else {
+    const n=idx+dir;
+    if(n<0||n>=currentData.length)return;
+    idx=n;syncNavDash();renderDash();
+  }
+}
+
+/* ═══ SWITCH UNIT ═══ */
 function switchUnit(u){
-  currentUnit=u; currentData=u==='msol'?MSOL:CARBONITA;
+  currentUnit=u;currentData=u==='msol'?MSOL:CARBONITA;
   document.getElementById('btnMsol').className='unit-btn'+(u==='msol'?' active':'');
   document.getElementById('btnCarb').className='unit-btn'+(u==='carbonita'?' active':'');
   document.getElementById('heroUnit').textContent=u==='msol'?'Msol':'Carbonita';
   idx=currentData.length-1;
   document.getElementById('liveText').textContent=currentData.length+' meses';
-  render();
+  syncNavDash();renderDash();
 }
 
-function render(){
+/* ═══ RENDER DASHBOARD ═══ */
+function renderDash(){
   const d=currentData[idx];
-  document.getElementById('monthChip').textContent=d.mes;
   document.getElementById('heroTitle').textContent=d.mes;
-  document.getElementById('heroEyebrow').textContent=currentUnit==='msol'?'Msol Geral · Performance':'Carbonita · Performance';
+  document.getElementById('heroEyebrow').textContent=currentUnit==='msol'?'Msol Geral - Performance':'Carbonita - Performance';
   document.getElementById('heroRight').innerHTML=`
     <div><div class="hero-stat-label">${d.k1l}</div><div class="hero-stat-val">${d.k1v}</div></div>
-    <div><div class="hero-stat-label">Variação Faturamento</div><div class="hero-stat-val">${d.fPerc!==null?pct(d.fPerc):'—'}</div></div>
-    <div><div class="hero-stat-label">Variação Recebido</div><div class="hero-stat-val">${d.rPerc!==null?pct(d.rPerc):'—'}</div></div>`;
+    <div><div class="hero-stat-label">Var. Faturamento</div><div class="hero-stat-val">${d.fPerc!==null?pct(d.fPerc):'---'}</div></div>
+    <div><div class="hero-stat-label">Var. Recebido</div><div class="hero-stat-val">${d.rPerc!==null?pct(d.rPerc):'---'}</div></div>`;
   document.getElementById('kpi1Label').textContent=d.k1l;
   document.getElementById('kpi1Val').textContent=d.k1v;
   document.getElementById('kpi1Delta').textContent=d.cDelta;
   document.getElementById('kpi1Delta').className='kpi-delta '+(d.cPos?'pos':'neg');
   document.getElementById('kpi1Sub').textContent=d.cRef;
   document.getElementById('kpiFat').textContent=brlS(d.fat);
-  document.getElementById('dFat').textContent=d.fPerc!==null?pct(d.fPerc):'—';
+  document.getElementById('dFat').textContent=d.fPerc!==null?pct(d.fPerc):'---';
   document.getElementById('dFat').className='kpi-delta '+(d.fDelta===null||d.fDelta>=0?'pos':'neg');
   document.getElementById('sFat').textContent=d.fDelta!==null?sign(d.fDelta)+brlS(Math.abs(d.fDelta))+' vs '+d.fRef:'';
   document.getElementById('kpiDesc').textContent=brlS(d.desc);
-  document.getElementById('dDesc').textContent=d.dPerc!==null?sign(d.dDelta)+pct(d.dPerc):'—';
+  document.getElementById('dDesc').textContent=d.dPerc!==null?sign(d.dDelta)+pct(d.dPerc):'---';
   document.getElementById('dDesc').className='kpi-delta '+(d.dDelta===null||d.dDelta<=0?'pos':'neg');
   document.getElementById('sDesc').textContent=d.dDelta!==null?sign(d.dDelta)+brlS(Math.abs(d.dDelta))+' vs '+d.dRef:'';
   document.getElementById('kpiRec').textContent=brlS(d.rec);
-  document.getElementById('dRec').textContent=d.rPerc!==null?pct(d.rPerc):'—';
+  document.getElementById('dRec').textContent=d.rPerc!==null?pct(d.rPerc):'---';
   document.getElementById('dRec').className='kpi-delta '+(d.rDelta===null||d.rDelta>=0?'pos':'neg');
   document.getElementById('sRec').textContent=d.rDelta!==null?sign(d.rDelta)+brlS(Math.abs(d.rDelta))+' vs '+d.rRef:'';
   document.getElementById('analiseBlock').innerHTML=[
-    [d.k1l,d.aClientes],['Faturamento & Receita',d.aFat],['Descontos',d.aDesc]
+    [d.k1l,d.aClientes],['Faturamento e Receita',d.aFat],['Descontos',d.aDesc]
   ].map(([l,t])=>`<div><div class="analise-sec-label">${l}</div><div class="analise-text">${t}</div></div>`).join('');
   document.getElementById('recBadge').textContent='Para '+d.prox;
   document.getElementById('recList').innerHTML=d.recs.map((r,i)=>`<li class="rec-item"><div class="rec-n">0${i+1}</div><div><div class="rec-title">${r.t}</div><div class="rec-desc">${r.d}</div></div></li>`).join('');
   document.getElementById('honRule').textContent=d.honRule;
   if(d.honExtra){
-    const custosOp=d.fat*0.015;
-    const comissaoPS=d.fat*0.165;
+    const custosOp=d.fat*0.015,comissaoPS=d.fat*0.165;
     document.getElementById('honRec').textContent=brl(d.fat);
     document.getElementById('honPerc').textContent='18,00% combinado';
     document.getElementById('honExtraRow').style.display='flex';
-    document.getElementById('honExtraLabel').textContent='Custos da operação (1,5%)';
+    document.getElementById('honExtraLabel').textContent='Custos da operacao (1,5%)';
     document.getElementById('honExtraVal').textContent=brl(custosOp);
     document.getElementById('honVal').textContent=brl(comissaoPS);
-    document.getElementById('honTotalLabel').textContent='Comissão P&S (16,5%)';
+    document.getElementById('honTotalLabel').textContent='Comissao P&S (16,5%)';
   } else {
     document.getElementById('honRec').textContent=brl(d.rec);
     document.getElementById('honPerc').textContent=d.honPerc;
     document.getElementById('honExtraRow').style.display='none';
     document.getElementById('honVal').textContent=brl(d.rec*0.012);
-    document.getElementById('honTotalLabel').textContent='Honorário (1,2%)';
+    document.getElementById('honTotalLabel').textContent='Honorario (1,2%)';
   }
-  document.getElementById('prevBtn').disabled=idx===0;
-  document.getElementById('nextBtn').disabled=idx===currentData.length-1;
   renderChart();
   document.getElementById('footerDate').textContent='Atualizado em '+new Date().toLocaleDateString('pt-BR');
 }
@@ -479,8 +796,8 @@ function render(){
 function renderChart(){
   const h=currentUnit==='msol'?HIST.msol:HIST.carbonita;
   const end=idx+1;
-  const labels=h.labels.slice(0,end), vals=h.data.slice(0,end);
-  document.getElementById('chartBadge').textContent='Últimos '+labels.length+' meses';
+  const labels=h.labels.slice(0,end),vals=h.data.slice(0,end);
+  document.getElementById('chartBadge').textContent='Ultimos '+labels.length+' meses';
   if(chart)chart.destroy();
   chart=new Chart(document.getElementById('evolChart'),{
     type:'line',
@@ -489,57 +806,439 @@ function renderChart(){
   });
 }
 
-function navigate(dir){const n=idx+dir;if(n<0||n>=currentData.length)return;idx=n;render();}
 
-(function(){
-  idx=MSOL.length-1;
-  document.getElementById('liveText').textContent=MSOL.length+' meses';
-  render();
-})();
+
+
+/* ── VIEW SWITCHING ── */
+function showView(v){
+  currentView=v;
+  document.getElementById('navDash').classList.toggle('active',v==='dash');
+  document.getElementById('navCrono').classList.toggle('active',v==='crono');
+  document.getElementById('viewDash').classList.toggle('active',v==='dash');
+  document.getElementById('viewCrono').classList.toggle('active',v==='crono');
+  if(v==='crono'){cronoIdx=Math.max(0,CRONOGRAMA.length-1);syncNavCrono();renderCrono();}
+  else{syncNavDash();}
+}
+
+function syncNavDash(){
+  document.getElementById('monthChip').textContent=currentData[idx]?currentData[idx].mes:'—';
+  document.getElementById('prevBtn').disabled=idx===0;
+  document.getElementById('nextBtn').disabled=idx===currentData.length-1;
+}
+function syncNavCrono(){
+  document.getElementById('monthChip').textContent=CRONOGRAMA.length?CRONOGRAMA[cronoIdx].mes:'—';
+  document.getElementById('prevBtn').disabled=cronoIdx===0;
+  document.getElementById('nextBtn').disabled=cronoIdx===CRONOGRAMA.length-1;
+}
+
+/* ── NAVIGATION ── */
+function navPrev(){
+  if(currentView==='crono'){if(cronoIdx>0){cronoIdx--;syncNavCrono();renderCrono();}}
+  else{if(idx>0){idx--;syncNavDash();renderDash();}}
+}
+function navNext(){
+  if(currentView==='crono'){if(cronoIdx<CRONOGRAMA.length-1){cronoIdx++;syncNavCrono();renderCrono();}}
+  else{if(idx<currentData.length-1){idx++;syncNavDash();renderDash();}}
+}
+
+
+/* ══════════════════════════════════════
+   CRONOGRAMA — Google Sheets Integration
+══════════════════════════════════════ */
+
+// ── Cole aqui a URL do seu Google Apps Script Web App ──
+const API_URL = 'https://script.google.com/macros/s/AKfycbwpjGb7VbzARIPOffNRSRJNN7CwGiT6VzZsOl5tbOkWtVSnsTHOwufGbBWbM1BD_cqW/exec';
+const USE_API = API_URL !== 'https://script.google.com/macros/s/AKfycbwpjGb7VbzARIPOffNRSRJNN7CwGiT6VzZsOl5tbOkWtVSnsTHOwufGbBWbM1BD_cqW/exec';
+
+// ── State do cronograma ──────────────────────────────
+let cronoTasks   = [];   // todas as tarefas carregadas
+let cronoMes     = '';   // mês atual exibido
+let filterCat    = '';   // filtro categoria ativo
+let filterPri    = '';   // filtro prioridade ativo
+let dragTaskId   = null; // id do card em drag
+let editTaskId   = null; // id do card em edição
+
+// ── Helpers de data ──────────────────────────────────
+function parseDate(str) {
+  if (!str) return null;
+  const [d,m,y] = str.split('/');
+  return new Date(y, m-1, d);
+}
+function isLate(task) {
+  if (task.status === 'done') return false;
+  const prazo = parseDate(task.prazo);
+  return prazo && prazo < new Date();
+}
+function fmtDate(str) { return str || '—'; }
+
+// ── API fetch helpers ─────────────────────────────────
+async function apiGet(mes) {
+  if (!USE_API) return null;
+  const url = mes ? `${API_URL}?mes=${encodeURIComponent(mes)}` : API_URL;
+  const r = await fetch(url);
+  const j = await r.json();
+  if (!j.ok) throw new Error(j.error);
+  return j.tasks;
+}
+async function apiPost(body) {
+  if (!USE_API) return;
+  const r = await fetch(API_URL, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  const j = await r.json();
+  if (!j.ok) throw new Error(j.error);
+  return j;
+}
+
+// ── Set API status indicator ────────────────────────
+function setApiStatus(msg, type='') {
+  const el = document.getElementById('cronoStatus');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'crono-api-status ' + type;
+}
+
+// ── Carregar tarefas ─────────────────────────────────
+async function loadCrono(mes) {
+  cronoMes = mes;
+  document.getElementById('cronoTitle').textContent = 'Cronograma — ' + mes;
+  showCronoLoading(true);
+
+  if (USE_API) {
+    setApiStatus('Sincronizando...', 'loading');
+    try {
+      cronoTasks = await apiGet(mes);
+      setApiStatus('✓ Sincronizado com Sheets', 'ok');
+    } catch(e) {
+      setApiStatus('⚠ Erro: ' + e.message, 'err');
+      cronoTasks = [];
+    }
+  } else {
+    // Fallback: usar tarefas de exemplo hardcoded (modo sem API)
+    setApiStatus('Modo local — configure API_URL para persistir', '');
+    cronoTasks = [
+      {id:'T001',mes:mes,titulo:'Visita técnica — Unidade Central',descricao:'Levantamento de demandas operacionais, alinhamento com equipe técnica e identificação de pontos de melhoria.',status:'doing',categoria:'Operacional',responsavel:'Leandro Fonseca',prioridade:'alta',impacto:'Operacional',progresso:50,inicio:'20/05/2026',prazo:'22/05/2026',conclusao:'',update:new Date().toLocaleDateString('pt-BR')},
+      {id:'T002',mes:mes,titulo:'Visita técnica — Unidade Carbonita',descricao:'Acompanhamento presencial da operação, revisão de processos de cobrança e alinhamento com P&S Informática.',status:'plan',categoria:'Operacional',responsavel:'Leandro Fonseca',prioridade:'alta',impacto:'Operacional',progresso:10,inicio:'27/05/2026',prazo:'29/05/2026',conclusao:'',update:''},
+      {id:'T003',mes:mes,titulo:'Renegociação de honorário',descricao:'Apresentação do novo plano de trabalho à CEO com proposta de ajuste no valor do honorário mensal da consultoria.',status:'plan',categoria:'Financeiro',responsavel:'Leandro Fonseca',prioridade:'alta',impacto:'Financeiro',progresso:10,inicio:'28/05/2026',prazo:'31/05/2026',conclusao:'',update:''},
+      {id:'T004',mes:mes,titulo:'Entrega do relatório de abril/2026',descricao:'Análise executiva de abril, recomendações para maio e atualização do painel digital de performance.',status:'done',categoria:'Estratégico',responsavel:'Leandro Fonseca',prioridade:'media',impacto:'Estratégico',progresso:100,inicio:'08/05/2026',prazo:'10/05/2026',conclusao:'10/05/2026',update:'10/05/2026'}
+    ];
+  }
+
+  showCronoLoading(false);
+  applyFiltersAndRender();
+}
+
+function showCronoLoading(show) {
+  const el = document.getElementById('cronoLoading');
+  if (el) el.className = 'crono-loading' + (show ? '' : ' hidden');
+}
+
+// ── Aplicar filtros e renderizar ──────────────────────
+function applyFiltersAndRender() {
+  let tasks = cronoTasks.filter(t => {
+    if (filterCat && t.categoria !== filterCat) return false;
+    if (filterPri && t.prioridade !== filterPri) return false;
+    return true;
+  });
+  renderKanban(tasks);
+  renderKpis(tasks);
+  renderTimeline(tasks);
+}
+
+// ── Render KPIs ───────────────────────────────────────
+function renderKpis(tasks) {
+  const plan  = tasks.filter(t => t.status === 'plan').length;
+  const doing = tasks.filter(t => t.status === 'doing').length;
+  const done  = tasks.filter(t => t.status === 'done').length;
+  const late  = tasks.filter(t => isLate(t)).length;
+  const exec  = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
+  document.getElementById('kPlan').textContent  = plan;
+  document.getElementById('kDoing').textContent = doing;
+  document.getElementById('kDone').textContent  = done;
+  document.getElementById('kLate').textContent  = late;
+  document.getElementById('kExec').textContent  = exec + '%';
+  document.getElementById('badgePlan').textContent  = plan;
+  document.getElementById('badgeDoing').textContent = doing;
+  document.getElementById('badgeDone').textContent  = done;
+}
+
+// ── Render Kanban ─────────────────────────────────────
+function renderKanban(tasks) {
+  const cols = {plan: 'cardsPlan', doing: 'cardsDoing', done: 'cardsDone'};
+  for (const [status, colId] of Object.entries(cols)) {
+    const col   = document.getElementById(colId);
+    const group = tasks.filter(t => t.status === status);
+    if (!group.length) {
+      col.innerHTML = '<div class="crono-empty">Nenhuma tarefa</div>';
+      continue;
+    }
+    col.innerHTML = group.map(t => buildCard(t)).join('');
+    // Drag listeners
+    col.querySelectorAll('.task-card').forEach(card => {
+      card.addEventListener('dragstart', e => {
+        dragTaskId = card.dataset.id;
+        setTimeout(() => card.classList.add('dragging'), 0);
+      });
+      card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+        document.querySelectorAll('.kanban-col').forEach(c => c.classList.remove('drag-over'));
+      });
+    });
+  }
+}
+
+// ── Build card HTML ───────────────────────────────────
+function buildCard(t) {
+  const late      = isLate(t);
+  const catCls    = 'badge-cat-' + (t.categoria || '').replace(/\s+/g,'-');
+  const priCls    = 'badge-pri-' + (t.prioridade || 'media');
+  const priLbl    = {alta:'Alta',media:'Média',baixa:'Baixa'}[t.prioridade] || t.prioridade;
+  const pct       = Number(t.progresso) || 0;
+  const barColor  = t.status === 'done' ? 'var(--green)' : t.status === 'doing' ? '#f4a030' : '#8b90c8';
+
+  return `<div class="task-card" draggable="true" data-id="${t.id}">
+    <div class="task-card-top">
+      <div class="task-card-title">${t.titulo}${late ? ' <span class="badge badge-atrasado">ATRASADO</span>' : ''}</div>
+      <div class="task-badges">
+        <span class="badge ${catCls}">${t.categoria || ''}</span>
+        <span class="badge ${priCls}">${priLbl}</span>
+      </div>
+    </div>
+    <div class="task-desc">${t.descricao || ''}</div>
+    <div class="task-meta">
+      ${t.responsavel ? `<span class="task-meta-item">👤 <b>${t.responsavel}</b></span>` : ''}
+      ${t.impacto     ? `<span class="task-meta-item">⚡ ${t.impacto}</span>` : ''}
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width:${pct}%;background:${barColor}"></div>
+      </div>
+      <div class="progress-label">${pct}%</div>
+    </div>
+    <div class="task-footer">
+      <div>
+        ${t.prazo   ? `<div class="task-date">📅 Prazo: ${fmtDate(t.prazo)}</div>` : ''}
+        ${t.update  ? `<div class="task-update">Atualizado: ${t.update}</div>` : ''}
+      </div>
+      <div class="task-actions">
+        <button class="task-action-btn" onclick="openEdit('${t.id}')">✏ Editar</button>
+        <button class="task-action-btn del" onclick="deleteTask('${t.id}')">✕</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── Drag & Drop ───────────────────────────────────────
+function onDrop(event, newStatus) {
+  event.preventDefault();
+  if (!dragTaskId) return;
+  const task = cronoTasks.find(t => t.id === dragTaskId);
+  if (!task || task.status === newStatus) return;
+
+  const progressoMap = {plan:10, doing:50, done:100};
+  task.status    = newStatus;
+  task.progresso = progressoMap[newStatus];
+  if (newStatus === 'done') task.conclusao = new Date().toLocaleDateString('pt-BR');
+  task.update = new Date().toLocaleDateString('pt-BR');
+
+  applyFiltersAndRender();
+
+  // Persistir
+  apiPost({action:'move', id:task.id, status:newStatus}).catch(e => {
+    setApiStatus('⚠ Erro ao salvar: ' + e.message, 'err');
+  });
+
+  document.querySelectorAll('.kanban-col').forEach(c => c.classList.remove('drag-over'));
+}
+
+// Highlight drop zone
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.kanban-col').forEach(col => {
+    col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('drag-over'); });
+    col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+  });
+});
+
+// ── Timeline ──────────────────────────────────────────
+function renderTimeline(tasks) {
+  const el = document.getElementById('timelineList');
+  if (!el) return;
+  const sorted = [...tasks]
+    .filter(t => t.prazo)
+    .sort((a,b) => {
+      const da = parseDate(a.prazo), db = parseDate(b.prazo);
+      return (da || 0) - (db || 0);
+    });
+  if (!sorted.length) {
+    el.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:12px 0">Nenhuma tarefa com prazo definido.</div>';
+    return;
+  }
+  el.innerHTML = sorted.map(t => {
+    const late  = isLate(t);
+    return `<div class="timeline-item${late?' late':''}">
+      <div class="tl-date">${fmtDate(t.prazo)}</div>
+      <div class="tl-dot ${t.status}"></div>
+      <div class="tl-content">
+        <div class="tl-title">${t.titulo}${late ? '<span class="tl-badge-late">ATRASADO</span>' : ''}</div>
+        <div class="tl-meta">${t.categoria || ''} · ${t.responsavel || ''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Filtros ───────────────────────────────────────────
+function initFilters() {
+  document.querySelectorAll('#filterCat .cfbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#filterCat .cfbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterCat = btn.dataset.val;
+      applyFiltersAndRender();
+    });
+  });
+  document.querySelectorAll('#filterPri .cfbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#filterPri .cfbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterPri = btn.dataset.val;
+      applyFiltersAndRender();
+    });
+  });
+}
+
+// ── EDIÇÃO INLINE ─────────────────────────────────────
+function openEdit(id) {
+  const t = cronoTasks.find(x => x.id === id);
+  if (!t) return;
+  editTaskId = id;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'edit-modal-overlay';
+  overlay.id = 'editOverlay';
+  overlay.innerHTML = `
+    <div class="edit-modal">
+      <h3>✏ Editar Tarefa</h3>
+      <div class="edit-field"><label>Título</label>
+        <input type="text" id="ef-titulo" value="${t.titulo}"></div>
+      <div class="edit-field"><label>Descrição</label>
+        <textarea id="ef-descricao">${t.descricao || ''}</textarea></div>
+      <div class="edit-field"><label>Responsável</label>
+        <input type="text" id="ef-responsavel" value="${t.responsavel || ''}"></div>
+      <div class="edit-field"><label>Prioridade</label>
+        <select id="ef-prioridade">
+          <option value="alta"  ${t.prioridade==='alta' ?'selected':''}>Alta</option>
+          <option value="media" ${t.prioridade==='media'?'selected':''}>Média</option>
+          <option value="baixa" ${t.prioridade==='baixa'?'selected':''}>Baixa</option>
+        </select></div>
+      <div class="edit-field"><label>Categoria / Impacto</label>
+        <select id="ef-categoria">
+          ${['Comercial','Operacional','Financeiro','Estratégico','Relacionamento','Experiência do Cliente']
+            .map(c=>`<option value="${c}" ${t.categoria===c?'selected':''}>${c}</option>`).join('')}
+        </select></div>
+      <div class="edit-field"><label>Prazo</label>
+        <input type="text" id="ef-prazo" placeholder="DD/MM/AAAA" value="${t.prazo || ''}"></div>
+      <div class="edit-field"><label>Progresso: <span class="progress-preview" id="pp">${t.progresso||0}%</span></label>
+        <input type="range" id="ef-progresso" min="0" max="100" value="${t.progresso||0}"
+          oninput="document.getElementById('pp').textContent=this.value+'%'"></div>
+      <div class="edit-field"><label>Último update</label>
+        <input type="text" id="ef-update" value="${t.update || ''}"></div>
+      <div class="edit-modal-footer">
+        <button class="btn-cancel" onclick="closeEdit()">Cancelar</button>
+        <button class="btn-save"   onclick="saveEdit()">Salvar</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+function closeEdit() {
+  const ov = document.getElementById('editOverlay');
+  if (ov) ov.remove();
+  editTaskId = null;
+}
+
+async function saveEdit() {
+  const t = cronoTasks.find(x => x.id === editTaskId);
+  if (!t) return;
+  t.titulo      = document.getElementById('ef-titulo').value;
+  t.descricao   = document.getElementById('ef-descricao').value;
+  t.responsavel = document.getElementById('ef-responsavel').value;
+  t.prioridade  = document.getElementById('ef-prioridade').value;
+  t.categoria   = document.getElementById('ef-categoria').value;
+  t.impacto     = t.categoria;
+  t.prazo       = document.getElementById('ef-prazo').value;
+  t.progresso   = Number(document.getElementById('ef-progresso').value);
+  t.update      = document.getElementById('ef-update').value || new Date().toLocaleDateString('pt-BR');
+  closeEdit();
+  applyFiltersAndRender();
+  try {
+    await apiPost({action:'update', id:t.id, ...t});
+    setApiStatus('✓ Salvo', 'ok');
+  } catch(e) {
+    setApiStatus('⚠ Erro ao salvar: ' + e.message, 'err');
+  }
+}
+
+async function deleteTask(id) {
+  if (!confirm('Remover esta tarefa?')) return;
+  cronoTasks = cronoTasks.filter(t => t.id !== id);
+  applyFiltersAndRender();
+  try {
+    await apiPost({action:'delete', id});
+    setApiStatus('✓ Tarefa removida', 'ok');
+  } catch(e) {
+    setApiStatus('⚠ Erro ao remover: ' + e.message, 'err');
+  }
+}
+
+// ── Sobrescrever renderCrono para usar nova lógica ────
+function renderCrono() {
+  const mes = cronoMes || (currentData[idx] ? currentData[idx].mes : 'Maio 2026');
+  loadCrono(mes);
+}
+
+// ── switchView — garantir que chama nova renderCrono ─
+const _origSwitchView = switchView;
+window.switchView = function(view) {
+  _origSwitchView(view);
+  if (view === 'crono') {
+    const mes = currentData[idx] ? currentData[idx].mes : 'Maio 2026';
+    loadCrono(mes);
+  }
+};
+
+// ── navigateGlobal — trocar mês no cronograma ────────
+const _origNavigate = navigateGlobal;
+window.navigateGlobal = function(dir) {
+  if (currentView === 'crono') {
+    // Navegar pelo índice do dashboard como referência de mês
+    const n = idx + dir;
+    if (n >= 0 && n < currentData.length) {
+      idx = n;
+      syncNavDash();
+      loadCrono(currentData[idx].mes);
+    }
+  } else {
+    _origNavigate(dir);
+  }
+};
+
+// ── INIT Cronograma ────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initFilters();
+  // Drag over highlight para colunas do kanban
+  document.querySelectorAll('.kanban-col').forEach(col => {
+    col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('drag-over'); });
+    col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+  });
+});
+
+/* ═══ INIT ═══ */
+idx=MSOL.length-1;
+document.getElementById('liveText').textContent=MSOL.length+' meses';
+syncNavDash();
+renderDash();
 </script>
-
-<!-- MÓDULO CRONOGRAMA -->
-<div id="cronoView" style="display:none">
-  <section class="crono-wrap">
-    <div class="crono-header">
-      <div class="crono-title-block">
-        <div class="crono-title" id="cronoTitle">Cronograma — —</div>
-        <div class="crono-sub">Tarefas da consultoria · Leandro Fonseca</div>
-      </div>
-      <div class="crono-stats">
-        <div class="crono-stat"><div class="crono-stat-n" id="cntPlan">0</div><div class="crono-stat-l">Planejado</div></div>
-        <div class="crono-stat"><div class="crono-stat-n" id="cntDoing">0</div><div class="crono-stat-l">Em andamento</div></div>
-        <div class="crono-stat"><div class="crono-stat-n" id="cntDone">0</div><div class="crono-stat-l">Concluído</div></div>
-      </div>
-    </div>
-    <div class="kanban">
-      <div class="kanban-col">
-        <div class="kanban-col-head">
-          <div class="kanban-col-dot dot-plan"></div>
-          <span class="kanban-col-title">Planejado</span>
-          <span class="kanban-col-count" id="badgePlan">0</span>
-        </div>
-        <div id="colPlan"></div>
-      </div>
-      <div class="kanban-col">
-        <div class="kanban-col-head">
-          <div class="kanban-col-dot dot-doing"></div>
-          <span class="kanban-col-title">Em andamento</span>
-          <span class="kanban-col-count" id="badgeDoing">0</span>
-        </div>
-        <div id="colDoing"></div>
-      </div>
-      <div class="kanban-col">
-        <div class="kanban-col-head">
-          <div class="kanban-col-dot dot-done"></div>
-          <span class="kanban-col-title">Concluído</span>
-          <span class="kanban-col-count" id="badgeDone">0</span>
-        </div>
-        <div id="colDone"></div>
-      </div>
-    </div>
-  </section>
-</div>
-
 </body>
 </html>
