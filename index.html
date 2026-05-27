@@ -692,9 +692,11 @@ function switchView(view){
   if(view==='crono'){
     document.getElementById('unitSelectorWrap').style.opacity='0.35';
     document.getElementById('unitSelectorWrap').style.pointerEvents='none';
-    cronoIdx=CRONOGRAMA.length-1;
-    syncNavCrono();
-    renderCrono();
+    const mes = currentData[idx] ? currentData[idx].mes : 'Maio 2026';
+    document.getElementById('monthChip').textContent = mes;
+    document.getElementById('prevBtn').disabled = idx===0;
+    document.getElementById('nextBtn').disabled = idx===currentData.length-1;
+    loadCrono(mes);
   } else {
     document.getElementById('unitSelectorWrap').style.opacity='';
     document.getElementById('unitSelectorWrap').style.pointerEvents='';
@@ -713,16 +715,17 @@ function syncNavDash(){
   document.getElementById('nextBtn').disabled=idx===currentData.length-1;
 }
 function syncNavCrono(){
-  if(!CRONOGRAMA.length){document.getElementById('monthChip').textContent='---';return;}
-  document.getElementById('monthChip').textContent=CRONOGRAMA[cronoIdx].mes;
-  document.getElementById('prevBtn').disabled=cronoIdx===0;
-  document.getElementById('nextBtn').disabled=cronoIdx===CRONOGRAMA.length-1;
+  // No modo dinâmico, a navegação usa o índice do dashboard
+  const mes = currentData[idx] ? currentData[idx].mes : '—';
+  document.getElementById('monthChip').textContent = mes;
+  document.getElementById('prevBtn').disabled = idx===0;
+  document.getElementById('nextBtn').disabled = idx===currentData.length-1;
 }
 function navigateGlobal(dir){
   if(currentView==='crono'){
-    const n=cronoIdx+dir;
-    if(n<0||n>=CRONOGRAMA.length)return;
-    cronoIdx=n;syncNavCrono();renderCrono();
+    const n=idx+dir;
+    if(n<0||n>=currentData.length)return;
+    idx=n;syncNavCrono();loadCrono(currentData[idx].mes);
   } else {
     const n=idx+dir;
     if(n<0||n>=currentData.length)return;
@@ -810,15 +813,7 @@ function renderChart(){
 
 
 /* ── VIEW SWITCHING ── */
-function showView(v){
-  currentView=v;
-  document.getElementById('navDash').classList.toggle('active',v==='dash');
-  document.getElementById('navCrono').classList.toggle('active',v==='crono');
-  document.getElementById('viewDash').classList.toggle('active',v==='dash');
-  document.getElementById('viewCrono').classList.toggle('active',v==='crono');
-  if(v==='crono'){cronoIdx=Math.max(0,CRONOGRAMA.length-1);syncNavCrono();renderCrono();}
-  else{syncNavDash();}
-}
+// showView duplicata removida — usar switchView
 
 function syncNavDash(){
   document.getElementById('monthChip').textContent=currentData[idx]?currentData[idx].mes:'—';
@@ -826,18 +821,19 @@ function syncNavDash(){
   document.getElementById('nextBtn').disabled=idx===currentData.length-1;
 }
 function syncNavCrono(){
-  document.getElementById('monthChip').textContent=CRONOGRAMA.length?CRONOGRAMA[cronoIdx].mes:'—';
-  document.getElementById('prevBtn').disabled=cronoIdx===0;
-  document.getElementById('nextBtn').disabled=cronoIdx===CRONOGRAMA.length-1;
+  const mes = currentData[idx] ? currentData[idx].mes : '—';
+  document.getElementById('monthChip').textContent = mes;
+  document.getElementById('prevBtn').disabled = idx===0;
+  document.getElementById('nextBtn').disabled = idx===currentData.length-1;
 }
 
 /* ── NAVIGATION ── */
 function navPrev(){
-  if(currentView==='crono'){if(cronoIdx>0){cronoIdx--;syncNavCrono();renderCrono();}}
+  if(currentView==='crono'){if(idx>0){idx--;syncNavCrono();loadCrono(currentData[idx].mes);}}
   else{if(idx>0){idx--;syncNavDash();renderDash();}}
 }
 function navNext(){
-  if(currentView==='crono'){if(cronoIdx<CRONOGRAMA.length-1){cronoIdx++;syncNavCrono();renderCrono();}}
+  if(currentView==='crono'){if(idx<currentData.length-1){idx++;syncNavCrono();loadCrono(currentData[idx].mes);}}
   else{if(idx<currentData.length-1){idx++;syncNavDash();renderDash();}}
 }
 
@@ -847,8 +843,8 @@ function navNext(){
 ══════════════════════════════════════ */
 
 // ── Cole aqui a URL do seu Google Apps Script Web App ──
-const API_URL = 'https://script.google.com/macros/s/AKfycbwpjGb7VbzARIPOffNRSRJNN7CwGiT6VzZsOl5tbOkWtVSnsTHOwufGbBWbM1BD_cqW/exec';
-const USE_API = API_URL !== 'https://script.google.com/macros/s/AKfycbwpjGb7VbzARIPOffNRSRJNN7CwGiT6VzZsOl5tbOkWtVSnsTHOwufGbBWbM1BD_cqW/exec';
+const API_URL = 'COLE_SEU_ENDPOINT_AQUI';
+const USE_API = API_URL.startsWith('https://script.google.com');
 
 // ── State do cronograma ──────────────────────────────
 let cronoTasks   = [];   // todas as tarefas carregadas
@@ -1198,31 +1194,9 @@ function renderCrono() {
   loadCrono(mes);
 }
 
-// ── switchView — garantir que chama nova renderCrono ─
-const _origSwitchView = switchView;
-window.switchView = function(view) {
-  _origSwitchView(view);
-  if (view === 'crono') {
-    const mes = currentData[idx] ? currentData[idx].mes : 'Maio 2026';
-    loadCrono(mes);
-  }
-};
+// switchView já chama loadCrono diretamente — override removido
 
-// ── navigateGlobal — trocar mês no cronograma ────────
-const _origNavigate = navigateGlobal;
-window.navigateGlobal = function(dir) {
-  if (currentView === 'crono') {
-    // Navegar pelo índice do dashboard como referência de mês
-    const n = idx + dir;
-    if (n >= 0 && n < currentData.length) {
-      idx = n;
-      syncNavDash();
-      loadCrono(currentData[idx].mes);
-    }
-  } else {
-    _origNavigate(dir);
-  }
-};
+// navigateGlobal já lida com crono diretamente — override removido
 
 // ── INIT Cronograma ────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
