@@ -482,99 +482,151 @@ body{font-family:var(--font);background:var(--page-bg);color:var(--text);display
       </section>
     </div><!-- /viewDash -->
 
-    <!-- VIEW CRONOGRAMA -->
+    <!-- VIEW OPERACAO CONSULTIVA -->
     <div class="view" id="viewCrono">
 
-      <!-- HEADER EXECUTIVO CRONOGRAMA -->
-      <div class="crono-hero">
-        <div class="crono-hero-left">
-          <div class="crono-hero-eyebrow">Painel Executivo · Consultoria Msol</div>
-          <div class="crono-hero-title" id="cronoTitle">Cronograma</div>
-          <div class="crono-hero-sub">Leandro Fonseca · Msol</div>
+      <!-- HERO OPERACAO -->
+      <div class="op-hero">
+        <div>
+          <div class="op-eyebrow">&#9889; Operação Consultiva · Msol</div>
+          <div class="op-title">Sprint Consultiva</div>
+          <div class="op-sub">Painel vivo de operações · Leandro Fonseca</div>
         </div>
-        <div class="crono-hero-kpis">
-          <div class="crono-kpi"><div class="crono-kpi-n s-plan" id="kPlan">0</div><div class="crono-kpi-l">Planejado</div></div>
-          <div class="crono-kpi"><div class="crono-kpi-n s-doing" id="kDoing">0</div><div class="crono-kpi-l">Em Andamento</div></div>
-          <div class="crono-kpi"><div class="crono-kpi-n s-done" id="kDone">0</div><div class="crono-kpi-l">Concluído</div></div>
-          <div class="crono-kpi"><div class="crono-kpi-n s-late" id="kLate">0</div><div class="crono-kpi-l">Atrasadas</div></div>
-          <div class="crono-kpi crono-kpi-pct"><div class="crono-kpi-pct-n" id="kExec">0%</div><div class="crono-kpi-l">Execução</div></div>
-        </div>
-      </div>
-
-      <!-- FILTROS -->
-      <div class="crono-filters">
-        <div class="crono-filter-group">
-          <span class="crono-filter-label">Categoria:</span>
-          <div class="crono-filter-btns" id="filterCat">
-            <button class="cfbtn active" data-val="">Todos</button>
-            <button class="cfbtn" data-val="Comercial">Comercial</button>
-            <button class="cfbtn" data-val="Operacional">Operacional</button>
-            <button class="cfbtn" data-val="Financeiro">Financeiro</button>
-            <button class="cfbtn" data-val="Estratégico">Estratégico</button>
-            <button class="cfbtn" data-val="Relacionamento">Relacionamento</button>
-            <button class="cfbtn" data-val="Experiência do Cliente">Exp. Cliente</button>
-          </div>
-        </div>
-        <div class="crono-filter-group">
-          <span class="crono-filter-label">Prioridade:</span>
-          <div class="crono-filter-btns" id="filterPri">
-            <button class="cfbtn active" data-val="">Todas</button>
-            <button class="cfbtn" data-val="alta">Alta</button>
-            <button class="cfbtn" data-val="media">Média</button>
-            <button class="cfbtn" data-val="baixa">Baixa</button>
-          </div>
-        </div>
-        <div class="crono-filter-right">
-          <div id="cronoStatus" class="crono-api-status"></div>
+        <div class="op-kpis">
+          <div class="op-kpi"><div class="op-kpi-n" id="kBacklog" style="color:#6b7db3">0</div><div class="op-kpi-l">Backlog</div></div>
+          <div class="op-kpi"><div class="op-kpi-n" id="kPlan" style="color:#a8aede">0</div><div class="op-kpi-l">Planejado</div></div>
+          <div class="op-kpi"><div class="op-kpi-n" id="kDoing" style="color:#f4a030">0</div><div class="op-kpi-l">Em Andamento</div></div>
+          <div class="op-kpi"><div class="op-kpi-n" id="kWaiting" style="color:#60a5fa">0</div><div class="op-kpi-l">Ag. Cliente</div></div>
+          <div class="op-kpi"><div class="op-kpi-n" id="kDone" style="color:var(--green)">0</div><div class="op-kpi-l">Concluído</div></div>
+          <div class="op-kpi"><div class="op-kpi-n" id="kLate" style="color:var(--red)">0</div><div class="op-kpi-l">Atrasadas</div></div>
+          <div class="op-kpi op-kpi-exec"><div class="op-kpi-pct" id="kExec">0%</div><div class="op-kpi-l">Execução</div></div>
         </div>
       </div>
 
-      <!-- KANBAN -->
-      <div class="crono-main">
-        <div class="kanban-board">
-          <div class="kanban-col" id="colPlan" data-status="plan"
-               ondragover="event.preventDefault()" ondrop="onDrop(event,'plan')">
-            <div class="kanban-head">
-              <div class="kdot plan"></div>
-              <span class="kcol-title">Planejado</span>
-              <span class="kcol-count" id="badgePlan">0</span>
-            </div>
-            <div class="kanban-cards" id="cardsPlan"></div>
-          </div>
-          <div class="kanban-col" id="colDoing" data-status="doing"
-               ondragover="event.preventDefault()" ondrop="onDrop(event,'doing')">
-            <div class="kanban-head">
-              <div class="kdot doing"></div>
-              <span class="kcol-title">Em Andamento</span>
-              <span class="kcol-count" id="badgeDoing">0</span>
-            </div>
-            <div class="kanban-cards" id="cardsDoing"></div>
-          </div>
-          <div class="kanban-col" id="colDone" data-status="done"
-               ondragover="event.preventDefault()" ondrop="onDrop(event,'done')">
-            <div class="kanban-head">
-              <div class="kdot done"></div>
-              <span class="kcol-title">Concluído</span>
-              <span class="kcol-count" id="badgeDone">0</span>
-            </div>
-            <div class="kanban-cards" id="cardsDone"></div>
+      <!-- BARRA DE FILTROS -->
+      <div class="op-filters">
+        <div class="op-filter-group">
+          <span class="op-filter-label">Origem:</span>
+          <div class="op-filter-btns" id="filterOrigem">
+            <button class="ofbtn active" data-val="">Todas</button>
+            <button class="ofbtn" data-val="email">&#128231; Email</button>
+            <button class="ofbtn" data-val="visita_tecnica">&#128295; Visita</button>
+            <button class="ofbtn" data-val="reuniao">&#128222; Reunião</button>
+            <button class="ofbtn" data-val="whatsapp">&#128172; WhatsApp</button>
+            <button class="ofbtn" data-val="auditoria">&#128203; Auditoria</button>
           </div>
         </div>
-
-        <!-- TIMELINE EXECUTIVA -->
-        <div class="timeline-section">
-          <div class="timeline-header">
-            <span class="timeline-title">&#9201; Timeline Executiva</span>
-            <span class="timeline-sub">Ordenado por prazo</span>
+        <div class="op-filter-group">
+          <span class="op-filter-label">Prioridade:</span>
+          <div class="op-filter-btns" id="filterPri">
+            <button class="ofbtn active" data-val="">Todas</button>
+            <button class="ofbtn" data-val="alta">Alta</button>
+            <button class="ofbtn" data-val="media">Média</button>
+            <button class="ofbtn" data-val="baixa">Baixa</button>
           </div>
-          <div class="timeline-list" id="timelineList"></div>
+        </div>
+        <div class="op-filter-group">
+          <span class="op-filter-label">Categoria:</span>
+          <div class="op-filter-btns" id="filterCat">
+            <button class="ofbtn active" data-val="">Todas</button>
+            <button class="ofbtn" data-val="Comercial">Comercial</button>
+            <button class="ofbtn" data-val="Operacional">Operacional</button>
+            <button class="ofbtn" data-val="Financeiro">Financeiro</button>
+            <button class="ofbtn" data-val="Estratégico">Estratégico</button>
+            <button class="ofbtn" data-val="Relacionamento">Relacionamento</button>
+          </div>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+          <button class="op-new-btn" onclick="openNewTask()">+ Nova Tarefa</button>
+          <div id="cronoStatus" class="op-api-status"></div>
         </div>
       </div>
 
-      <!-- LOADING OVERLAY -->
-      <div class="crono-loading" id="cronoLoading">
-        <div class="crono-spinner"></div>
-        <span>Carregando tarefas...</span>
+      <!-- KANBAN 5 COLUNAS -->
+      <div class="op-main">
+        <div class="op-kanban">
+
+          <div class="op-col" id="colBacklog" data-status="backlog"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="onDrop(event,'backlog')">
+            <div class="op-col-head">
+              <div class="op-dot" style="background:#6b7db3"></div>
+              <span class="op-col-title">Backlog</span>
+              <span class="op-col-badge" id="badgeBacklog">0</span>
+            </div>
+            <div class="op-cards" id="cardsBacklog"></div>
+          </div>
+
+          <div class="op-col" id="colPlan" data-status="plan"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="onDrop(event,'plan')">
+            <div class="op-col-head">
+              <div class="op-dot" style="background:#a8aede"></div>
+              <span class="op-col-title">Planejado</span>
+              <span class="op-col-badge" id="badgePlan">0</span>
+            </div>
+            <div class="op-cards" id="cardsPlan"></div>
+          </div>
+
+          <div class="op-col" id="colDoing" data-status="doing"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="onDrop(event,'doing')">
+            <div class="op-col-head">
+              <div class="op-dot" style="background:#f4a030"></div>
+              <span class="op-col-title">Em Andamento</span>
+              <span class="op-col-badge" id="badgeDoing">0</span>
+            </div>
+            <div class="op-cards" id="cardsDoing"></div>
+          </div>
+
+          <div class="op-col" id="colWaiting" data-status="waiting"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="onDrop(event,'waiting')">
+            <div class="op-col-head">
+              <div class="op-dot" style="background:#60a5fa"></div>
+              <span class="op-col-title">Ag. Cliente</span>
+              <span class="op-col-badge" id="badgeWaiting">0</span>
+            </div>
+            <div class="op-cards" id="cardsWaiting"></div>
+          </div>
+
+          <div class="op-col" id="colDone" data-status="done"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="onDrop(event,'done')">
+            <div class="op-col-head">
+              <div class="op-dot" style="background:var(--green)"></div>
+              <span class="op-col-title">Concluído</span>
+              <span class="op-col-badge" id="badgeDone">0</span>
+            </div>
+            <div class="op-cards" id="cardsDone"></div>
+          </div>
+
+        </div>
+
+        <!-- TIMELINE EXECUTIVA VIVA -->
+        <div class="op-timeline">
+          <div class="op-timeline-head">
+            <span class="op-timeline-title">&#9200; Timeline Executiva</span>
+            <div class="op-timeline-tabs">
+              <button class="ottab active" id="ttabNext"    onclick="setTimelineTab('next')">Próximas ações</button>
+              <button class="ottab"        id="ttabLate"    onclick="setTimelineTab('late')">Atrasadas</button>
+              <button class="ottab"        id="ttabWaiting" onclick="setTimelineTab('waiting')">Ag. Cliente</button>
+              <button class="ottab"        id="ttabHistory" onclick="setTimelineTab('history')">Histórico</button>
+            </div>
+          </div>
+          <div class="op-timeline-list" id="timelineList"></div>
+        </div>
+      </div>
+
+      <!-- LOADING -->
+      <div class="op-loading" id="cronoLoading">
+        <div class="op-spinner"></div>
+        <span>Carregando operações...</span>
       </div>
 
     </div><!-- /viewCrono -->
@@ -617,7 +669,8 @@ const MSOL=[
   {mes:'Janeiro 2026',prox:'Fevereiro/2026',k1l:'Total de Clientes',k1v:'5.358',cDelta:'+46 contratos (+0,87%)',cRef:'vs dezembro',cPos:true,fat:454238.89,fDelta:-18314.83,fPerc:-3.88,fRef:'dezembro',desc:9659.40,dDelta:992.84,dPerc:11.46,dRef:'dezembro',rec:443732.34,rDelta:-19186.87,rPerc:-4.14,rRef:'dezembro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +46 contratos (+0,87%). Trajetoria positiva em ritmo moderado. Atencao a qualidade da receita.',aFat:'Faturamento recuou 3,88% (R$ 18,3 mil a menos). Recebido caiu 4,14% — impacto de menor geracao bruta e aumento nos descontos.',aDesc:'Descontos totalizaram R$ 9.659,40 (+11,46% vs dezembro). Dentro da media historica, porem exige monitoramento.',recs:[{t:'Controlar descontos',d:'Reforcar criterios e aprovacoes para preservar margem.'},{t:'Elevar ticket medio',d:'Intensificar upgrades e venda de servicos agregados.'},{t:'Acompanhar semanalmente',d:'Monitorar faturamento, descontos e conversao em caixa.'},{t:'Recuperar receita',d:'Atuar sobre inadimplencia e clientes com alto desconto.'},{t:'Rentabilidade',d:'Crescer base com margem sustentavel.'}]},
   {mes:'Fevereiro 2026',prox:'Marco/2026',k1l:'Total de Clientes',k1v:'5.402',cDelta:'+44 contratos (+0,82%)',cRef:'vs janeiro',cPos:true,fat:459986.28,fDelta:5747.39,fPerc:1.27,fRef:'janeiro',desc:11027.92,dDelta:1368.52,dPerc:14.17,dRef:'janeiro',rec:448014.67,rDelta:4282.33,rPerc:0.96,rRef:'janeiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +44 contratos (+0,82%). Trajetoria positiva mantida, reforcando potencial de receita recorrente.',aFat:'Faturamento cresceu +1,27% (R$ 5,7 mil). Recebido +0,96% (R$ 4,3 mil) — estabilidade e consistencia na conversao.',aDesc:'Descontos +14,17% vs janeiro. Crescimento acima do faturamento exige atencao para nao impactar rentabilidade.',recs:[{t:'Mes de expansao',d:'Direcionar time comercial para crescimento acelerado da base.'},{t:'Aumentar ticket medio',d:'Priorizar upgrades e estrategias de aumento de receita.'},{t:'Gestao por indicadores',d:'Monitorar semanalmente vendas, faturamento e conversao.'},{t:'Eficiencia comercial',d:'Reduzir descontos e fortalecer vendas com melhor margem.'},{t:'Mentalidade de recorde',d:'Posicionar marco como mes foco para bater metas historicas.'}]},
   {mes:'Marco 2026',prox:'Abril/2026',k1l:'Total de Clientes',k1v:'5.422',cDelta:'+20 contratos (+0,37%)',cRef:'vs fevereiro',cPos:true,fat:509946.86,fDelta:49960.58,fPerc:10.86,fRef:'fevereiro',desc:11972.26,dDelta:944.34,dPerc:8.56,dRef:'fevereiro',rec:495557.25,rDelta:47542.58,rPerc:10.61,rRef:'fevereiro',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +20 contratos (+0,37%). Estabilidade com leve expansao. Crescimento da receita impulsionado por ticket medio e dias uteis.',aFat:'Melhor resultado do periodo: +10,86% no faturamento (R$ 49,9 mil). Recebido +10,61% (R$ 47,5 mil) — excelente conversao.',aDesc:'Descontos +8,56%, mas abaixo do faturamento — equilibrio na politica comercial.',recs:[{t:'Expansao da base',d:'Intensificar aquisicao de novos clientes para retomar crescimento.'},{t:'Ticket medio',d:'Manter foco em upgrades e aumento de receita por cliente.'},{t:'KPIs semanais',d:'Acompanhar faturamento, recebimentos e desempenho comercial.'},{t:'Eficiencia comercial',d:'Controlar descontos garantindo crescimento abaixo do faturamento.'},{t:'Consistencia operacional',d:'Sustentar recebimentos mesmo com variacoes nos dias uteis.'}]},
-  {mes:'Abril 2026',prox:'Maio/2026',k1l:'Total de Clientes',k1v:'5.448',cDelta:'+26 contratos (+0,48%)',cRef:'vs marco',cPos:true,fat:485673.60,fDelta:-24273.26,fPerc:-4.76,fRef:'marco',desc:11209.87,dDelta:-762.39,dPerc:-6.37,dRef:'marco',rec:472332.30,rDelta:-23224.95,rPerc:-4.69,rRef:'marco',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +26 contratos (+0,48%). Retoma o ritmo de expansao apos crescimento mais contido de marco.',aFat:'Faturamento recuou 4,76% — reflexo natural apos pico de marco favorecido por dias uteis extras. Base em crescimento sustenta potencial de recuperacao.',aDesc:'Descontos recuaram 6,37% (R$ 762 a menos). Positivo — melhora na eficiencia comercial e maior controle das concessoes.',recs:[{t:'Recuperar faturamento',d:'Retomar crescimento da receita apos acomodacao pos-marco.'},{t:'Aproveitar base maior',d:'Com 5.448 clientes, focar em upgrades e ticket medio.'},{t:'Manter disciplina de descontos',d:'Consolidar reducao conquistada neste ciclo.'},{t:'Acompanhamento semanal',d:'Monitorar faturamento, recebimentos e conversao em caixa.'},{t:'Expansao consistente',d:'Manter ritmo de +20 a +30 contratos liquidos por mes.'}]}
+  {mes:'Abril 2026',prox:'Maio/2026',k1l:'Total de Clientes',k1v:'5.448',cDelta:'+26 contratos (+0,48%)',cRef:'vs marco',cPos:true,fat:485673.60,fDelta:-24273.26,fPerc:-4.76,fRef:'marco',desc:11209.87,dDelta:-762.39,dPerc:-6.37,dRef:'marco',rec:472332.30,rDelta:-23224.95,rPerc:-4.69,rRef:'marco',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base evoluiu +26 contratos (+0,48%). Retoma o ritmo de expansao apos crescimento mais contido de marco.',aFat:'Faturamento recuou 4,76% — reflexo natural apos pico de marco favorecido por dias uteis extras. Base em crescimento sustenta potencial de recuperacao.',aDesc:'Descontos recuaram 6,37% (R$ 762 a menos). Positivo — melhora na eficiencia comercial e maior controle das concessoes.',recs:[{t:'Recuperar faturamento',d:'Retomar crescimento da receita apos acomodacao pos-marco.'},{t:'Aproveitar base maior',d:'Com 5.448 clientes, focar em upgrades e ticket medio.'},{t:'Manter disciplina de descontos',d:'Consolidar reducao conquistada neste ciclo.'},{t:'Acompanhamento semanal',d:'Monitorar faturamento, recebimentos e conversao em caixa.'},{t:'Expansao consistente',d:'Manter ritmo de +20 a +30 contratos liquidos por mes.'}]},
+  {mes:'Maio 2026',prox:'Junho/2026',k1l:'Total de Clientes',k1v:'5.450',cDelta:'+2 contratos (+0,04%)',cRef:'vs abril',cPos:true,fat:478831.59,fDelta:-6842.01,fPerc:-1.41,fRef:'abril',desc:10760.66,dDelta:-449.21,dPerc:-4.01,dRef:'abril',rec:466252.75,rDelta:-6079.55,rPerc:-1.29,rRef:'abril',honRule:'1,2% do Recebido',honPerc:'1,2%',honExtra:null,aClientes:'Base encerrou maio com 5.450 clientes, crescimento liquido de apenas 2 contratos (+0,04%). O resultado indica estabilidade da carteira, porem com desaceleracao significativa da expansao observada em abril.',aFat:'O faturamento bruto fechou em R$ 478,8 mil, retracao de 1,41% frente ao mes anterior. Apesar da leve reducao, a operacao mantem volume financeiro consistente e saudavel.',aDesc:'Os descontos totalizaram R$ 10,7 mil, reducao de 4,01% em relacao a abril. O controle comercial continua eficiente, preservando receita e margem operacional.',recs:[{t:'Retomar crescimento da base',d:'Criar acoes comerciais para acelerar novas ativacoes e ampliar a entrada liquida de clientes.'},{t:'Aumentar ticket medio',d:'Estimular upgrades e venda de servicos complementares para a base atual.'},{t:'Manter disciplina de descontos',d:'Preservar o controle comercial que reduziu concessoes no ultimo ciclo.'},{t:'Monitorar recebimento',d:'Acompanhar semanalmente faturamento, recebimentos e inadimplencia.'},{t:'Foco em expansao sustentavel',d:'Buscar crescimento superior a 20 clientes liquidos por mes mantendo qualidade operacional.'}]}
 ];
 
 /* ═══ CARBONITA — 17 meses ═══ */
@@ -638,18 +691,19 @@ const CARBONITA=[
   {mes:'Janeiro 2026',prox:'Fevereiro/2026',k1l:'Cobrancas no Periodo',k1v:'746',cDelta:'---',cRef:'',cPos:true,fat:54984.82,fDelta:642.62,fPerc:1.18,fRef:'dezembro',desc:1055.01,dDelta:234.61,dPerc:28.60,dRef:'dezembro',rec:53830.56,rDelta:312.80,rPerc:0.58,rRef:'dezembro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'746 cobrancas. Faturamento supera R$ 54,9 mil — novo recorde de Carbonita.',aFat:'Crescimento de +1,18% no faturamento e +0,58% no recebido. Manutencao do recorde em periodo sazonalmente desafiador.',aDesc:'Descontos cresceram +28,60% (+R$ 234,61). Crescimento expressivo requer monitoramento.',recs:[{t:'Conter crescimento de descontos',d:'Revisao da politica de concessoes apos crescimento de 28,6%.'},{t:'Manter faturamento recorde',d:'R$ 54,9 mil e o novo patamar a sustentar.'},{t:'Monitoramento intensivo',d:'Acompanhar descontos semanalmente.'},{t:'Eficiencia operacional',d:'Consolidar processos que geraram recorde consecutivo.'},{t:'Planejamento de fevereiro',d:'Estruturar acoes para sustentar crescimento.'}]},
   {mes:'Fevereiro 2026',prox:'Marco/2026',k1l:'Cobrancas no Periodo',k1v:'703',cDelta:'---',cRef:'',cPos:true,fat:51568.60,fDelta:-3416.22,fPerc:-6.21,fRef:'janeiro',desc:768.67,dDelta:-286.34,dPerc:-27.15,dRef:'janeiro',rec:50764.37,rDelta:-3066.19,rPerc:-5.70,rRef:'janeiro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'703 cobrancas. Ajuste natural apos dois meses de recorde. Faturamento ainda solido acima de R$ 51 mil.',aFat:'Retracao de 6,21% apos dois meses de recorde. Recebido recuou 5,70% — acomodacao esperada.',aDesc:'Descontos cairam 27,15% (R$ 286 a menos) — reversao imediata do pico de janeiro beneficia a comissao.',recs:[{t:'Retomar crescimento',d:'Estruturar acoes para recuperar patamar de R$ 54+ mil.'},{t:'Consolidar reducao de descontos',d:'Manter disciplina conquistada neste ciclo.'},{t:'Crescer volume de cobrancas',d:'Retomar patamar de 750+ cobrancas mensais.'},{t:'Qualidade da carteira',d:'Focar em cobrancas com maior taxa de recebimento.'},{t:'Monitoramento mensal',d:'Acompanhar faturamento e descontos continuamente.'}]},
   {mes:'Marco 2026',prox:'Abril/2026',k1l:'Cobrancas no Periodo',k1v:'744',cDelta:'---',cRef:'',cPos:true,fat:54201.81,fDelta:2633.21,fPerc:5.11,fRef:'fevereiro',desc:637.70,dDelta:-130.97,dPerc:-17.04,dRef:'fevereiro',rec:53499.50,rDelta:2735.13,rPerc:5.39,rRef:'fevereiro',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'744 cobrancas. Faturamento retoma R$ 54+ mil — recuperacao plena apos acomodacao de fevereiro.',aFat:'Crescimento de +5,11% no faturamento e +5,39% no recebido. Retomada plena ao patamar de recorde.',aDesc:'Descontos cairam 17,04% (R$ 130,97 a menos) — terceiro mes consecutivo de reducao. Impacto positivo na comissao.',recs:[{t:'Sustentar R$54k',d:'Confirmacao de que o recorde e alcancavel de forma consistente.'},{t:'Manter baixo nivel de descontos',d:'Consolidar tendencia positiva de tres meses consecutivos.'},{t:'Crescer cobrancas',d:'Com 744 cobrancas, ha espaco para retomar 800+.'},{t:'Planejar abril',d:'Estruturar acoes para superar resultado de marco.'},{t:'Reconhecimento',d:'Valorizar equipe pela recuperacao e queda nos custos.'}]},
-  {mes:'Abril 2026',prox:'Maio/2026',k1l:'Cobrancas no Periodo',k1v:'741',cDelta:'---',cRef:'',cPos:true,fat:54082.20,fDelta:-119.61,fPerc:-0.22,fRef:'marco',desc:728.08,dDelta:90.38,dPerc:14.17,dRef:'marco',rec:53222.06,rDelta:-277.44,rPerc:-0.52,rRef:'marco',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'741 cobrancas. Estabilidade notavel — faturamento praticamente identico a marco, confirmando consolidacao do patamar R$ 54 mil.',aFat:'Faturamento estavel (-0,22%). Recebido com minima variacao (-0,52%). Operacao em patamar solido e previsivel.',aDesc:'Descontos cresceram +14,17% (+R$ 90,38). Crescimento moderado apos tres meses de queda — monitorar tendencia.',recs:[{t:'Monitorar descontos',d:'Apos tres meses de queda, a retomada merece atencao preventiva.'},{t:'Consolidar patamar R$54k',d:'Dois meses consecutivos confirmam solidez do resultado.'},{t:'Crescer cobrancas',d:'Ampliar volume para maximizar potencial de receita.'},{t:'Eficiencia de recebimento',d:'Manter alta taxa de conversao do faturamento em caixa.'},{t:'Planejar maio',d:'Estruturar acoes para superar R$ 54 mil no proximo ciclo.'}]}
+  {mes:'Abril 2026',prox:'Maio/2026',k1l:'Cobrancas no Periodo',k1v:'741',cDelta:'---',cRef:'',cPos:true,fat:54082.20,fDelta:-119.61,fPerc:-0.22,fRef:'marco',desc:728.08,dDelta:90.38,dPerc:14.17,dRef:'marco',rec:53222.06,rDelta:-277.44,rPerc:-0.52,rRef:'marco',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'741 cobrancas. Estabilidade notavel — faturamento praticamente identico a marco, confirmando consolidacao do patamar R$ 54 mil.',aFat:'Faturamento estavel (-0,22%). Recebido com minima variacao (-0,52%). Operacao em patamar solido e previsivel.',aDesc:'Descontos cresceram +14,17% (+R$ 90,38). Crescimento moderado apos tres meses de queda — monitorar tendencia.',recs:[{t:'Monitorar descontos',d:'Apos tres meses de queda, a retomada merece atencao preventiva.'},{t:'Consolidar patamar R$54k',d:'Dois meses consecutivos confirmam solidez do resultado.'},{t:'Crescer cobrancas',d:'Ampliar volume para maximizar potencial de receita.'},{t:'Eficiencia de recebimento',d:'Manter alta taxa de conversao do faturamento em caixa.'},{t:'Planejar maio',d:'Estruturar acoes para superar R$ 54 mil no proximo ciclo.'}]},
+  {mes:'Maio 2026',prox:'Junho/2026',k1l:'Cobrancas no Periodo',k1v:'723',cDelta:'---',cRef:'',cPos:true,fat:53581.86,fDelta:-500.34,fPerc:-0.93,fRef:'abril',desc:759.60,dDelta:31.52,dPerc:4.33,dRef:'abril',rec:52742.25,rDelta:-479.81,rPerc:-0.90,rRef:'abril',honRule:'18% do Faturamento - Custos Gerais',honPerc:'18,00% combinado',honExtra:true,aClientes:'723 cobrancas no periodo. Leve reducao de volume frente a abril, mantendo a operacao em patamar solido e previsivel acima de R$ 53 mil.',aFat:'Faturamento de R$ 53,5 mil, retracao de 0,93% frente a abril. Operacao mantem estabilidade no patamar consolidado dos ultimos meses.',aDesc:'Descontos de R$ 759,60, crescimento de 4,33% em relacao a abril. Valor permanece reduzido e dentro do padrao historico da unidade.',recs:[{t:'Retomar patamar R$54k',d:'Estruturar acoes para recuperar o faturamento ao nivel dos meses anteriores.'},{t:'Monitorar descontos',d:'Acompanhar a leve alta nas concessoes para preservar a comissao.'},{t:'Crescer volume de cobrancas',d:'Ampliar a base de cobrancas para maximizar o potencial de receita.'},{t:'Eficiencia de recebimento',d:'Manter a alta taxa de conversao do faturamento em caixa.'},{t:'Planejar junho',d:'Definir metas para superar o resultado de maio no proximo ciclo.'}]}
 ];
 
 /* ═══ HISTORICO ═══ */
 const HIST={
   msol:{
-    labels:['Nov 24','Dez 24','Jan 25','Fev 25','Mar 25','Abr 25','Mai 25','Jun 25','Jul 25','Ago 25','Set 25','Out 25','Nov 25','Dez 25','Jan 26','Fev 26','Mar 26','Abr 26'],
-    data:[401438,441915,433182,420016,437538,425440,441599,437391,446386,458818,451169,472973,468191,472554,454239,459986,509947,485674]
+    labels:['Nov 24','Dez 24','Jan 25','Fev 25','Mar 25','Abr 25','Mai 25','Jun 25','Jul 25','Ago 25','Set 25','Out 25','Nov 25','Dez 25','Jan 26','Fev 26','Mar 26','Abr 26','Mai 26'],
+    data:[401438,441915,433182,420016,437538,425440,441599,437391,446386,458818,451169,472973,468191,472554,454239,459986,509947,485674,478832]
   },
   carbonita:{
-    labels:['Nov 24','Jan 25','Fev 25','Mar 25','Abr 25','Mai 25','Jun 25','Jul 25','Ago 25','Set 25','Out 25','Nov 25','Dez 25','Jan 26','Fev 26','Mar 26','Abr 26'],
-    data:[47406,48896,47753,48219,50090,50178,49835,51346,51126,51681,51500,50209,54342,54985,51569,54202,54082]
+    labels:['Nov 24','Jan 25','Fev 25','Mar 25','Abr 25','Mai 25','Jun 25','Jul 25','Ago 25','Set 25','Out 25','Nov 25','Dez 25','Jan 26','Fev 26','Mar 26','Abr 26','Mai 26'],
+    data:[47406,48896,47753,48219,50090,50178,49835,51346,51126,51681,51500,50209,54342,54985,51569,54202,54082,53582]
   }
 };
 
