@@ -23,8 +23,8 @@ body{font-family:var(--font);background:var(--page-bg);color:var(--text);display
 
 /* HEADER */
 .header{background:var(--navy);border-bottom:1px solid var(--border2);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;flex-shrink:0}
-.logo-wrap{display:flex;align-items:center;gap:9px}
-.logo-flower{width:32px;height:32px}
+.logo-wrap{display:flex;align-items:center}.logo-img{height:34px;width:auto;object-fit:contain;display:block}@media(max-width:600px){.logo-img{height:28px}}
+
 .logo-msol{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.5px}
 .logo-net{font-size:12px;font-weight:600;color:var(--coral);margin-left:1px}
 .header-center{display:flex;align-items:center;gap:6px}
@@ -320,6 +320,122 @@ body{font-family:var(--font);background:var(--page-bg);color:var(--text);display
   .cfbtn{font-size:10px;padding:3px 8px}
 }
 
+
+/* ═══════════════════════════════════════
+   OPERAÇÃO CONSULTIVA — CSS (Cronograma)
+═══════════════════════════════════════ */
+#viewCrono{position:relative;flex:1;display:none;flex-direction:column}
+#viewCrono.active{display:flex}
+
+/* HERO */
+.op-hero{background:var(--navy);border-bottom:1px solid var(--border2);padding:22px 32px 18px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.op-eyebrow{font-size:10px;font-weight:700;color:var(--coral);letter-spacing:1.4px;text-transform:uppercase;margin-bottom:6px}
+.op-title{font-size:28px;font-weight:700;color:var(--text);letter-spacing:-.6px;line-height:1;margin-bottom:5px}
+.op-sub{font-size:12px;color:var(--text2)}
+.op-kpis{display:flex;gap:10px;flex-wrap:wrap}
+.op-kpi{background:var(--card-bg);border:1px solid var(--border2);border-radius:11px;padding:10px 15px;text-align:center;min-width:74px}
+.op-kpi-n{font-size:21px;font-weight:700;letter-spacing:-.5px;line-height:1}
+.op-kpi-l{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-top:4px}
+.op-kpi-exec{background:var(--coral-bg);border-color:rgba(232,80,26,.3)}
+.op-kpi-pct{font-size:21px;font-weight:700;color:var(--coral2);letter-spacing:-.5px;line-height:1}
+
+/* FILTROS */
+.op-filters{background:var(--card-bg);border-bottom:1px solid var(--border2);padding:12px 32px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.op-filter-group{display:flex;align-items:center;gap:8px}
+.op-filter-label{font-size:11px;font-weight:600;color:var(--text3);white-space:nowrap}
+.op-filter-btns{display:flex;gap:4px;flex-wrap:wrap}
+.ofbtn{background:var(--navy);border:1px solid var(--border2);color:var(--text2);font-size:11px;font-weight:600;padding:4px 11px;border-radius:14px;cursor:pointer;transition:all .15s;font-family:var(--font);white-space:nowrap}
+.ofbtn:hover{border-color:var(--coral);color:var(--text)}
+.ofbtn.active{background:var(--coral);border-color:var(--coral);color:#fff}
+.op-new-btn{background:var(--coral);color:#fff;border:none;font-size:12px;font-weight:600;padding:7px 16px;border-radius:8px;cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap}
+.op-new-btn:hover{background:var(--coral2)}
+.op-api-status{font-size:11px;color:var(--text3);white-space:nowrap}
+.op-api-status.ok{color:var(--green)}
+.op-api-status.err{color:var(--red)}
+.op-api-status.loading{color:var(--coral2)}
+
+/* MAIN + KANBAN */
+.op-main{flex:1;overflow-y:auto;padding:22px 32px 50px;display:flex;flex-direction:column;gap:22px;position:relative}
+.op-kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:start}
+.op-col{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:13px;padding:12px;min-height:140px;transition:background .15s,border-color .15s}
+.op-col.drag-over{background:rgba(232,80,26,0.07);border-color:rgba(232,80,26,0.35)}
+.op-col-head{display:flex;align-items:center;gap:7px;margin-bottom:11px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.op-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.op-col-title{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.7px}
+.op-col-badge{margin-left:auto;font-size:10px;font-weight:700;background:var(--navy3);color:var(--text3);border-radius:10px;padding:2px 7px;min-width:20px;text-align:center}
+.op-cards{display:flex;flex-direction:column;gap:9px;min-height:40px}
+
+/* TASK CARD */
+.op-card{background:var(--card-bg);border:1px solid var(--border2);border-radius:11px;padding:12px;cursor:grab;transition:all .15s;position:relative}
+.op-card:hover{border-color:rgba(232,80,26,.4);transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.op-card.dragging{opacity:.4;cursor:grabbing}
+.op-card-origin{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:var(--text3);margin-bottom:7px}
+.op-card-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:7px}
+.op-card-badges{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.op-badge{font-size:8px;font-weight:700;border-radius:4px;padding:2px 6px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+.op-badge-pri-alta{background:rgba(255,107,107,.16);color:var(--red)}
+.op-badge-pri-media{background:rgba(244,160,48,.16);color:#f4a030}
+.op-badge-pri-baixa{background:rgba(45,212,160,.13);color:var(--green)}
+.op-badge-cat{background:rgba(139,144,200,.16);color:#a8aede}
+.op-badge-late{background:rgba(255,107,107,.2);color:var(--red);border:1px solid rgba(255,107,107,.35);animation:opPulse 2s infinite}
+@keyframes opPulse{0%,100%{opacity:1}50%{opacity:.55}}
+.op-card-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:9px}
+.op-progress{height:5px;background:var(--navy3);border-radius:4px;overflow:hidden;margin-bottom:4px}
+.op-progress-fill{height:100%;border-radius:4px;transition:width .4s ease}
+.op-progress-lbl{font-size:9px;color:var(--text3);text-align:right;margin-bottom:9px}
+.op-card-meta{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--border);padding-top:8px}
+.op-meta-row{display:flex;align-items:flex-start;gap:5px;font-size:10px;line-height:1.4}
+.op-meta-k{color:var(--text3);font-weight:600;white-space:nowrap}
+.op-meta-v{color:var(--text2)}
+.op-dep{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:600;color:#60a5fa;background:rgba(96,165,250,.12);border-radius:4px;padding:2px 6px;margin-top:5px}
+.op-card-actions{display:flex;gap:5px;margin-top:9px;opacity:0;transition:opacity .15s}
+.op-card:hover .op-card-actions{opacity:1}
+.op-act-btn{flex:1;background:var(--navy3);border:1px solid var(--border2);color:var(--text2);font-size:10px;padding:4px;border-radius:6px;cursor:pointer;font-family:var(--font);transition:all .15s}
+.op-act-btn:hover{border-color:var(--coral);color:var(--coral)}
+.op-act-btn.del:hover{border-color:var(--red);color:var(--red)}
+.op-empty{text-align:center;padding:18px 8px;color:var(--text3);font-size:11px;border:1px dashed var(--border2);border-radius:9px}
+
+/* TIMELINE */
+.op-timeline{background:var(--card-bg);border:1px solid var(--border2);border-radius:14px;padding:18px 20px}
+.op-timeline-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:15px;padding-bottom:13px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.op-timeline-title{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
+.op-timeline-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.ottab{background:var(--navy);border:1px solid var(--border2);color:var(--text2);font-size:11px;font-weight:600;padding:5px 12px;border-radius:14px;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.ottab:hover{border-color:var(--coral);color:var(--text)}
+.ottab.active{background:var(--coral);border-color:var(--coral);color:#fff}
+.op-timeline-list{display:flex;flex-direction:column;gap:0}
+.op-tl-item{display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid var(--border)}
+.op-tl-item:last-child{border-bottom:none}
+.op-tl-date{font-size:12px;font-weight:700;color:var(--text3);min-width:88px;font-variant-numeric:tabular-nums}
+.op-tl-item.late .op-tl-date{color:var(--red)}
+.op-tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.op-tl-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
+.op-tl-meta{font-size:10px;color:var(--text3)}
+.op-tl-empty{text-align:center;padding:24px;color:var(--text3);font-size:12px}
+
+/* LOADING */
+.op-loading{position:absolute;inset:0;background:rgba(18,19,42,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--text2);font-size:13px;z-index:50;backdrop-filter:blur(2px)}
+.op-loading.hidden{display:none}
+.op-spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--coral);border-radius:50%;animation:spin .8s linear infinite}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.op-kanban{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){
+  .op-hero{padding:16px 18px}
+  .op-filters{padding:11px 16px;gap:12px}
+  .op-main{padding:16px 16px 40px}
+  .op-kanban{grid-template-columns:1fr;gap:10px}
+  .op-col{min-height:60px}
+}
+@media(max-width:600px){
+  .op-title{font-size:22px}
+  .op-kpis{gap:7px}
+  .op-kpi{padding:8px 11px;min-width:62px}
+  .op-kpi-n,.op-kpi-pct{font-size:18px}
+  .ofbtn{font-size:10px;padding:3px 9px}
+  .op-timeline-tabs{width:100%}
+}
+
 </style>
 </head>
 <body>
@@ -328,16 +444,7 @@ body{font-family:var(--font);background:var(--page-bg);color:var(--text);display
   <div style="display:flex;align-items:center;gap:8px">
     <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">&#9776;</button>
     <div class="logo-wrap">
-      <svg class="logo-flower" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(0 50 50)"/>
-        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(60 50 50)"/>
-        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(120 50 50)"/>
-        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(180 50 50)"/>
-        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(240 50 50)"/>
-        <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(300 50 50)"/>
-        <circle cx="50" cy="50" r="12" fill="#9b8e7a"/>
-      </svg>
-      <span class="logo-msol">msol</span><span class="logo-net">net</span>
+      <img src="msol-logo.png" alt="msolnet" class="logo-img">
     </div>
   </div>
   <div class="header-center">
@@ -633,16 +740,8 @@ body{font-family:var(--font);background:var(--page-bg);color:var(--text);display
 
     <footer class="footer">
       <div class="footer-logo">
-        <svg width="14" height="14" viewBox="0 0 100 100">
-          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(0 50 50)"/>
-          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(60 50 50)"/>
-          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(120 50 50)"/>
-          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(180 50 50)"/>
-          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(240 50 50)"/>
-          <ellipse cx="50" cy="22" rx="14" ry="22" fill="#E8501A" transform="rotate(300 50 50)"/>
-          <circle cx="50" cy="50" r="12" fill="#9b8e7a"/>
-        </svg>
-        Msolnet &middot; Relatorio de Performance Mensal
+        <img src="msol-logo.png" alt="msolnet" style="height:18px;width:auto;object-fit:contain">
+        <span style="margin-left:2px">· Relatório de Performance Mensal</span>
       </div>
       <span id="footerDate">&#8212;</span>
     </footer>
@@ -947,13 +1046,13 @@ function setApiStatus(msg, type='') {
   const el = document.getElementById('cronoStatus');
   if (!el) return;
   el.textContent = msg;
-  el.className = 'crono-api-status ' + type;
+  el.className = 'op-api-status ' + type;
 }
 
 // ── Carregar tarefas ─────────────────────────────────
 async function loadCrono(mes) {
   cronoMes = mes;
-  document.getElementById('cronoTitle').textContent = 'Cronograma — ' + mes;
+  const _ct = document.getElementById('cronoTitle'); if(_ct) _ct.textContent = 'Cronograma — ' + mes;
   showCronoLoading(true);
 
   if (USE_API) {
@@ -969,10 +1068,11 @@ async function loadCrono(mes) {
     // Fallback: usar tarefas de exemplo hardcoded (modo sem API)
     setApiStatus('Modo local — configure API_URL para persistir', '');
     cronoTasks = [
-      {id:'T001',mes:mes,titulo:'Visita técnica — Unidade Central',descricao:'Levantamento de demandas operacionais, alinhamento com equipe técnica e identificação de pontos de melhoria.',status:'doing',categoria:'Operacional',responsavel:'Leandro Fonseca',prioridade:'alta',impacto:'Operacional',progresso:50,inicio:'20/05/2026',prazo:'22/05/2026',conclusao:'',update:new Date().toLocaleDateString('pt-BR')},
-      {id:'T002',mes:mes,titulo:'Visita técnica — Unidade Carbonita',descricao:'Acompanhamento presencial da operação, revisão de processos de cobrança e alinhamento com P&S Informática.',status:'plan',categoria:'Operacional',responsavel:'Leandro Fonseca',prioridade:'alta',impacto:'Operacional',progresso:10,inicio:'27/05/2026',prazo:'29/05/2026',conclusao:'',update:''},
-      {id:'T003',mes:mes,titulo:'Renegociação de honorário',descricao:'Apresentação do novo plano de trabalho à CEO com proposta de ajuste no valor do honorário mensal da consultoria.',status:'plan',categoria:'Financeiro',responsavel:'Leandro Fonseca',prioridade:'alta',impacto:'Financeiro',progresso:10,inicio:'28/05/2026',prazo:'31/05/2026',conclusao:'',update:''},
-      {id:'T004',mes:mes,titulo:'Entrega do relatório de abril/2026',descricao:'Análise executiva de abril, recomendações para maio e atualização do painel digital de performance.',status:'done',categoria:'Estratégico',responsavel:'Leandro Fonseca',prioridade:'media',impacto:'Estratégico',progresso:100,inicio:'08/05/2026',prazo:'10/05/2026',conclusao:'10/05/2026',update:'10/05/2026'}
+      {id:'T001',titulo:'Visita técnica — Unidade Central',descricao:'Levantamento de demandas operacionais e identificação de pontos de melhoria na infraestrutura.',status:'doing',categoria:'Operacional',responsavel:'Leandro Fonseca',prioridade:'alta',progresso:50,prazo:'22/06/2026',conclusao:'',origem:'visita_tecnica',ultima_interacao:'09/06/2026',proxima_acao:'Consolidar relatório de campo e enviar à diretoria',dependencia:false,update:'09/06/2026'},
+      {id:'T002',titulo:'Acompanhamento Carbonita + P&S',descricao:'Revisão de processos de cobrança e alinhamento com a P&S Informática.',status:'waiting',categoria:'Operacional',responsavel:'Leandro Fonseca',prioridade:'media',progresso:50,prazo:'15/06/2026',conclusao:'',origem:'reuniao',ultima_interacao:'06/06/2026',proxima_acao:'Aguardando retorno da P&S sobre ajustes no fluxo',dependencia:true,update:'06/06/2026'},
+      {id:'T003',titulo:'Renegociação de honorário',descricao:'Apresentação do novo plano de trabalho à CEO com proposta de ajuste do honorário mensal.',status:'plan',categoria:'Financeiro',responsavel:'Leandro Fonseca',prioridade:'alta',progresso:10,prazo:'20/06/2026',conclusao:'',origem:'email',ultima_interacao:'05/06/2026',proxima_acao:'Agendar reunião de apresentação com a Karina',dependencia:true,update:'05/06/2026'},
+      {id:'T004',titulo:'Análise de churn — base Msol',descricao:'Investigar causas da desaceleração de captação líquida observada em maio.',status:'backlog',categoria:'Estratégico',responsavel:'Leandro Fonseca',prioridade:'media',progresso:0,prazo:'30/06/2026',conclusao:'',origem:'auditoria',ultima_interacao:'',proxima_acao:'Levantar dados de cancelamento no Hubsoft',dependencia:false,update:''},
+      {id:'T005',titulo:'Relatório de Maio/2026',descricao:'Fechamento financeiro de Msol Geral e Carbonita, com análise e recomendações.',status:'done',categoria:'Estratégico',responsavel:'Leandro Fonseca',prioridade:'media',progresso:100,prazo:'09/06/2026',conclusao:'09/06/2026',origem:'email',ultima_interacao:'09/06/2026',proxima_acao:'Concluído — enviado à CEO',dependencia:false,update:'09/06/2026'}
     ];
   }
 
@@ -982,14 +1082,28 @@ async function loadCrono(mes) {
 
 function showCronoLoading(show) {
   const el = document.getElementById('cronoLoading');
-  if (el) el.className = 'crono-loading' + (show ? '' : ' hidden');
+  if (el) el.className = 'op-loading' + (show ? '' : ' hidden');
 }
+
+// ── Estado de filtros e timeline ──────────────────────
+let filterOrigem = '';
+let timelineTab = 'next';
+
+const ORIGEM_INFO = {
+  email:          {icon:'\ud83d\udce7', label:'E-mail'},
+  visita_tecnica: {icon:'\ud83d\udee0\ufe0f', label:'Visita Técnica'},
+  reuniao:        {icon:'\ud83d\udcde', label:'Reunião'},
+  whatsapp:       {icon:'\ud83d\udcac', label:'WhatsApp'},
+  auditoria:      {icon:'\ud83d\udccb', label:'Auditoria'}
+};
+const STATUS_COLOR = {backlog:'#6b7db3', plan:'#a8aede', doing:'#f4a030', waiting:'#60a5fa', done:'var(--green)'};
 
 // ── Aplicar filtros e renderizar ──────────────────────
 function applyFiltersAndRender() {
   let tasks = cronoTasks.filter(t => {
     if (filterCat && t.categoria !== filterCat) return false;
     if (filterPri && t.prioridade !== filterPri) return false;
+    if (filterOrigem && t.origem !== filterOrigem) return false;
     return true;
   });
   renderKanban(tasks);
@@ -997,165 +1111,189 @@ function applyFiltersAndRender() {
   renderTimeline(tasks);
 }
 
-// ── Render KPIs ───────────────────────────────────────
+// ── Render KPIs (5 colunas) ───────────────────────────
 function renderKpis(tasks) {
-  const plan  = tasks.filter(t => t.status === 'plan').length;
-  const doing = tasks.filter(t => t.status === 'doing').length;
-  const done  = tasks.filter(t => t.status === 'done').length;
-  const late  = tasks.filter(t => isLate(t)).length;
-  const exec  = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
-  document.getElementById('kPlan').textContent  = plan;
-  document.getElementById('kDoing').textContent = doing;
-  document.getElementById('kDone').textContent  = done;
-  document.getElementById('kLate').textContent  = late;
-  document.getElementById('kExec').textContent  = exec + '%';
-  document.getElementById('badgePlan').textContent  = plan;
-  document.getElementById('badgeDoing').textContent = doing;
-  document.getElementById('badgeDone').textContent  = done;
+  const cnt = s => tasks.filter(t => t.status === s).length;
+  const backlog = cnt('backlog'), plan = cnt('plan'), doing = cnt('doing'),
+        waiting = cnt('waiting'), done = cnt('done');
+  const late = tasks.filter(t => isLate(t)).length;
+  const exec = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
+  const set = (id,v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  set('kBacklog', backlog); set('kPlan', plan); set('kDoing', doing);
+  set('kWaiting', waiting); set('kDone', done); set('kLate', late);
+  set('kExec', exec + '%');
+  set('badgeBacklog', backlog); set('badgePlan', plan); set('badgeDoing', doing);
+  set('badgeWaiting', waiting); set('badgeDone', done);
 }
 
-// ── Render Kanban ─────────────────────────────────────
+// ── Render Kanban (5 colunas) ─────────────────────────
 function renderKanban(tasks) {
-  const cols = {plan: 'cardsPlan', doing: 'cardsDoing', done: 'cardsDone'};
+  const cols = {
+    backlog: 'cardsBacklog', plan: 'cardsPlan', doing: 'cardsDoing',
+    waiting: 'cardsWaiting', done: 'cardsDone'
+  };
   for (const [status, colId] of Object.entries(cols)) {
-    const col   = document.getElementById(colId);
+    const col = document.getElementById(colId);
+    if (!col) continue;
     const group = tasks.filter(t => t.status === status);
-    if (!group.length) {
-      col.innerHTML = '<div class="crono-empty">Nenhuma tarefa</div>';
-      continue;
-    }
-    col.innerHTML = group.map(t => buildCard(t)).join('');
-    // Drag listeners
-    col.querySelectorAll('.task-card').forEach(card => {
-      card.addEventListener('dragstart', e => {
+    col.innerHTML = group.length
+      ? group.map(t => buildCard(t)).join('')
+      : '<div class="op-empty">Vazio</div>';
+    col.querySelectorAll('.op-card').forEach(card => {
+      card.addEventListener('dragstart', () => {
         dragTaskId = card.dataset.id;
         setTimeout(() => card.classList.add('dragging'), 0);
       });
       card.addEventListener('dragend', () => {
         card.classList.remove('dragging');
-        document.querySelectorAll('.kanban-col').forEach(c => c.classList.remove('drag-over'));
+        document.querySelectorAll('.op-col').forEach(c => c.classList.remove('drag-over'));
       });
     });
   }
 }
 
-// ── Build card HTML ───────────────────────────────────
+// ── Build card (estrutura operacional) ────────────────
 function buildCard(t) {
-  const late      = isLate(t);
-  const catCls    = 'badge-cat-' + (t.categoria || '').replace(/\s+/g,'-');
-  const priCls    = 'badge-pri-' + (t.prioridade || 'media');
-  const priLbl    = {alta:'Alta',media:'Média',baixa:'Baixa'}[t.prioridade] || t.prioridade;
-  const pct       = Number(t.progresso) || 0;
-  const barColor  = t.status === 'done' ? 'var(--green)' : t.status === 'doing' ? '#f4a030' : '#8b90c8';
+  const late   = isLate(t);
+  const priLbl = {alta:'Alta',media:'Média',baixa:'Baixa'}[t.prioridade] || t.prioridade;
+  const pct    = Number(t.progresso) || 0;
+  const barCol = STATUS_COLOR[t.status] || '#8b90c8';
+  const org    = ORIGEM_INFO[t.origem] || null;
 
-  return `<div class="task-card" draggable="true" data-id="${t.id}">
-    <div class="task-card-top">
-      <div class="task-card-title">${t.titulo}${late ? ' <span class="badge badge-atrasado">ATRASADO</span>' : ''}</div>
-      <div class="task-badges">
-        <span class="badge ${catCls}">${t.categoria || ''}</span>
-        <span class="badge ${priCls}">${priLbl}</span>
-      </div>
+  return `<div class="op-card" draggable="true" data-id="${t.id}">
+    ${org ? `<div class="op-card-origin">${org.icon} ${org.label}</div>` : ''}
+    <div class="op-card-title">${t.titulo || ''}</div>
+    <div class="op-card-badges">
+      ${late ? '<span class="op-badge op-badge-late">Atrasado</span>' : ''}
+      <span class="op-badge op-badge-pri-${t.prioridade || 'media'}">${priLbl}</span>
+      ${t.categoria ? `<span class="op-badge op-badge-cat">${t.categoria}</span>` : ''}
     </div>
-    <div class="task-desc">${t.descricao || ''}</div>
-    <div class="task-meta">
-      ${t.responsavel ? `<span class="task-meta-item">👤 <b>${t.responsavel}</b></span>` : ''}
-      ${t.impacto     ? `<span class="task-meta-item">⚡ ${t.impacto}</span>` : ''}
+    ${t.descricao ? `<div class="op-card-desc">${t.descricao}</div>` : ''}
+    <div class="op-progress"><div class="op-progress-fill" style="width:${pct}%;background:${barCol}"></div></div>
+    <div class="op-progress-lbl">${pct}%</div>
+    <div class="op-card-meta">
+      ${t.responsavel ? `<div class="op-meta-row"><span class="op-meta-k">\ud83d\udc64</span><span class="op-meta-v">${t.responsavel}</span></div>` : ''}
+      ${t.prazo ? `<div class="op-meta-row"><span class="op-meta-k">\ud83d\udcc5 Prazo:</span><span class="op-meta-v">${t.prazo}</span></div>` : ''}
+      ${t.ultima_interacao ? `<div class="op-meta-row"><span class="op-meta-k">\ud83d\udd52 Últ. interação:</span><span class="op-meta-v">${t.ultima_interacao}</span></div>` : ''}
+      ${t.proxima_acao ? `<div class="op-meta-row"><span class="op-meta-k">\u27a1\ufe0f Próx. ação:</span><span class="op-meta-v">${t.proxima_acao}</span></div>` : ''}
     </div>
-    <div class="progress-wrap">
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" style="width:${pct}%;background:${barColor}"></div>
-      </div>
-      <div class="progress-label">${pct}%</div>
-    </div>
-    <div class="task-footer">
-      <div>
-        ${t.prazo   ? `<div class="task-date">📅 Prazo: ${fmtDate(t.prazo)}</div>` : ''}
-        ${t.update  ? `<div class="task-update">Atualizado: ${t.update}</div>` : ''}
-      </div>
-      <div class="task-actions">
-        <button class="task-action-btn" onclick="openEdit('${t.id}')">✏ Editar</button>
-        <button class="task-action-btn del" onclick="deleteTask('${t.id}')">✕</button>
-      </div>
+    ${t.dependencia ? '<div class="op-dep">\u23f3 Aguardando cliente</div>' : ''}
+    <div class="op-card-actions">
+      <button class="op-act-btn" onclick="openEdit('${t.id}')">Editar</button>
+      <button class="op-act-btn del" onclick="deleteTask('${t.id}')">Remover</button>
     </div>
   </div>`;
 }
 
-// ── Drag & Drop ───────────────────────────────────────
+// ── Drag & Drop (5 colunas) ───────────────────────────
 function onDrop(event, newStatus) {
   event.preventDefault();
+  document.querySelectorAll('.op-col').forEach(c => c.classList.remove('drag-over'));
   if (!dragTaskId) return;
   const task = cronoTasks.find(t => t.id === dragTaskId);
   if (!task || task.status === newStatus) return;
 
-  const progressoMap = {plan:10, doing:50, done:100};
-  task.status    = newStatus;
-  task.progresso = progressoMap[newStatus];
+  const progressoMap = {backlog:0, plan:10, doing:50, waiting:50, done:100};
+  task.status = newStatus;
+  task.progresso = progressoMap[newStatus] !== undefined ? progressoMap[newStatus] : task.progresso;
+  task.dependencia = (newStatus === 'waiting');
   if (newStatus === 'done') task.conclusao = new Date().toLocaleDateString('pt-BR');
   task.update = new Date().toLocaleDateString('pt-BR');
 
   applyFiltersAndRender();
-
-  // Persistir
   apiPost({action:'move', id:task.id, status:newStatus}).catch(e => {
-    setApiStatus('⚠ Erro ao salvar: ' + e.message, 'err');
+    setApiStatus('\u26a0 Erro ao salvar: ' + e.message, 'err');
   });
-
-  document.querySelectorAll('.kanban-col').forEach(c => c.classList.remove('drag-over'));
 }
 
-// Highlight drop zone
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.kanban-col').forEach(col => {
-    col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('drag-over'); });
-    col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+// ── Timeline Executiva (4 abas) ───────────────────────
+function setTimelineTab(tab) {
+  timelineTab = tab;
+  ['next','late','waiting','history'].forEach(t => {
+    const btn = document.getElementById('ttab' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (btn) btn.classList.toggle('active', t === tab);
   });
-});
+  renderTimeline(cronoTasks.filter(t => {
+    if (filterCat && t.categoria !== filterCat) return false;
+    if (filterPri && t.prioridade !== filterPri) return false;
+    if (filterOrigem && t.origem !== filterOrigem) return false;
+    return true;
+  }));
+}
 
-// ── Timeline ──────────────────────────────────────────
 function renderTimeline(tasks) {
   const el = document.getElementById('timelineList');
   if (!el) return;
-  const sorted = [...tasks]
-    .filter(t => t.prazo)
-    .sort((a,b) => {
-      const da = parseDate(a.prazo), db = parseDate(b.prazo);
-      return (da || 0) - (db || 0);
-    });
-  if (!sorted.length) {
-    el.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:12px 0">Nenhuma tarefa com prazo definido.</div>';
+  let list = [];
+
+  if (timelineTab === 'next') {
+    list = tasks.filter(t => t.status !== 'done' && t.prazo)
+      .sort((a,b) => (parseDate(a.prazo)||0) - (parseDate(b.prazo)||0));
+  } else if (timelineTab === 'late') {
+    list = tasks.filter(t => isLate(t))
+      .sort((a,b) => (parseDate(a.prazo)||0) - (parseDate(b.prazo)||0));
+  } else if (timelineTab === 'waiting') {
+    list = tasks.filter(t => t.status === 'waiting' || t.dependencia)
+      .sort((a,b) => (parseDate(a.ultima_interacao)||0) - (parseDate(b.ultima_interacao)||0));
+  } else if (timelineTab === 'history') {
+    list = tasks.filter(t => t.status === 'done')
+      .sort((a,b) => (parseDate(b.conclusao)||0) - (parseDate(a.conclusao)||0));
+  }
+
+  if (!list.length) {
+    el.innerHTML = '<div class="op-tl-empty">Nenhuma tarefa nesta visão.</div>';
     return;
   }
-  el.innerHTML = sorted.map(t => {
-    const late  = isLate(t);
-    return `<div class="timeline-item${late?' late':''}">
-      <div class="tl-date">${fmtDate(t.prazo)}</div>
-      <div class="tl-dot ${t.status}"></div>
-      <div class="tl-content">
-        <div class="tl-title">${t.titulo}${late ? '<span class="tl-badge-late">ATRASADO</span>' : ''}</div>
-        <div class="tl-meta">${t.categoria || ''} · ${t.responsavel || ''}</div>
+
+  el.innerHTML = list.map(t => {
+    const late = isLate(t);
+    const dateField = timelineTab === 'waiting' ? (t.ultima_interacao || '—')
+                    : timelineTab === 'history' ? (t.conclusao || '—')
+                    : (t.prazo || '—');
+    const org = ORIGEM_INFO[t.origem];
+    const detail = timelineTab === 'next' && t.proxima_acao ? t.proxima_acao
+                 : timelineTab === 'waiting' ? (t.proxima_acao || 'Aguardando retorno do cliente')
+                 : `${t.categoria || ''}${t.responsavel ? ' · ' + t.responsavel : ''}`;
+    return `<div class="op-tl-item${late && timelineTab!=='history' ? ' late' : ''}">
+      <div class="op-tl-date">${dateField}</div>
+      <div class="op-tl-dot" style="background:${STATUS_COLOR[t.status]||'#8b90c8'}"></div>
+      <div>
+        <div class="op-tl-title">${org ? org.icon + ' ' : ''}${t.titulo}</div>
+        <div class="op-tl-meta">${detail}</div>
       </div>
     </div>`;
   }).join('');
 }
 
-// ── Filtros ───────────────────────────────────────────
+// ── Nova tarefa ───────────────────────────────────────
+function openNewTask() {
+  const id = 'T' + Date.now();
+  const nova = {
+    id, titulo:'Nova tarefa', descricao:'', status:'backlog',
+    categoria:'Operacional', responsavel:'Leandro Fonseca', prioridade:'media',
+    progresso:0, prazo:'', conclusao:'', origem:'email',
+    ultima_interacao:'', proxima_acao:'', dependencia:false, update:new Date().toLocaleDateString('pt-BR')
+  };
+  cronoTasks.unshift(nova);
+  applyFiltersAndRender();
+  openEdit(id);
+}
+
+// ── Filtros (Origem + Prioridade + Categoria) ─────────
 function initFilters() {
-  document.querySelectorAll('#filterCat .cfbtn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#filterCat .cfbtn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filterCat = btn.dataset.val;
-      applyFiltersAndRender();
+  const bind = (groupId, setter) => {
+    document.querySelectorAll('#' + groupId + ' .ofbtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#' + groupId + ' .ofbtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        setter(btn.dataset.val);
+        applyFiltersAndRender();
+      });
     });
-  });
-  document.querySelectorAll('#filterPri .cfbtn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#filterPri .cfbtn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filterPri = btn.dataset.val;
-      applyFiltersAndRender();
-    });
-  });
+  };
+  bind('filterOrigem', v => filterOrigem = v);
+  bind('filterPri',    v => filterPri = v);
+  bind('filterCat',    v => filterCat = v);
 }
 
 // ── EDIÇÃO INLINE ─────────────────────────────────────
@@ -1256,7 +1394,7 @@ function renderCrono() {
 document.addEventListener('DOMContentLoaded', () => {
   initFilters();
   // Drag over highlight para colunas do kanban
-  document.querySelectorAll('.kanban-col').forEach(col => {
+  document.querySelectorAll('.op-col').forEach(col => {
     col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('drag-over'); });
     col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
   });
