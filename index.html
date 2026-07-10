@@ -1087,7 +1087,7 @@ function navNext(){
 // ── Cole aqui a URL do seu Google Apps Script Web App ──
 // ⚠ COLE AQUI a URL do seu Apps Script Web App (deve terminar em /exec)
 // Ex.: 'https://script.google.com/macros/s/AKfyc.../exec'
-const API_URL = 'https://script.google.com/macros/s/AKfycbwMSq3GqKObSc6Hch7e04AEq8DPMQMRvbpt3gb7k7_lGuOAtQD7T8E-2fOG5SIBQ_ml/exec';
+const API_URL = 'COLE_SEU_ENDPOINT_AQUI';
 const USE_API = API_URL.startsWith('https://script.google.com');
 
 // ── State do cronograma ──────────────────────────────
@@ -1307,7 +1307,7 @@ function buildCard(t) {
 }
 
 // ── Drag & Drop (5 colunas) ───────────────────────────
-function onDrop(event, newStatus) {
+async function onDrop(event, newStatus) {
   event.preventDefault();
   document.querySelectorAll('.op-col').forEach(c => c.classList.remove('drag-over'));
   if (!dragTaskId) return;
@@ -1339,13 +1339,22 @@ function onDrop(event, newStatus) {
   task.update = new Date().toLocaleDateString('pt-BR');
 
   applyFiltersAndRender();
-  apiPost({action:'move', id:task.id, status:newStatus}).catch(e => {
+
+  try {
+    if (task.isNew) {
+      // Tarefa criada mas ainda não salva — o drag agora dispara a criação real
+      await persistNewTask(task);
+      setApiStatus('\u2713 Tarefa criada no Sheets', 'ok');
+      applyFiltersAndRender();
+    } else {
+      await apiPost({action:'move', id:task.id, status:newStatus});
+    }
+  } catch(e) {
     setApiStatus('\u26a0 ' + friendlyError(e), 'err');
-    // Tarefa dessincronizada: recarrega do Sheets para alinhar
-    if (String(e.message||'').includes('encontrado')) {
+    if (!task.isNew && String(e.message||'').includes('encontrado')) {
       setTimeout(() => loadCrono(cronoMes), 1200);
     }
-  });
+  }
 }
 
 // ── Timeline Executiva (4 abas) ───────────────────────
@@ -1405,9 +1414,9 @@ function renderTimeline(tasks) {
 
 // ── Nova tarefa ───────────────────────────────────────
 function openNewTask() {
-  const id = 'T' + Date.now();
+  const id = 'novo_' + Date.now(); // id temporário local — o Sheets gera o ID real ao salvar
   const nova = {
-    id, titulo:'Nova tarefa', descricao:'', status:'backlog',
+    id, isNew:true, titulo:'Nova tarefa', descricao:'', status:'backlog',
     categoria:'Operacional', responsavel:'Leandro Fonseca', prioridade:'media',
     progresso:0, prazo:'', conclusao:'', origem:'email',
     ultima_interacao:'', proxima_acao:'', dependencia:false, resumo:'', update:new Date().toLocaleDateString('pt-BR')
@@ -1415,6 +1424,23 @@ function openNewTask() {
   cronoTasks.unshift(nova);
   applyFiltersAndRender();
   openEdit(id);
+}
+
+// Persiste no Sheets uma tarefa criada localmente (ainda sem ID real).
+// Troca o id temporário pelo ID que o Apps Script gera no servidor.
+async function persistNewTask(t) {
+  const resp = await apiPost({
+    action: 'create',
+    mes: cronoMes || t.mes || '',
+    titulo: t.titulo, descricao: t.descricao, status: t.status,
+    categoria: t.categoria, responsavel: t.responsavel, prioridade: t.prioridade,
+    impacto: t.categoria, progresso: t.progresso, prazo: t.prazo,
+    origem: t.origem, ultima_interacao: t.ultima_interacao,
+    proxima_acao: t.proxima_acao, dependencia: t.dependencia, resumo: t.resumo
+  });
+  if (resp && resp.id) t.id = resp.id;
+  delete t.isNew;
+  return resp;
 }
 
 // ═══════════════════════════════════════
@@ -1651,7 +1677,7 @@ function openEdit(id) {
           oninput="document.getElementById('pp').textContent=this.value+'%'"></div>
 
       <div class="edit-modal-footer">
-        <button class="btn-cancel" onclick="closeEdit()">Cancelar</button>
+        <button class="btn-cancel" onclick="cancelEdit()">Cancelar</button>
         <button class="btn-save"   onclick="saveEdit()">Salvar</button>
       </div>
     </div>`;
@@ -1670,6 +1696,17 @@ function closeEdit() {
   const ov = document.getElementById('editOverlay');
   if (ov) ov.remove();
   editTaskId = null;
+}
+
+// Cancelar: se a tarefa nunca foi salva no Sheets (isNew), remove o rascunho.
+// Se já existia, apenas fecha o modal sem salvar as edições.
+function cancelEdit() {
+  const t = cronoTasks.find(x => x.id === editTaskId);
+  if (t && t.isNew) {
+    cronoTasks = cronoTasks.filter(x => x.id !== editTaskId);
+    applyFiltersAndRender();
+  }
+  closeEdit();
 }
 
 async function saveEdit() {
@@ -1714,8 +1751,14 @@ async function saveEdit() {
   closeEdit();
   applyFiltersAndRender();
   try {
-    await apiPost({action:'update', id:t.id, ...t});
-    setApiStatus('\u2713 Salvo', 'ok');
+    if (t.isNew) {
+      await persistNewTask(t);
+      setApiStatus('\u2713 Tarefa criada no Sheets', 'ok');
+    } else {
+      await apiPost({action:'update', id:t.id, ...t});
+      setApiStatus('\u2713 Salvo', 'ok');
+    }
+    applyFiltersAndRender(); // atualiza o data-id do card caso o ID tenha mudado
   } catch(e) {
     setApiStatus('\u26a0 ' + friendlyError(e), 'err');
   }
@@ -1723,13 +1766,20 @@ async function saveEdit() {
 
 async function deleteTask(id) {
   if (!confirm('Remover esta tarefa?')) return;
+  const task = cronoTasks.find(t => t.id === id);
   cronoTasks = cronoTasks.filter(t => t.id !== id);
   applyFiltersAndRender();
+
+  if (task && task.isNew) {
+    // Nunca chegou a existir no Sheets — nada para excluir lá
+    setApiStatus('✓ Tarefa removida', 'ok');
+    return;
+  }
   try {
     await apiPost({action:'delete', id});
     setApiStatus('✓ Tarefa removida', 'ok');
   } catch(e) {
-    setApiStatus('⚠ Erro ao remover: ' + e.message, 'err');
+    setApiStatus('⚠ ' + friendlyError(e), 'err');
   }
 }
 
