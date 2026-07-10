@@ -1087,7 +1087,7 @@ function navNext(){
 // ── Cole aqui a URL do seu Google Apps Script Web App ──
 // ⚠ COLE AQUI a URL do seu Apps Script Web App (deve terminar em /exec)
 // Ex.: 'https://script.google.com/macros/s/AKfyc.../exec'
-const API_URL = 'https://script.google.com/macros/s/AKfycbw8vf4LCHmMG6ziB1YXpbhs1Cn3WYqtIVEcYdtL7oBTlMPQfgItYjreLzZDMU6g63K3/exec';
+const API_URL = 'COLE_SEU_ENDPOINT_AQUI';
 const USE_API = API_URL.startsWith('https://script.google.com');
 
 // ── State do cronograma ──────────────────────────────
@@ -1156,6 +1156,9 @@ function friendlyError(e) {
   }
   if (m.includes('Unexpected token') || m.includes('JSON')) {
     return 'Resposta inválida do servidor. Reimplante o Web App como Nova versão.';
+  }
+  if (m.includes('ID nao encontrado') || m.includes('ID não encontrado')) {
+    return 'Essa tarefa não está na planilha. Recarregando do Sheets...';
   }
   return m;
 }
@@ -1338,6 +1341,10 @@ function onDrop(event, newStatus) {
   applyFiltersAndRender();
   apiPost({action:'move', id:task.id, status:newStatus}).catch(e => {
     setApiStatus('\u26a0 ' + friendlyError(e), 'err');
+    // Tarefa dessincronizada: recarrega do Sheets para alinhar
+    if (String(e.message||'').includes('encontrado')) {
+      setTimeout(() => loadCrono(cronoMes), 1200);
+    }
   });
 }
 
