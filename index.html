@@ -1085,7 +1085,9 @@ function navNext(){
 ══════════════════════════════════════ */
 
 // ── Cole aqui a URL do seu Google Apps Script Web App ──
-const API_URL = 'https://script.google.com/macros/s/AKfycbz6qhS3qLyKx6pvwgpM5_ls1RuQPWjuard1dzxQT1wtYP8rmFBpJeodjz-hOULuFQat/exec';
+// ⚠ COLE AQUI a URL do seu Apps Script Web App (deve terminar em /exec)
+// Ex.: 'https://script.google.com/macros/s/AKfyc.../exec'
+const API_URL = 'COLE_SEU_ENDPOINT_AQUI';
 const USE_API = API_URL.startsWith('https://script.google.com');
 
 // ── State do cronograma ──────────────────────────────
@@ -1113,21 +1115,49 @@ function fmtDate(str) { return str || '—'; }
 async function apiGet(mes) {
   if (!USE_API) return null;
   const url = mes ? `${API_URL}?mes=${encodeURIComponent(mes)}` : API_URL;
-  const r = await fetch(url);
+  const r = await fetch(url, {redirect: 'follow'});
+  if (!r.ok) throw new Error('HTTP ' + r.status);
   const j = await r.json();
-  if (!j.ok) throw new Error(j.error);
+  if (!j.ok) throw new Error(j.error || 'Erro desconhecido');
   return j.tasks;
 }
 async function apiPost(body) {
   if (!USE_API) return;
+  // IMPORTANTE: Content-Type 'text/plain' evita o preflight OPTIONS do CORS.
+  // O Apps Script não responde a OPTIONS, então 'application/json' causaria
+  // "Failed to fetch". O corpo continua sendo JSON e chega intacto em
+  // e.postData.contents, onde o .gs faz o JSON.parse().
   const r = await fetch(API_URL, {
     method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(body)
+    headers: {'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify(body),
+    redirect: 'follow'
   });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
   const j = await r.json();
-  if (!j.ok) throw new Error(j.error);
+  if (!j.ok) throw new Error(j.error || 'Erro desconhecido');
   return j;
+}
+
+// Traduz erros técnicos em algo acionável
+function friendlyError(e) {
+  const m = String(e && e.message || e);
+  if (m.includes('Failed to fetch') || m.includes('NetworkError')) {
+    return 'Sem conexão com o Sheets. Verifique se o Web App foi reimplantado e está com acesso "Qualquer pessoa".';
+  }
+  if (m.includes('HTTP 401') || m.includes('HTTP 403')) {
+    return 'Acesso negado. No Apps Script, defina "Quem pode acessar: Qualquer pessoa".';
+  }
+  if (m.includes('HTTP 404')) {
+    return 'URL do Apps Script não encontrada. Confira se termina em /exec.';
+  }
+  if (m.includes('nao encontrada') || m.includes('não encontrada')) {
+    return 'Aba CRONOGRAMA não existe na planilha. Rode setupSheet() no Apps Script.';
+  }
+  if (m.includes('Unexpected token') || m.includes('JSON')) {
+    return 'Resposta inválida do servidor. Reimplante o Web App como Nova versão.';
+  }
+  return m;
 }
 
 // ── Set API status indicator ────────────────────────
@@ -1307,7 +1337,7 @@ function onDrop(event, newStatus) {
 
   applyFiltersAndRender();
   apiPost({action:'move', id:task.id, status:newStatus}).catch(e => {
-    setApiStatus('\u26a0 Erro ao salvar: ' + e.message, 'err');
+    setApiStatus('\u26a0 ' + friendlyError(e), 'err');
   });
 }
 
@@ -1680,7 +1710,7 @@ async function saveEdit() {
     await apiPost({action:'update', id:t.id, ...t});
     setApiStatus('\u2713 Salvo', 'ok');
   } catch(e) {
-    setApiStatus('\u26a0 Erro ao salvar: ' + e.message, 'err');
+    setApiStatus('\u26a0 ' + friendlyError(e), 'err');
   }
 }
 
