@@ -1087,7 +1087,7 @@ function navNext(){
 // ── Cole aqui a URL do seu Google Apps Script Web App ──
 // ⚠ COLE AQUI a URL do seu Apps Script Web App (deve terminar em /exec)
 // Ex.: 'https://script.google.com/macros/s/AKfyc.../exec'
-const API_URL = 'https://script.google.com/macros/s/AKfycbynxKGw3Nj81pu8fgZtGcWW69YAMDgtX5uvqP-_qLi4lbaqzUN-VjWqMEMHTKs4_Jd4/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwMSq3GqKObSc6Hch7e04AEq8DPMQMRvbpt3gb7k7_lGuOAtQD7T8E-2fOG5SIBQ_ml/exec';
 const USE_API = API_URL.startsWith('https://script.google.com');
 
 // ── State do cronograma ──────────────────────────────
@@ -1180,7 +1180,7 @@ async function loadCrono(mes) {
   if (USE_API) {
     setApiStatus('Sincronizando...', 'loading');
     try {
-      cronoTasks = await apiGet(mes);
+      cronoTasks = await apiGet(null); // cronograma é independente do mês financeiro — carrega todas as operações
       setApiStatus('✓ Sincronizado com Sheets', 'ok');
     } catch(e) {
       setApiStatus('⚠ Erro: ' + e.message, 'err');
